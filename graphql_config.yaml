@@ -1,0 +1,5 @@
+package_name: thorchain_explorer
+graphql_endpoint: https://testnet.midgard.thorchain.info/v2
+models_directory_path: lib/_graphql/models/
+# type_override:
+#   id: int
