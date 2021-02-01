@@ -49,7 +49,7 @@ class TxList extends StatelessWidget {
                   : Border()
             ),
             child: Container(
-              padding: EdgeInsets.only(top: 12, bottom: 8, left: 12, right: 12),
+              padding: EdgeInsets.only(top: 12, bottom: 8),
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
@@ -57,6 +57,7 @@ class TxList extends StatelessWidget {
                 children: [
 
                   Container(
+                    padding: EdgeInsets.only(left: 12),
                     width: 150,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
