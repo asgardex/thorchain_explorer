@@ -3,6 +3,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:thorchain_explorer/_classes/pool_volume_history.dart';
 import 'package:thorchain_explorer/_classes/stats.dart';
 import 'package:thorchain_explorer/_classes/tc_network.dart';
+import 'package:thorchain_explorer/_widgets/app_bar.dart';
+import 'package:thorchain_explorer/_widgets/fluid_container.dart';
 import 'package:thorchain_explorer/dashboard/network_widget.dart';
 import 'package:thorchain_explorer/dashboard/stats_widget.dart';
 import 'package:thorchain_explorer/dashboard/volume_chart.dart';
@@ -16,10 +18,15 @@ class DashboardPage extends StatelessWidget {
     DateTime currentDate = DateTime.now();
     DateTime startDate = currentDate.subtract(Duration(days: 14));
 
+    print((startDate.millisecondsSinceEpoch / 1000).round());
+    print((currentDate.millisecondsSinceEpoch / 1000).round());
+
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text('THORChain Explorer'),
-        ),
+        appBar: ExplorerAppBar(),
+        // appBar: AppBar(
+        //   title: Text('Network'),
+        // ),
         body: Query(
           options: QueryOptions(
             document: gql("""
@@ -96,7 +103,7 @@ class DashboardPage extends StatelessWidget {
               }
               """
             ), // this is the query string you just created
-            pollInterval: Duration(seconds: 10),
+            // pollInterval: Duration(seconds: 10),
           ),
           // Just like in apollo refetch() could be used to manually trigger a refetch
           // while fetchMore() can be used for pagination purpose
@@ -107,7 +114,9 @@ class DashboardPage extends StatelessWidget {
           }
 
           if (result.isLoading) {
-            return Text('Loading');
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
           TCNetwork network = TCNetwork.fromJson(result.data['network']);
           PoolVolumeHistory volumeHistory = PoolVolumeHistory.fromJson(result.data['volumeHistory']);
@@ -115,76 +124,48 @@ class DashboardPage extends StatelessWidget {
 
           return
               LayoutBuilder(builder: (context, constraints) {
-                return SingleChildScrollView(
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 500),
-                    padding: constraints.maxWidth < 500
-                        ? EdgeInsets.zero
-                        : EdgeInsets.all(30.0),
-                    child: Center(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 25.0),
-                        constraints: BoxConstraints(
-                          maxWidth: 1024,
+              return SingleChildScrollView(
+                  child: FluidContainer(
+                    Column(
+                      children: [
+                        Container(
+                          height: 200,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              Container(
+                                child: VolumeChart(volumeHistory),
+                              )
+                            ],
+                          ),
                         ),
-                        child: Column(
+                        SizedBox(height: 16,),
+                        constraints.maxWidth < 900
+                        ? Container(
+                          child: Column(
+                            children: [
+                              StatsWidget(stats),
+                              SizedBox(height: 16,),
+                              NetworkWidget(network),
+                            ],
+                          ),
+                        )
+                        : Row(
                           children: [
-                            Container(
-                              height: 200,
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: [
-                                  Container(
-                                    child: VolumeChart(volumeHistory),
-                                  )
-                                ],
-                              ),
+                            Expanded(
+                              child: StatsWidget(stats),
                             ),
-                            SizedBox(height: 16,),
-                            constraints.maxWidth < 900
-                            ? Container(
-                              child: Column(
-                                children: [
-                                  StatsWidget(stats),
-                                  SizedBox(height: 16,),
-                                  NetworkWidget(network),
-                                ],
-                              ),
-                            )
-                            : Row(
-                              children: [
-                                Expanded(
-                                  child: StatsWidget(stats),
-                                ),
-                                SizedBox(width: 16,),
-                                Expanded(
-                                  child: NetworkWidget(network),
-                                )
-                              ],
+                            SizedBox(width: 16,),
+                            Expanded(
+                              child: NetworkWidget(network),
                             )
                           ],
-                        ),
-                        // child: GridView(
-                        //   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        //     maxCrossAxisExtent: 612,
-                        //     crossAxisSpacing: 20.0,
-                        //     mainAxisSpacing: 20.0,
-                        //     childAspectRatio: .5,
-                        //   ),
-                        //   physics:
-                        //       NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-                        //   shrinkWrap: true, // You won't see infinite size error
-                        //   children: [
-                        //     StatsWidget(stats),
-                        //     VolumeChart(volumeHistory),
-                        //     NetworkWidget(network)
-                        //   ],
-                        // ),
-                      ),
+                        )
+                      ],
                     ),
                   ),
-                );
-              });
+              );
+           });
         })
     );
   }

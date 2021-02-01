@@ -391,7 +391,7 @@ packages:
     source: hosted
     version: "0.12.1"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
