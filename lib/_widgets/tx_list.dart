@@ -26,18 +26,17 @@ class TxList extends StatelessWidget {
 
     // Color tagColor = tag == 'In' ? Colors.blue : Colors.green;
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-
-      child: Column(
+    return Column(
         // crossAxisAlignment: CrossAxisAlignment.center,
         // mainAxisAlignment: MainAxisAlignment.,
         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: actions.map((tx) {
 
           DateTime dateTime = DateTime.fromMicrosecondsSinceEpoch(int.parse(tx.date) ~/ 1000);
 
           return Container(
+            height: 100,
             // padding: EdgeInsets.all(4),
             decoration: BoxDecoration(
               border: (tx.date != actions[actions.length - 1].date)
@@ -51,7 +50,9 @@ class TxList extends StatelessWidget {
             ),
             child: Container(
               padding: EdgeInsets.only(top: 12, bottom: 8, left: 12, right: 12),
-              child: Row(
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
                 // crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
 
@@ -134,7 +135,6 @@ class TxList extends StatelessWidget {
             ),
           );
         }).toList(),
-      ),
-    );
+      );
   }
 }
