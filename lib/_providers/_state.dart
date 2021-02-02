@@ -7,11 +7,20 @@ import 'package:thorchain_explorer/_providers/tc_actions_provider.dart';
 import 'package:thorchain_explorer/_services/midgard_service.dart';
 import 'package:thorchain_explorer/_classes/tc_action.dart';
 
-final actions = FutureProvider.autoDispose
-    .family<TcActionResponse, FetchActionParams>((ref, params) async {
-    final midgardService = new MidgardService();
-    return midgardService.fetchActions(params);
-});
+final providerAutodisposeFamily = FutureProvider.autoDispose.family;
+
+final actions = providerAutodisposeFamily<TcActionResponse, FetchActionParams>(
+    (ref, params) async {
+        final midgardService = new MidgardService();
+        return midgardService.fetchActions(params);
+    }
+);
+
+// final actions = FutureProvider.autoDispose
+//     .family<TcActionResponse, FetchActionParams>((ref, params) async {
+//     final midgardService = new MidgardService();
+//     return midgardService.fetchActions(params);
+// });
 
 // final paginatedQuestionsProvider = FutureProvider.autoDispose
 //     .family<List<TcAction>, FetchActionParams>((ref, pageIndex) async {
