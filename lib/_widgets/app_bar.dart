@@ -41,11 +41,16 @@ class ExplorerAppBar extends PreferredSize {
                         cursor: SystemMouseCursors.click,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(4.0),
-                          child: Image.asset(
-                            'images/thorchain.png',
+                          // child: Image.asset(
+                          //   'images/thorchain.png',
+                          //   width: 32,
+                          //   height: 32,
+                          // ),
+                          child: Image.network(
+                            'https://raw.githubusercontent.com/Pusher-Labs/thorchain_explorer_build/main/assets/assets/images/thorchain.png?token=ACVKHTSMOXAG5VXHNM6RSM3ADCR3A',
                             width: 32,
                             height: 32,
-                          ),
+                          )
                         ),
                       ),
                     ),
