@@ -4,7 +4,7 @@ class FluidContainer extends StatelessWidget {
 
   final Widget child;
 
-  FluidContainer(this.child);
+  FluidContainer({this.child});
 
   @override
   Widget build(BuildContext context) {

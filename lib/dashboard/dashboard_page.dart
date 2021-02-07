@@ -126,7 +126,7 @@ class DashboardPage extends StatelessWidget {
               LayoutBuilder(builder: (context, constraints) {
               return SingleChildScrollView(
                   child: FluidContainer(
-                    Column(
+                    child: Column(
                       children: [
                         Container(
                           height: 200,

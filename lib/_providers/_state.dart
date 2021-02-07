@@ -1,20 +1,23 @@
-
-
-
 import 'package:hooks_riverpod/all.dart';
-import 'package:thorchain_explorer/_providers/navigation_history.dart';
+import 'package:thorchain_explorer/_classes/tc_node.dart';
 import 'package:thorchain_explorer/_providers/tc_actions_provider.dart';
 import 'package:thorchain_explorer/_services/midgard_service.dart';
 import 'package:thorchain_explorer/_classes/tc_action.dart';
+import 'package:thorchain_explorer/_services/thornode_service.dart';
 
 final providerAutodisposeFamily = FutureProvider.autoDispose.family;
+final providerAutodispose = FutureProvider.autoDispose;
 
 final actions = providerAutodisposeFamily<TcActionResponse, FetchActionParams>(
     (ref, params) async {
-        final midgardService = new MidgardService();
-        return midgardService.fetchActions(params);
-    }
-);
+  final midgardService = new MidgardService();
+  return midgardService.fetchActions(params);
+});
+
+final nodes = providerAutodispose<List<TCNode>>((ref) async {
+  final thornodeService = new ThornodeService();
+  return thornodeService.fetchNodes();
+});
 
 // final actions = FutureProvider.autoDispose
 //     .family<TcActionResponse, FetchActionParams>((ref, params) async {

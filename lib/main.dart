@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/address/address_page.dart';
 import 'package:thorchain_explorer/dashboard/dashboard_page.dart';
 import 'package:thorchain_explorer/network/network_page.dart';
+import 'package:thorchain_explorer/nodes_list/nodes_list_page.dart';
 import 'package:thorchain_explorer/pools/pools_page.dart';
 import 'package:thorchain_explorer/transaction/transaction_page.dart';
 
@@ -56,52 +56,12 @@ class ThorchainExplorer extends HookWidget {
           //   '/network': (context) => NetworkPage()
           // },
           onGenerateRoute: (settings) {
-            // // Handle '/'
-            // if (settings.name == '/') {
-            //   return MaterialPageRoute(builder: (context) => DashboardPage());
-            // }
-
-            // // Handle '/details/:id'
-            // var uri = Uri.parse(settings.name);
-            // if (uri.pathSegments.length == 1 &&
-            //     uri.pathSegments.first == 'network') {
-            //   // var id = uri.pathSegments[1];
-            //   return MaterialPageRoute(builder: (context) => NetworkPage());
-            // }
-
-            // print('navigation state is: ');
-            // navigationState.forEach((path) {
-            //   print(path);
-            // });
-            // print('======================');
-
-            // print('navigation state is: ${useProvider(navigationHistoryProvider).state}');
-
-            // switch (settings.name) {
-            //
-            //   case '/':
-            //     return MaterialPageRoute(
-            //         builder: (context) => DashboardPage(), settings: settings);
-            //
-            //   case '/network':
-            //     return PageRouteBuilder(
-            //         pageBuilder: (context, animation, secondaryAnimation) =>
-            //             NetworkPage(),
-            //         settings: settings);
-            //
-            //   case '/pools':
-            //     return MaterialPageRoute(
-            //         builder: (context) => PoolsPage(), settings: settings);
-            //
-            //   default:
-            //     return MaterialPageRoute(
-            //         builder: (context) => DashboardPage(), settings: settings);
-            // }
 
             var uri = Uri.parse(settings.name);
 
             if (settings.name == '/') {
 
+              // Home
               return PageRouteBuilder(
                 pageBuilder: (context, animation1, animation2) => DashboardPage(),
                 transitionDuration: Duration(seconds: 0),
@@ -109,36 +69,51 @@ class ThorchainExplorer extends HookWidget {
               );
 
             } else if (settings.name == '/network') {
+
+              // Network Page
               return PageRouteBuilder(
                   pageBuilder: (context, animation, secondaryAnimation) => NetworkPage(),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
+
             } else if (settings.name == '/pools') {
+
+              // Pools Page
               return MaterialPageRoute(
                   builder: (context) => PoolsPage(), settings: settings);
-            } else if (
-              uri.pathSegments.length == 2 && uri.pathSegments.first == 'tx') {
-                var id = uri.pathSegments[1];
 
-                return PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) => TransactionPage(id),
-                    transitionDuration: Duration(seconds: 0),
-                    settings: settings);
+            }else if (settings.name == '/nodes') {
 
-            } else if (
-              uri.pathSegments.length == 2 && uri.pathSegments.first == 'address') {
-                var id = uri.pathSegments[1];
-                return PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) => AddressPage(id),
-                    transitionDuration: Duration(seconds: 0),
-                    settings: settings);
+              // NodeList Page
+              return PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) => NodesListPage(),
+                  transitionDuration: Duration(seconds: 0),
+                  settings: settings);
+
+            } else if (uri.pathSegments.length == 2 && uri.pathSegments.first == 'tx') {
+
+              // Transaction Page
+              var id = uri.pathSegments[1];
+
+              return PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) => TransactionPage(id),
+                  transitionDuration: Duration(seconds: 0),
+                  settings: settings);
+
+            } else if (uri.pathSegments.length == 2 && uri.pathSegments.first == 'address') {
+
+              // Address Page
+              var id = uri.pathSegments[1];
+              return PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) => AddressPage(id),
+                  transitionDuration: Duration(seconds: 0),
+                  settings: settings);
 
             } else {
               return MaterialPageRoute(
                   builder: (context) => DashboardPage(), settings: settings);
             }
 
-            // return MaterialPageRoute(builder: (context) => DashboardPage());
           },
         ));
   }

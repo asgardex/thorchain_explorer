@@ -46,17 +46,19 @@ class NetworkWidget extends StatelessWidget {
             StatListItem(label: "Total Reserve", value: f.format(network.totalReserve / pow(10, 8))),
             StatListItem(label: "Standby Node Count", value: f.format(network.standbyNodeCount)),
             StatListItem(label: "Total Pooled Rune", value: f.format(network.totalPooledRune / pow(10, 8))),
-            Container(
-              child: Expanded(
-                child: FlatButton(
-                  child: Text('View Network Details', style: TextStyle(
-                      color: Theme.of(context).accentColor
-                  ),),
-                  onPressed: () =>
-                      Navigator.pushNamed(context, '/network'),
-                ),
-              ),
-            )
+
+            // // hide until implemented
+            // Container(
+            //   child: Expanded(
+            //     child: FlatButton(
+            //       child: Text('View Network Details', style: TextStyle(
+            //           color: Theme.of(context).accentColor
+            //       ),),
+            //       onPressed: () =>
+            //           Navigator.pushNamed(context, '/network'),
+            //     ),
+            //   ),
+            // )
 
           ],
         ),

@@ -30,7 +30,7 @@ class AddressPage extends HookWidget {
                 data: (actionsResponse) {
                   return SingleChildScrollView(
                     child: FluidContainer(
-                      Column(
+                      child: Column(
                       // mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [

@@ -55,7 +55,7 @@ class TransactionPage extends HookWidget {
 
                   return SingleChildScrollView(
                       child: FluidContainer(
-                        Column(
+                        child: Column(
                           // mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
