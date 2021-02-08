@@ -1,47 +1,74 @@
-
 import 'package:flutter/material.dart';
 
 class AssetIcon extends StatelessWidget {
-
   final String asset;
   final double width;
+  final double iconSize;
 
-  AssetIcon(this.asset, {this.width = 50});
+  AssetIcon(this.asset, {this.width = 50, this.iconSize = 24});
 
   @override
   Widget build(BuildContext context) {
-
-    String trustWalletMatch = CoinIconsFromTrustWallet[asset];
     String logoPath;
+    List<String> splitAsset = asset.split('.');
 
-    if (trustWalletMatch != null) {
-      logoPath = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/$trustWalletMatch/logo.png";
-    } else {
-      switch (asset){
-        case 'BNB.BNB':
-          logoPath = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/info/logo.png';
-          break;
+    switch (splitAsset[0]) {
+      case 'BCH':
+        logoPath =
+            'https://raw.githubusercontent.com/trustwallet/assets/babe4603dfb63891c6e9c26c7d0e62a6f9e45e03/blockchains/bitcoincash/info/logo.png';
+        break;
 
-        case 'ETH.ETH':
-          logoPath = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png';
-          break;
+      case 'BNB':
+        if (splitAsset[1] != null && splitAsset[1] == 'BNB') {
+          logoPath =
+              'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/info/logo.png';
+        } else {
+          String trustWalletMatch = CoinIconsFromTrustWallet[asset];
+          if (trustWalletMatch != null) {
+            logoPath =
+                "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/$trustWalletMatch/logo.png";
+          }
+        }
 
-        case 'BTC.BTC':
-          logoPath = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/BTCB-1DE/logo.png';
-          break;
+        break;
 
-        case 'THOR.RUNE':
-          logoPath = 'https://raw.githubusercontent.com/trustwallet/assets/cb8de815813e330b8db3d9ec01fa0ffc7d60f914/blockchains/binance/assets/RUNE-B1A/logo.png';
-          break;
+      case 'ETH':
+        if (splitAsset[1] != null && splitAsset[1] == 'ETH') {
+          logoPath =
+              'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png';
+        }
+        break;
 
-      }
+      case 'BTC':
+        if (splitAsset[1] != null && splitAsset[1] == 'BTC') {
+          logoPath =
+              'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/BTCB-1DE/logo.png';
+        }
+        break;
 
+      case 'LTC':
+        logoPath =
+            'https://raw.githubusercontent.com/trustwallet/assets/babe4603dfb63891c6e9c26c7d0e62a6f9e45e03/blockchains/litecoin/info/logo.png';
+        break;
+
+      case 'THOR':
+        if (splitAsset[1] != null && splitAsset[1] == 'RUNE') {
+          logoPath =
+              'https://raw.githubusercontent.com/trustwallet/assets/cb8de815813e330b8db3d9ec01fa0ffc7d60f914/blockchains/binance/assets/RUNE-B1A/logo.png';
+        }
+        break;
     }
 
+    // }
+
     return Container(
-      width: width,
-      child: logoPath != null ? Image.network(logoPath) : Icon(Icons.error_outline)
-    );
+        width: width,
+        child: logoPath != null
+            ? Image.network(logoPath)
+            : Icon(
+                Icons.error_outline,
+                size: iconSize,
+              ));
   }
 }
 

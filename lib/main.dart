@@ -26,7 +26,6 @@ class ThorchainExplorer extends HookWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     final HttpLink httpLink = HttpLink(
       'https://testnet.midgard.thorchain.info/v2',
     );
@@ -56,64 +55,58 @@ class ThorchainExplorer extends HookWidget {
           //   '/network': (context) => NetworkPage()
           // },
           onGenerateRoute: (settings) {
-
             var uri = Uri.parse(settings.name);
 
             if (settings.name == '/') {
-
               // Home
               return PageRouteBuilder(
-                pageBuilder: (context, animation1, animation2) => DashboardPage(),
-                transitionDuration: Duration(seconds: 0),
-                settings: settings
-              );
-
+                  pageBuilder: (context, animation1, animation2) =>
+                      DashboardPage(),
+                  transitionDuration: Duration(seconds: 0),
+                  settings: settings);
             } else if (settings.name == '/network') {
-
               // Network Page
               return PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => NetworkPage(),
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      NetworkPage(),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
-
             } else if (settings.name == '/pools') {
-
-              // Pools Page
-              return MaterialPageRoute(
-                  builder: (context) => PoolsPage(), settings: settings);
-
-            }else if (settings.name == '/nodes') {
-
+              return PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      PoolsPage(),
+                  transitionDuration: Duration(seconds: 0),
+                  settings: settings);
+            } else if (settings.name == '/nodes') {
               // NodeList Page
               return PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => NodesListPage(),
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      NodesListPage(),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
-
-            } else if (uri.pathSegments.length == 2 && uri.pathSegments.first == 'tx') {
-
+            } else if (uri.pathSegments.length == 2 &&
+                uri.pathSegments.first == 'tx') {
               // Transaction Page
               var id = uri.pathSegments[1];
 
               return PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => TransactionPage(id),
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      TransactionPage(id),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
-
-            } else if (uri.pathSegments.length == 2 && uri.pathSegments.first == 'address') {
-
+            } else if (uri.pathSegments.length == 2 &&
+                uri.pathSegments.first == 'address') {
               // Address Page
               var id = uri.pathSegments[1];
               return PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => AddressPage(id),
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      AddressPage(id),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
-
             } else {
               return MaterialPageRoute(
                   builder: (context) => DashboardPage(), settings: settings);
             }
-
           },
         ));
   }
