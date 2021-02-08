@@ -48,21 +48,14 @@ class NodesListPage extends HookWidget {
                   loading: () => Center(child: CircularProgressIndicator()),
                   error: (err, _) => Center(child: Text(err),),
                   data: (tcNodes) {
-                    // print(response);
-
-                    // tcNodes.sort((a, b) => int.parse(b.bond).compareTo(int.parse(a.bond)));
 
                     final activeNodes = tcNodes.where((element) => element.status == TCNodeStatus.ACTIVE).toList();
                     final standbyNodes = tcNodes.where((element) => element.status == TCNodeStatus.STANDBY).toList();
-                    final disabledNodes = tcNodes.where((element) => element.status == TCNodeStatus.DISABLED).toList();
-
+                    // final disabledNodes = tcNodes.where((element) => element.status == TCNodeStatus.DISABLED).toList();
 
                     return Container(
                       child: Column(
                         children: [
-
-                          // ...starredNodes.value.map((e) => Text(e)).toList(),
-
                           createNodesGroup(context: context, nodes: activeNodes, groupLabel: "Active Nodes", starredNodes: starredNodes),
                           SizedBox(height: 32,),
                           createNodesGroup(context: context, nodes: standbyNodes, groupLabel: "Standby Nodes", starredNodes: starredNodes)
