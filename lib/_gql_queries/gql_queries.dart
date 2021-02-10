@@ -1,5 +1,34 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
+QueryOptions poolQueryOptions(String asset) {
+
+  return QueryOptions(
+      document: gql("""
+    query {
+      pool(asset:"$asset") {
+        asset,
+        status,
+        price,
+        units,
+        volume24h,
+        poolAPY,
+        stakes {
+          assetStaked
+          runeStaked
+          poolStaked
+        }
+        depth {
+          assetDepth,
+          runeDepth,
+          poolDepth,
+        }
+      }
+    }
+    """
+      )
+  );
+}
+
 QueryOptions nodePageQueryOptions(String address) {
   return QueryOptions(
     document: gql("""

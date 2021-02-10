@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/all.dart';
@@ -101,88 +102,91 @@ class PoolsPage extends HookWidget {
 
       return AspectRatio(
         aspectRatio: 1,
-        child: Card(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/pools/${pool.asset}'),
+            child: Card(
+              child: Container(
+                padding: EdgeInsets.all(16),
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          splitAsset[0],
+                          style: TextStyle(color: Theme.of(context).hintColor),
+                        ),
+                        Text("${simpleCurrency.format(pool.price * runePrice)}"),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    AssetIcon(
+                      pool.asset,
+                      iconSize: 50,
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
                     Text(
-                      splitAsset[0],
+                      ticker,
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    SelectableText(
+                      contractAddress,
                       style: TextStyle(color: Theme.of(context).hintColor),
                     ),
-                    Text("${simpleCurrency.format(pool.price * runePrice)}"),
-                  ],
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                AssetIcon(
-                  pool.asset,
-                  iconSize: 50,
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Text(
-                  ticker,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-                SelectableText(
-                  contractAddress,
-                  style: TextStyle(color: Theme.of(context).hintColor),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            "24h Volume",
-                            style: TextStyle(
-                                // fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Theme.of(context).hintColor),
-                          ),
-                          Text(
-                            "${compactCurrency.format(pool.volume24h * runePrice)}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
-                          )
-                          // Text("${pool.volume24h}"),
-                        ],
-                      ),
+                    SizedBox(
+                      height: 16,
                     ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            "Pool APY",
-                            style: TextStyle(
-                                // fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Theme.of(context).hintColor),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: Column(
+                            children: [
+                              Text(
+                                "24h Volume",
+                                style: TextStyle(
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: Theme.of(context).hintColor),
+                              ),
+                              Text(
+                                "${compactCurrency.format(pool.volume24h * runePrice)}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              )
+                            ],
                           ),
-                          Text(
-                            "${pool.poolAPY.toStringAsPrecision(2)}%",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
-                          )
-                          // Text("${pool.poolAPY}"),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Pool APY",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Theme.of(context).hintColor),
+                              ),
+                              Text(
+                                "${pool.poolAPY.toStringAsPrecision(2)}%",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
