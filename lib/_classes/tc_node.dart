@@ -63,6 +63,7 @@ class PreflightStatus {
 
 enum TCNodeStatus {
   @JsonValue("Active") ACTIVE,
+  @JsonValue("Ready") READY,
   @JsonValue("Standby") STANDBY,
   @JsonValue("Disabled") DISABLED,
   @JsonValue("Whitelisted") WHITELISTED,

@@ -148,6 +148,7 @@ T _$enumDecodeNullable<T>(
 
 const _$TCNodeStatusEnumMap = {
   TCNodeStatus.ACTIVE: 'Active',
+  TCNodeStatus.READY: 'Ready',
   TCNodeStatus.STANDBY: 'Standby',
   TCNodeStatus.DISABLED: 'Disabled',
   TCNodeStatus.WHITELISTED: 'Whitelisted',
