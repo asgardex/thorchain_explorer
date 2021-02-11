@@ -8,7 +8,7 @@ class ThornodeService {
   List<TCNode> _parseNodes(String response) {
     var l = json.decode(response) as List<dynamic>;
     List<TCNode> nodes = l.map((e) => TCNode.fromJson(e)).toList();
-    nodes.sort((a, b) => int.parse(b.bond).compareTo(int.parse(a.bond)));
+    nodes.sort((a, b) => b.bond.compareTo(a.bond));
     return nodes;
   }
 

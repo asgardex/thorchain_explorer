@@ -16,10 +16,8 @@ class PubKeySet {
 @JsonSerializable()
 class TCNodeJail {
 
-  @JsonKey(name: 'node_address')
-  String nodeAddress;
+  String nodeAddr;
 
-  @JsonKey(name: 'release_height')
   int releaseHeight;
 
   String reason;
@@ -41,12 +39,6 @@ class ObservedChain {
   factory ObservedChain.fromJson(Map<String, dynamic> json) => _$ObservedChainFromJson(json);
 
 }
-
-// "jail": {
-//   "node_address": "tthor15n3jrhlfphc0fxcttjl3pz6xx0430663j4up5k",
-//   "release_height": 44454,
-//   "reason": "failed to perform keygen"
-// },
 
 @JsonSerializable()
 class PreflightStatus {
@@ -72,58 +64,29 @@ enum TCNodeStatus {
 @JsonSerializable()
 class TCNode {
 
-  @JsonKey(name: 'node_address')
-  String nodeAddress;
+  String address;
 
   TCNodeStatus status;
 
-  @JsonKey(name: 'pub_key_set')
-  PubKeySet pubKeySet;
+  PubKeySet publicKeys;
 
-  @JsonKey(name: 'validator_cons_pub_key')
-  String validatorConsPubKey;
+  int bond;
 
-  String bond;
-
-  @JsonKey(name: 'active_block_height')
-  int activeBlockHeight;
-
-  @JsonKey(name: 'bond_address')
-  String bondAddress;
-
-  @JsonKey(name: 'status_since')
-  int statusSince;
-
-  @JsonKey(name: 'signer_membership')
-  List<String> signerMembership;
-
-  @JsonKey(name: 'requested_to_leave')
   bool requestedToLeave;
 
-  @JsonKey(name: 'forced_to_leave')
   bool forcedToLeave;
 
-  @JsonKey(name: 'leave_height')
   int leaveHeight;
 
-  @JsonKey(name: 'ip_address')
   String ipAddress;
 
   String version;
 
-  @JsonKey(name: 'slash_points')
   int slashPoints;
 
   TCNodeJail jail;
 
-  @JsonKey(name: 'current_award')
-  String currentAward;
-
-  @JsonKey(name: 'observe_chains')
-  List<ObservedChain> observedChains;
-
-  @JsonKey(name: 'preflight_status')
-  PreflightStatus preflightStatus;
+  int currentAward;
 
   TCNode();
 

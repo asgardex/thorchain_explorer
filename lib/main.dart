@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/address/address_page.dart';
 import 'package:thorchain_explorer/dashboard/dashboard_page.dart';
 import 'package:thorchain_explorer/network/network_page.dart';
+import 'package:thorchain_explorer/node/node_page.dart';
 import 'package:thorchain_explorer/nodes_list/nodes_list_page.dart';
 import 'package:thorchain_explorer/pool/pool_page.dart';
 import 'package:thorchain_explorer/pools_list/pools_page.dart';
@@ -82,7 +83,7 @@ class ThorchainExplorer extends HookWidget {
                 uri.pathSegments.first == 'pools') {
 
               // Single Pool Page
-              var id = uri.pathSegments[1];
+              String id = uri.pathSegments[1];
 
               print('navigating to pool: $id');
 
@@ -100,9 +101,19 @@ class ThorchainExplorer extends HookWidget {
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
             } else if (uri.pathSegments.length == 2 &&
+                uri.pathSegments.first == 'nodes') {
+              // Transaction Page
+              String address = uri.pathSegments[1];
+
+              return PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      NodePage(address),
+                  transitionDuration: Duration(seconds: 0),
+                  settings: settings);
+            } else if (uri.pathSegments.length == 2 &&
                 uri.pathSegments.first == 'tx') {
               // Transaction Page
-              var id = uri.pathSegments[1];
+              String id = uri.pathSegments[1];
 
               return PageRouteBuilder(
                   pageBuilder: (context, animation, secondaryAnimation) =>

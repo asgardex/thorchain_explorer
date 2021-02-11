@@ -19,15 +19,15 @@ Map<String, dynamic> _$PubKeySetToJson(PubKeySet instance) => <String, dynamic>{
 
 TCNodeJail _$TCNodeJailFromJson(Map<String, dynamic> json) {
   return TCNodeJail()
-    ..nodeAddress = json['node_address'] as String
-    ..releaseHeight = json['release_height'] as int
+    ..nodeAddr = json['nodeAddr'] as String
+    ..releaseHeight = json['releaseHeight'] as int
     ..reason = json['reason'] as String;
 }
 
 Map<String, dynamic> _$TCNodeJailToJson(TCNodeJail instance) =>
     <String, dynamic>{
-      'node_address': instance.nodeAddress,
-      'release_height': instance.releaseHeight,
+      'nodeAddr': instance.nodeAddr,
+      'releaseHeight': instance.releaseHeight,
       'reason': instance.reason,
     };
 
@@ -59,59 +59,37 @@ Map<String, dynamic> _$PreflightStatusToJson(PreflightStatus instance) =>
 
 TCNode _$TCNodeFromJson(Map<String, dynamic> json) {
   return TCNode()
-    ..nodeAddress = json['node_address'] as String
+    ..address = json['address'] as String
     ..status = _$enumDecodeNullable(_$TCNodeStatusEnumMap, json['status'])
-    ..pubKeySet = json['pub_key_set'] == null
+    ..publicKeys = json['publicKeys'] == null
         ? null
-        : PubKeySet.fromJson(json['pub_key_set'] as Map<String, dynamic>)
-    ..validatorConsPubKey = json['validator_cons_pub_key'] as String
-    ..bond = json['bond'] as String
-    ..activeBlockHeight = json['active_block_height'] as int
-    ..bondAddress = json['bond_address'] as String
-    ..statusSince = json['status_since'] as int
-    ..signerMembership =
-        (json['signer_membership'] as List)?.map((e) => e as String)?.toList()
-    ..requestedToLeave = json['requested_to_leave'] as bool
-    ..forcedToLeave = json['forced_to_leave'] as bool
-    ..leaveHeight = json['leave_height'] as int
-    ..ipAddress = json['ip_address'] as String
+        : PubKeySet.fromJson(json['publicKeys'] as Map<String, dynamic>)
+    ..bond = json['bond'] as int
+    ..requestedToLeave = json['requestedToLeave'] as bool
+    ..forcedToLeave = json['forcedToLeave'] as bool
+    ..leaveHeight = json['leaveHeight'] as int
+    ..ipAddress = json['ipAddress'] as String
     ..version = json['version'] as String
-    ..slashPoints = json['slash_points'] as int
+    ..slashPoints = json['slashPoints'] as int
     ..jail = json['jail'] == null
         ? null
         : TCNodeJail.fromJson(json['jail'] as Map<String, dynamic>)
-    ..currentAward = json['current_award'] as String
-    ..observedChains = (json['observe_chains'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ObservedChain.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..preflightStatus = json['preflight_status'] == null
-        ? null
-        : PreflightStatus.fromJson(
-            json['preflight_status'] as Map<String, dynamic>);
+    ..currentAward = json['currentAward'] as int;
 }
 
 Map<String, dynamic> _$TCNodeToJson(TCNode instance) => <String, dynamic>{
-      'node_address': instance.nodeAddress,
+      'address': instance.address,
       'status': _$TCNodeStatusEnumMap[instance.status],
-      'pub_key_set': instance.pubKeySet,
-      'validator_cons_pub_key': instance.validatorConsPubKey,
+      'publicKeys': instance.publicKeys,
       'bond': instance.bond,
-      'active_block_height': instance.activeBlockHeight,
-      'bond_address': instance.bondAddress,
-      'status_since': instance.statusSince,
-      'signer_membership': instance.signerMembership,
-      'requested_to_leave': instance.requestedToLeave,
-      'forced_to_leave': instance.forcedToLeave,
-      'leave_height': instance.leaveHeight,
-      'ip_address': instance.ipAddress,
+      'requestedToLeave': instance.requestedToLeave,
+      'forcedToLeave': instance.forcedToLeave,
+      'leaveHeight': instance.leaveHeight,
+      'ipAddress': instance.ipAddress,
       'version': instance.version,
-      'slash_points': instance.slashPoints,
+      'slashPoints': instance.slashPoints,
       'jail': instance.jail,
-      'current_award': instance.currentAward,
-      'observe_chains': instance.observedChains,
-      'preflight_status': instance.preflightStatus,
+      'currentAward': instance.currentAward,
     };
 
 T _$enumDecode<T>(

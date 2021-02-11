@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
-import 'package:thorchain_explorer/_providers/_state.dart';
+import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
 import 'package:thorchain_explorer/_widgets/app_bar.dart';
 import 'package:thorchain_explorer/_widgets/fluid_container.dart';
 
@@ -24,7 +24,6 @@ class NodesListPage extends HookWidget {
       if (nodeList != null && nodeList.length > 0) {
         starredNodes.value.addAll(prefs.getStringList('starredNodes'));
       }
-
       return;
     }
 
@@ -39,34 +38,40 @@ class NodesListPage extends HookWidget {
 
         return SingleChildScrollView(
           child: FluidContainer(
-            child: HookBuilder(
-              builder: (context) {
+            child: Query(
+              options: nodesListPageQueryOptions(),
+              builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
+                if (result.hasException) {
+                  return Text(result.exception.toString());
+                }
 
-                final response = useProvider(nodes);
+                if (result.isLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-                return response.when(
-                  loading: () => Center(child: CircularProgressIndicator()),
-                  error: (err, _) => Center(child: Text(err),),
-                  data: (tcNodes) {
+                List<TCNode> tcNodes = List<TCNode>.from(
+                    result.data['nodes'].map((node) => TCNode.fromJson(node)));
 
-                    final activeNodes = tcNodes.where((element) => element.status == TCNodeStatus.ACTIVE).toList();
-                    final standbyNodes = tcNodes.where((element) => element.status == TCNodeStatus.STANDBY).toList();
-                    // final disabledNodes = tcNodes.where((element) => element.status == TCNodeStatus.DISABLED).toList();
+                final activeNodes = tcNodes.where((element) => element.status == TCNodeStatus.ACTIVE).toList();
+                final standbyNodes = tcNodes.where((element) => element.status == TCNodeStatus.STANDBY).toList();
+                // final disabledNodes = tcNodes.where((element) => element.status == TCNodeStatus.DISABLED).toList();
 
-                    return Container(
-                      child: Column(
-                        children: [
-                          createNodesGroup(context: context, nodes: activeNodes, groupLabel: "Active Nodes", starredNodes: starredNodes),
-                          SizedBox(height: 32,),
-                          createNodesGroup(context: context, nodes: standbyNodes, groupLabel: "Standby Nodes", starredNodes: starredNodes)
-                        ],
-                      ),
-                    );
-                  },
+                return Container(
+                  child: Column(
+                    children: [
+                      createNodesGroup(context: context, nodes: activeNodes, groupLabel: "Active Nodes", starredNodes: starredNodes),
+                      SizedBox(height: 32,),
+                      createNodesGroup(context: context, nodes: standbyNodes, groupLabel: "Standby Nodes", starredNodes: starredNodes)
+                    ],
+                  )
                 );
 
               },
             )
+
+
           )
         );
       }
@@ -108,6 +113,7 @@ Widget createNodesGroup({BuildContext context, List<TCNode> nodes, String groupL
                 )
             ),
             child: DataTable(
+              showCheckboxColumn: false,
               columns: [
                 DataColumn(label: Text("")),
                 DataColumn(label: Text("Address")),
@@ -117,43 +123,42 @@ Widget createNodesGroup({BuildContext context, List<TCNode> nodes, String groupL
                 DataColumn(label: Text("Current Award")),
                 DataColumn(label: Text("Bond")),
               ],
-              // border: TableBorder.all(width: 1, color: Theme.of(context).dividerColor),
               rows: nodes.map((node) => DataRow(
-                    cells: [
-                      DataCell(IconButton(
-                        icon: (starredNodes.value.contains(node.nodeAddress))
-                          ? Icon(Icons.star, color: Colors.orange,)
-                          : Icon(Icons.star_border),
-                        onPressed: () async {
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                onSelectChanged: (_) {
+                  Navigator.pushNamed(context, '/nodes/${node.address}');
+                },
+                cells: [
+                  DataCell(IconButton(
+                    icon: (starredNodes.value.contains(node.address))
+                      ? Icon(Icons.star, color: Colors.orange,)
+                      : Icon(Icons.star_border),
+                    onPressed: () async {
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                          if (starredNodes.value.contains(node.nodeAddress)) {
-                            starredNodes.value.remove(node.nodeAddress);
-                            starredNodes.value =
-                                List.from(starredNodes.value);
-                          } else {
-                            starredNodes.value += [node.nodeAddress];
-                          }
+                      if (starredNodes.value.contains(node.address)) {
+                        starredNodes.value.remove(node.address);
+                        starredNodes.value =
+                            List.from(starredNodes.value);
+                      } else {
+                        starredNodes.value += [node.address];
+                      }
 
-                          prefs.setStringList('starredNodes', starredNodes.value);
-                        },
-                      )),
-                      DataCell(Text('${node.nodeAddress.substring(0, 8)}...${node.nodeAddress.substring(node.nodeAddress.length - 4)}'),),
-                      DataCell(
-                          Container(
-                            width: 110,
-                            child: SelectableText(node.ipAddress)
-                          )
-                      ),
-                      DataCell(Text(node.version)),
-                      DataCell(Text(node.slashPoints.toString())),
-                      // DataCell(Text(node.currentAward.toString())),
-                      // DataCell(Text(node.bond)),
-                      DataCell(Text(f.format(int.parse(node.currentAward) / pow(10, 8)))),
-                      DataCell(Text(f.format(int.parse(node.bond) / pow(10, 8))))
-                    ]
-                )).toList()
-              ,
+                      prefs.setStringList('starredNodes', starredNodes.value);
+                    },
+                  )),
+                  DataCell(Text('${node.address.substring(0, 8)}...${node.address.substring(node.address.length - 4)}'),),
+                  DataCell(
+                      Container(
+                        width: 110,
+                        child: SelectableText(node.ipAddress)
+                      )
+                  ),
+                  DataCell(Text(node.version)),
+                  DataCell(Text(node.slashPoints.toString())),
+                  DataCell(Text(f.format(node.currentAward / pow(10, 8)))),
+                  DataCell(Text(f.format(node.bond / pow(10, 8))))
+                ])
+              ).toList(),
             ),
           ),
         ],
