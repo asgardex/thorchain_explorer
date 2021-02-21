@@ -10,6 +10,7 @@ import 'package:thorchain_explorer/nodes_list/nodes_list_page.dart';
 import 'package:thorchain_explorer/pool/pool_page.dart';
 import 'package:thorchain_explorer/pools_list/pools_page.dart';
 import 'package:thorchain_explorer/transaction/transaction_page.dart';
+import 'package:thorchain_explorer/transactions_list/transactions_list_page.dart';
 
 // final themeProvider = StateNotifierProvider<ThemeProvider>(
 //     (ref) => ThemeProvider(ThemeState(ExplorerThemeMode.DARK)));
@@ -85,8 +86,6 @@ class ThorchainExplorer extends HookWidget {
               // Single Pool Page
               String id = uri.pathSegments[1];
 
-              print('navigating to pool: $id');
-
               return PageRouteBuilder(
                   pageBuilder: (context, animation, secondaryAnimation) =>
                       PoolPage(id),
@@ -110,8 +109,15 @@ class ThorchainExplorer extends HookWidget {
                       NodePage(address),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
-            } else if (uri.pathSegments.length == 2 &&
-                uri.pathSegments.first == 'tx') {
+            } else if (settings.name == '/txs') {
+              // NodeList Page
+              return PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      TransactionsListPage(),
+                  transitionDuration: Duration(seconds: 0),
+                  settings: settings);
+            }else if (uri.pathSegments.length == 2 &&
+                uri.pathSegments.first == 'txs') {
               // Transaction Page
               String id = uri.pathSegments[1];
 

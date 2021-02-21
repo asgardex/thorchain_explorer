@@ -90,6 +90,13 @@ class ExplorerAppBar extends PreferredSize {
                           onPressed: () =>
                               Navigator.pushNamed(context, '/nodes'),
                         ),
+                        FlatButton(
+                          child: Text(
+                            'TXs',
+                          ),
+                          onPressed: () =>
+                              Navigator.pushNamed(context, '/txs'),
+                        ),
                         SizedBox(
                           width: 12,
                         ),

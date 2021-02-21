@@ -252,9 +252,9 @@ class TransactionPage extends HookWidget {
               // Text(tx.txID),
               // Text(tx.address),
               SizedBox(height: 12),
-              AddressLink(tx.address),
+              AddressLink(tx.address ?? ''),
               SelectableText(
-                tx.memo,
+                tx.memo ?? '',
                 // overflow: TextOverflow.ellipsis,
               )
             ],

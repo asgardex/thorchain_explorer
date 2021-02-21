@@ -70,7 +70,7 @@ class ExplorerSearchBar extends HookWidget {
     ) {
       Navigator.pushNamed(context, '/address/$query');
     } else { // TX QUERY
-      Navigator.pushNamed(context, '/tx/$query');
+      Navigator.pushNamed(context, '/txs/$query');
     }
   }
 }

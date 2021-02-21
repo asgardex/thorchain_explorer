@@ -15,7 +15,7 @@ class TxLink extends StatelessWidget {
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, '/tx/$txId');
+            Navigator.pushNamed(context, '/txs/$txId');
           },
           child: Text(
             '${txId.substring(0, 4)}...${txId.substring(txId.length - 4, txId.length)}',
