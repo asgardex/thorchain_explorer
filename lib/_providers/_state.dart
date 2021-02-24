@@ -19,6 +19,15 @@ final nodes = providerAutodispose<List<TCNode>>((ref) async {
   return thornodeService.fetchNodes();
 });
 
+enum PageOptions {
+  Dashboard,
+  Network,
+  Transactions,
+  Nodes,
+  Pools,
+  Unintialized
+}
+
 // final actions = FutureProvider.autoDispose
 //     .family<TcActionResponse, FetchActionParams>((ref, params) async {
 //     final midgardService = new MidgardService();

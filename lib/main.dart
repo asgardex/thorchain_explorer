@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:thorchain_explorer/_providers/_state.dart';
+import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/address/address_page.dart';
 import 'package:thorchain_explorer/dashboard/dashboard_page.dart';
 import 'package:thorchain_explorer/network/network_page.dart';
@@ -12,19 +14,12 @@ import 'package:thorchain_explorer/pools_list/pools_page.dart';
 import 'package:thorchain_explorer/transaction/transaction_page.dart';
 import 'package:thorchain_explorer/transactions_list/transactions_list_page.dart';
 
-// final themeProvider = StateNotifierProvider<ThemeProvider>(
-//     (ref) => ThemeProvider(ThemeState(ExplorerThemeMode.DARK)));
-
-// final navigationHistoryProvider = StateNotifierProvider<NavigationHistoryHandler>(
-//     (ref) => NavigationHistoryHandler([])
-// );
-
 void main() {
   runApp(ProviderScope(child: ThorchainExplorer()));
 }
 
 class ThorchainExplorer extends HookWidget {
-  const ThorchainExplorer();
+  ThorchainExplorer();
 
   // This widget is the root of your application.
   @override
@@ -62,9 +57,27 @@ class ThorchainExplorer extends HookWidget {
 
             if (settings.name == '/') {
               // Home
+
+              // if (activePageState.state != PageOptions.Dashboard) {
+              //   activePageState.state = PageOptions.Dashboard;
+              // }
+
               return PageRouteBuilder(
                   pageBuilder: (context, animation1, animation2) =>
                       DashboardPage(),
+                  transitionDuration: Duration(seconds: 0),
+                  settings: settings);
+            }
+
+            // testing
+            else if (settings.name == '/test') {
+              // Network Page
+              return PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      TCScaffold(
+                        currentArea: PageOptions.Dashboard,
+                        child: Text("Hello world"),
+                      ),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
             } else if (settings.name == '/network') {
@@ -82,7 +95,6 @@ class ThorchainExplorer extends HookWidget {
                   settings: settings);
             } else if (uri.pathSegments.length == 2 &&
                 uri.pathSegments.first == 'pools') {
-
               // Single Pool Page
               String id = uri.pathSegments[1];
 
@@ -91,7 +103,6 @@ class ThorchainExplorer extends HookWidget {
                       PoolPage(id),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
-
             } else if (settings.name == '/nodes') {
               // NodeList Page
               return PageRouteBuilder(
@@ -116,7 +127,7 @@ class ThorchainExplorer extends HookWidget {
                       TransactionsListPage(),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
-            }else if (uri.pathSegments.length == 2 &&
+            } else if (uri.pathSegments.length == 2 &&
                 uri.pathSegments.first == 'txs') {
               // Transaction Page
               String id = uri.pathSegments[1];

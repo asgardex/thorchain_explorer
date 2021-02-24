@@ -5,9 +5,10 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/pool.dart';
+import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_providers/coingecko_provider.dart';
-import 'package:thorchain_explorer/_widgets/app_bar.dart';
 import 'package:thorchain_explorer/_widgets/asset_icon.dart';
+import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 
 final coinGeckoProvider =
     StateNotifierProvider<CoinGeckoProvider>((ref) => CoinGeckoProvider());
@@ -17,9 +18,9 @@ class PoolsPage extends HookWidget {
   Widget build(BuildContext context) {
     final cgProvider = useProvider(coinGeckoProvider.state);
 
-    return Scaffold(
-        appBar: ExplorerAppBar(),
-        body: Query(
+    return TCScaffold(
+        currentArea: PageOptions.Pools,
+        child: Query(
             options: QueryOptions(
               document: gql("""
               query {
@@ -52,33 +53,30 @@ class PoolsPage extends HookWidget {
                   result.data['pools'].map((pool) => Pool.fromJson(pool)));
 
               return LayoutBuilder(builder: (context, constraints) {
-                return SingleChildScrollView(
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 500),
-                    padding: constraints.maxWidth < 500
-                        ? EdgeInsets.zero
-                        : EdgeInsets.all(30.0),
-                    child: Center(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 30.0, horizontal: 25.0),
-                        constraints: BoxConstraints(
-                          maxWidth: 1024,
+                return AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  padding: constraints.maxWidth < 500
+                      ? EdgeInsets.zero
+                      : EdgeInsets.all(30.0),
+                  child: Center(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 30.0, horizontal: 25.0),
+                      constraints: BoxConstraints(
+                        maxWidth: 1024,
+                      ),
+                      child: GridView(
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 400,
+                          crossAxisSpacing: 20.0,
+                          mainAxisSpacing: 20.0,
+                          childAspectRatio: 1,
                         ),
-                        child: GridView(
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 400,
-                            crossAxisSpacing: 20.0,
-                            mainAxisSpacing: 20.0,
-                            childAspectRatio: 1,
-                          ),
-                          physics:
-                              NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-                          shrinkWrap: true, // You won't see infinite size error
-                          children: createPoolCards(
-                              context, pools, cgProvider.runePrice),
-                        ),
+                        physics:
+                            NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                        shrinkWrap: true, // You won't see infinite size error
+                        children: createPoolCards(
+                            context, pools, cgProvider.runePrice),
                       ),
                     ),
                   ),
@@ -106,86 +104,88 @@ class PoolsPage extends HookWidget {
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
             onTap: () => Navigator.pushNamed(context, '/pools/${pool.asset}'),
-            child: Card(
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          splitAsset[0],
-                          style: TextStyle(color: Theme.of(context).hintColor),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        splitAsset[0],
+                        style: TextStyle(color: Theme.of(context).hintColor),
+                      ),
+                      Text("${simpleCurrency.format(pool.price * runePrice)}"),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  AssetIcon(
+                    pool.asset,
+                    iconSize: 50,
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    ticker,
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  SelectableText(
+                    contractAddress,
+                    style: TextStyle(color: Theme.of(context).hintColor),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              "24h Volume",
+                              style: TextStyle(
+                                  // fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  color: Theme.of(context).hintColor),
+                            ),
+                            Text(
+                              "${compactCurrency.format(pool.volume24h * runePrice)}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            )
+                          ],
                         ),
-                        Text("${simpleCurrency.format(pool.price * runePrice)}"),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    AssetIcon(
-                      pool.asset,
-                      iconSize: 50,
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Text(
-                      ticker,
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                    SelectableText(
-                      contractAddress,
-                      style: TextStyle(color: Theme.of(context).hintColor),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Column(
-                            children: [
-                              Text(
-                                "24h Volume",
-                                style: TextStyle(
-                                    // fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                    color: Theme.of(context).hintColor),
-                              ),
-                              Text(
-                                "${compactCurrency.format(pool.volume24h * runePrice)}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              )
-                            ],
-                          ),
+                      ),
+                      Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Pool APY",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Theme.of(context).hintColor),
+                            ),
+                            Text(
+                              "${pool.poolAPY.toStringAsPrecision(2)}%",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            )
+                          ],
                         ),
-                        Container(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Pool APY",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Theme.of(context).hintColor),
-                              ),
-                              Text(
-                                "${pool.poolAPY.toStringAsPrecision(2)}%",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

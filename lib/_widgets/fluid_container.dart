@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class FluidContainer extends StatelessWidget {
-
   final Widget child;
 
   FluidContainer({this.child});
@@ -11,18 +10,17 @@ class FluidContainer extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       return AnimatedContainer(
         duration: Duration(milliseconds: 500),
-        padding: constraints.maxWidth < 500
-            ? EdgeInsets.zero
-            : EdgeInsets.all(30.0),
+        padding:
+            constraints.maxWidth < 500 ? EdgeInsets.zero : EdgeInsets.all(30.0),
         child: Center(
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 25.0),
-              constraints: BoxConstraints(
-                maxWidth: 1024,
-              ),
-              child: child,
-            )
-        ),
+          padding: EdgeInsets.symmetric(horizontal: 25.0),
+          constraints: BoxConstraints(
+            // maxWidth: 1024,
+            maxWidth: 1440,
+          ),
+          child: child,
+        )),
       );
     });
   }
