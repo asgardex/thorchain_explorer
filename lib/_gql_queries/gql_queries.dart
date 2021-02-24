@@ -1,9 +1,7 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 QueryOptions poolQueryOptions(String asset) {
-
-  return QueryOptions(
-    document: gql("""
+  return QueryOptions(document: gql("""
       query {
         pool(asset:"$asset") {
           asset,
@@ -24,14 +22,11 @@ QueryOptions poolQueryOptions(String asset) {
           }
         }
       }
-    """
-    )
-  );
+    """));
 }
 
 QueryOptions nodesListPageQueryOptions() {
-  return QueryOptions(
-    document: gql("""
+  return QueryOptions(document: gql("""
       query {
         nodes{
           address,
@@ -47,14 +42,11 @@ QueryOptions nodesListPageQueryOptions() {
           currentAward
         }
       }
-    """
-    )
-  );
+    """));
 }
 
 QueryOptions nodePageQueryOptions(String address) {
-  return QueryOptions(
-    document: gql("""
+  return QueryOptions(document: gql("""
     query {
       node(
         address:"$address",
@@ -79,14 +71,52 @@ QueryOptions nodePageQueryOptions(String address) {
         currentAward
       }
     }
-    """
-    )
-  );
+    """));
+}
+
+QueryOptions networkPageQueryOptions() {
+  return QueryOptions(document: gql("""
+    query {
+      network{
+        bondingAPY,
+        activeBonds,
+        activeNodeCount,
+        liquidityAPY,
+        nextChurnHeight,
+        poolActivationCountdown,
+        poolShareFactor,
+        totalReserve,
+        standbyBonds,
+        standbyNodeCount,
+        totalPooledRune,
+        bondMetrics {
+          active {
+            averageBond,
+            maximumBond,
+            medianBond,
+            minimumBond,
+            totalBond
+          },
+          standby {
+            averageBond,
+            maximumBond,
+            medianBond,
+            minimumBond,
+            totalBond
+          }
+        },
+        blockRewards{
+          blockReward,
+          bondReward,
+          poolReward
+        }
+      }
+    }
+  """));
 }
 
 QueryOptions dashboardQueryOptions(DateTime startDate, DateTime currentDate) {
-  return QueryOptions(
-    document: gql("""
+  return QueryOptions(document: gql("""
     query {
       network{
         bondingAPY,
@@ -158,6 +188,5 @@ QueryOptions dashboardQueryOptions(DateTime startDate, DateTime currentDate) {
         totalWithdrawTx,
       }
     }
-    """
-  ));
+    """));
 }

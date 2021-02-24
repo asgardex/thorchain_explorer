@@ -79,7 +79,16 @@ class ExplorerAppBar extends PreferredSize {
                           ),
                           onPressed: () => Navigator.pushNamed(context, '/'),
                         ),
-
+                        SizedBox(
+                          width: 12,
+                        ),
+                        FlatButton(
+                          child: Text(
+                            'Network',
+                          ),
+                          onPressed: () =>
+                              Navigator.pushNamed(context, '/network'),
+                        ),
                         SizedBox(
                           width: 12,
                         ),
@@ -90,12 +99,14 @@ class ExplorerAppBar extends PreferredSize {
                           onPressed: () =>
                               Navigator.pushNamed(context, '/nodes'),
                         ),
+                        SizedBox(
+                          width: 12,
+                        ),
                         FlatButton(
                           child: Text(
                             'TXs',
                           ),
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/txs'),
+                          onPressed: () => Navigator.pushNamed(context, '/txs'),
                         ),
                         SizedBox(
                           width: 12,
