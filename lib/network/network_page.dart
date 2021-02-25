@@ -39,152 +39,120 @@ class NetworkPage extends HookWidget {
               final network = TCNetwork.fromJson(result.data['network']);
 
               return LayoutBuilder(builder: (context, constraints) {
-                return AnimatedContainer(
-                    duration: Duration(milliseconds: 500),
-                    padding: constraints.maxWidth < 500
-                        ? EdgeInsets.zero
-                        : EdgeInsets.all(30.0),
-                    child: Center(
-                        child: Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 30.0, horizontal: 25.0),
-                            constraints: BoxConstraints(
-                              maxWidth: 1024,
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text("Network",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline6),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Container(
-                                    padding: EdgeInsets.all(16),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.3),
-                                      borderRadius: BorderRadius.circular(4.0),
-                                    ),
-                                    child: Table(
-                                        border: TableBorder.all(
-                                            width: 1,
-                                            color:
-                                                Theme.of(context).dividerColor),
-                                        children: [
-                                          TableRow(children: [
-                                            PaddedTableCell(
-                                                child: SelectableText(
-                                                    "Bonding APY")),
-                                            PaddedTableCell(
-                                                child: SelectableText(
-                                                    "${(network.bondingAPY * 100).toStringAsFixed(2)}%")),
-                                          ]),
-                                          TableRow(children: [
-                                            PaddedTableCell(
-                                                child: SelectableText(
-                                                    "Liquidity APY")),
-                                            PaddedTableCell(
-                                                child: SelectableText(
-                                                    "${(network.liquidityAPY * 100).toStringAsFixed(2)}%")),
-                                          ]),
-                                          TableRow(children: [
-                                            PaddedTableCell(
-                                                child: SelectableText(
-                                                    "Next Churn Height")),
-                                            PaddedTableCell(
-                                                child: SelectableText(network
-                                                    .nextChurnHeight
-                                                    .toString())),
-                                          ]),
-                                          TableRow(children: [
-                                            PaddedTableCell(
-                                                child: SelectableText(
-                                                    "Pool Activation Countdown")),
-                                            PaddedTableCell(
-                                                child: SelectableText(network
-                                                    .poolActivationCountdown
-                                                    .toString())),
-                                          ]),
-                                          TableRow(children: [
-                                            PaddedTableCell(
-                                                child: SelectableText(
-                                                    "Pool Share Factor")),
-                                            PaddedTableCell(
-                                                child: SelectableText(
-                                                    "${(network.poolShareFactor * 100).toStringAsFixed(2)}%")),
-                                          ]),
-                                          TableRow(children: [
-                                            PaddedTableCell(
-                                                child: SelectableText(
-                                                    "Total Reserve")),
-                                            PaddedTableCell(
-                                                child: SelectableText(f.format(
-                                                    (network.totalReserve /
-                                                            pow(10, 8))
-                                                        .ceil()))),
-                                          ]),
-                                          TableRow(children: [
-                                            PaddedTableCell(
-                                                child: SelectableText(
-                                                    "Total Pooled RUNE")),
-                                            PaddedTableCell(
-                                                child: SelectableText(f.format(
-                                                    network.totalPooledRune /
-                                                        pow(10, 8).ceil()))),
-                                          ]),
-                                        ])),
-                                SizedBox(
-                                  height: 32,
-                                ),
-                                constraints.maxWidth < 900
-                                    ? Column(
-                                        children: [
-                                          BondsList(
-                                              bonds: network.activeBonds,
-                                              title: "Top Active Bonds",
-                                              nodeCount:
-                                                  network.activeNodeCount,
-                                              metrics:
-                                                  network.bondMetrics.active),
-                                          BondsList(
-                                              bonds: network.standbyBonds,
-                                              nodeCount:
-                                                  network.standbyNodeCount,
-                                              title: "Top Standby Bonds",
-                                              metrics:
-                                                  network.bondMetrics.standby),
-                                        ],
-                                      )
-                                    : Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          BondsList(
-                                              bonds: network.activeBonds,
-                                              nodeCount:
-                                                  network.activeNodeCount,
-                                              title: "Top Active Bonds",
-                                              metrics:
-                                                  network.bondMetrics.active),
-                                          SizedBox(
-                                            width: 32,
-                                          ),
-                                          BondsList(
-                                              bonds: network.standbyBonds,
-                                              nodeCount:
-                                                  network.standbyNodeCount,
-                                              title: "Top Standby Bonds",
-                                              metrics:
-                                                  network.bondMetrics.standby),
-                                        ],
-                                      )
-                              ],
-                            ))));
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text("Network",
+                            style: Theme.of(context).textTheme.headline6),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                        child: Table(
+                            border: TableBorder.all(
+                                width: 1,
+                                color: Theme.of(context).dividerColor),
+                            children: [
+                              TableRow(children: [
+                                PaddedTableCell(
+                                    child: SelectableText("Bonding APY")),
+                                PaddedTableCell(
+                                    child: SelectableText(
+                                        "${(network.bondingAPY * 100).toStringAsFixed(2)}%")),
+                              ]),
+                              TableRow(children: [
+                                PaddedTableCell(
+                                    child: SelectableText("Liquidity APY")),
+                                PaddedTableCell(
+                                    child: SelectableText(
+                                        "${(network.liquidityAPY * 100).toStringAsFixed(2)}%")),
+                              ]),
+                              TableRow(children: [
+                                PaddedTableCell(
+                                    child: SelectableText("Next Churn Height")),
+                                PaddedTableCell(
+                                    child: SelectableText(
+                                        network.nextChurnHeight.toString())),
+                              ]),
+                              TableRow(children: [
+                                PaddedTableCell(
+                                    child: SelectableText(
+                                        "Pool Activation Countdown")),
+                                PaddedTableCell(
+                                    child: SelectableText(network
+                                        .poolActivationCountdown
+                                        .toString())),
+                              ]),
+                              TableRow(children: [
+                                PaddedTableCell(
+                                    child: SelectableText("Pool Share Factor")),
+                                PaddedTableCell(
+                                    child: SelectableText(
+                                        "${(network.poolShareFactor * 100).toStringAsFixed(2)}%")),
+                              ]),
+                              TableRow(children: [
+                                PaddedTableCell(
+                                    child: SelectableText("Total Reserve")),
+                                PaddedTableCell(
+                                    child: SelectableText(f.format(
+                                        (network.totalReserve / pow(10, 8))
+                                            .ceil()))),
+                              ]),
+                              TableRow(children: [
+                                PaddedTableCell(
+                                    child: SelectableText("Total Pooled RUNE")),
+                                PaddedTableCell(
+                                    child: SelectableText(f.format(
+                                        network.totalPooledRune /
+                                            pow(10, 8).ceil()))),
+                              ]),
+                            ])),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    constraints.maxWidth < 900
+                        ? Column(
+                            children: [
+                              BondsList(
+                                  bonds: network.activeBonds,
+                                  title: "Top Active Bonds",
+                                  nodeCount: network.activeNodeCount,
+                                  metrics: network.bondMetrics.active),
+                              BondsList(
+                                  bonds: network.standbyBonds,
+                                  nodeCount: network.standbyNodeCount,
+                                  title: "Top Standby Bonds",
+                                  metrics: network.bondMetrics.standby),
+                            ],
+                          )
+                        : Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              BondsList(
+                                  bonds: network.activeBonds,
+                                  nodeCount: network.activeNodeCount,
+                                  title: "Top Active Bonds",
+                                  metrics: network.bondMetrics.active),
+                              SizedBox(
+                                width: 32,
+                              ),
+                              BondsList(
+                                  bonds: network.standbyBonds,
+                                  nodeCount: network.standbyNodeCount,
+                                  title: "Top Standby Bonds",
+                                  metrics: network.bondMetrics.standby),
+                            ],
+                          )
+                  ],
+                );
               });
             }));
   }

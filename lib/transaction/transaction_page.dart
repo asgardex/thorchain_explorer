@@ -8,7 +8,6 @@ import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_providers/tc_actions_provider.dart';
 import 'package:thorchain_explorer/_widgets/address_link.dart';
 import 'package:thorchain_explorer/_widgets/coin_amounts_list.dart';
-import 'package:thorchain_explorer/_widgets/fluid_container.dart';
 import 'package:thorchain_explorer/_widgets/meta_tag.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/_widgets/tx_link.dart';
@@ -43,8 +42,7 @@ class TransactionPage extends HookWidget {
               DateTime dateTime = DateTime.fromMicrosecondsSinceEpoch(
                   int.parse(action.date) ~/ 1000);
 
-              return FluidContainer(
-                  child: Column(
+              return Column(
                 // mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -165,7 +163,7 @@ class TransactionPage extends HookWidget {
                     ),
                   ),
                 ],
-              ));
+              );
             } else {
               return Center(
                 child: Text("No Transaction Found"),

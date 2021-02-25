@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_providers/tc_actions_provider.dart';
-import 'package:thorchain_explorer/_widgets/fluid_container.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/_widgets/tx_list.dart';
 
@@ -25,11 +24,10 @@ class AddressPage extends HookWidget {
             loading: () => Center(child: CircularProgressIndicator()),
             error: (err, stack) => Center(child: Text('Error: $err')),
             data: (actionsResponse) {
-              return FluidContainer(
-                  child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
+              return Column(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
                     SelectableText(
                       'Address',
                       style: TextStyle(fontSize: 24),
@@ -52,7 +50,7 @@ class AddressPage extends HookWidget {
                       ),
                       child: TxList(actionsResponse.actions),
                     ),
-                  ]));
+                  ]);
             },
           );
         }));

@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_providers/tc_actions_provider.dart';
-import 'package:thorchain_explorer/_widgets/fluid_container.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/_widgets/tx_list.dart';
 
@@ -27,10 +26,9 @@ class TransactionsListPage extends HookWidget {
               loading: () => Center(child: CircularProgressIndicator()),
               error: (err, stack) => Center(child: Text('Error: $err')),
               data: (actionsResponse) {
-                return FluidContainer(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
                       SelectableText("Transactions",
                           style: Theme.of(context).textTheme.headline6),
                       SizedBox(
@@ -126,7 +124,7 @@ class TransactionsListPage extends HookWidget {
                           ),
                         ],
                       )
-                    ]));
+                    ]);
               });
         }));
   }

@@ -53,122 +53,103 @@ class PoolPage extends HookWidget {
               final pool = Pool.fromJson(result.data['pool']);
 
               return LayoutBuilder(builder: (context, constraints) {
-                return AnimatedContainer(
-                  duration: Duration(milliseconds: 500),
-                  padding: constraints.maxWidth < 500
-                      ? EdgeInsets.zero
-                      : EdgeInsets.all(30.0),
-                  child: Center(
-                    child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 30.0, horizontal: 25.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                AssetIcon(
-                                  asset,
-                                  width: 24,
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(pool.asset,
-                                    style:
-                                        Theme.of(context).textTheme.headline6),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.3),
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              child: Table(
-                                border: TableBorder.all(
-                                    width: 1,
-                                    color: Theme.of(context).dividerColor),
-                                children: [
-                                  TableRow(children: [
-                                    PaddedTableCell(child: Text("Status")),
-                                    PaddedTableCell(child: Text(pool.status)),
-                                  ]),
-                                  TableRow(children: [
-                                    PaddedTableCell(
-                                        child: Text("Price (in RUNE)")),
-                                    PaddedTableCell(
-                                        child: Text(
-                                            "${f.format(pool.price)} RUNE")),
-                                  ]),
-                                  TableRow(children: [
-                                    PaddedTableCell(
-                                        child: Text("Price (in USD)")),
-                                    PaddedTableCell(
-                                        child: Text(
-                                            "\$${f.format(pool.price * cgProvider.runePrice)}")),
-                                  ]),
-                                  TableRow(children: [
-                                    PaddedTableCell(child: Text("Units")),
-                                    PaddedTableCell(
-                                      child: Text(
-                                          f.format(pool.units / pow(10, 8))),
-                                    )
-                                  ]),
-                                  TableRow(children: [
-                                    PaddedTableCell(
-                                        child: Text("Volume 24 Hour")),
-                                    PaddedTableCell(
-                                        child: Text(f.format(
-                                            pool.volume24h / pow(10, 8)))),
-                                  ]),
-                                  TableRow(children: [
-                                    PaddedTableCell(child: Text("Pool APY")),
-                                    PaddedTableCell(
-                                        child:
-                                            Text("${f.format(pool.poolAPY)}%")),
-                                  ]),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            LayoutBuilder(
-                              builder: (context, constraints) {
-                                return constraints.maxWidth < 900
-                                    ? Container(
-                                        child: Column(
-                                          children: [
-                                            PoolStakesTable(pool.stakes),
-                                            SizedBox(
-                                              height: 16,
-                                            ),
-                                            PoolDepthTable(pool.depth),
-                                          ],
-                                        ),
-                                      )
-                                    : Row(
-                                        children: [
-                                          Expanded(
-                                            child: PoolStakesTable(pool.stakes),
-                                          ),
-                                          SizedBox(
-                                            width: 16,
-                                          ),
-                                          Expanded(
-                                            child: PoolDepthTable(pool.depth),
-                                          )
-                                        ],
-                                      );
-                              },
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        AssetIcon(
+                          asset,
+                          width: 24,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(pool.asset,
+                            style: Theme.of(context).textTheme.headline6),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(4.0),
+                      ),
+                      child: Table(
+                        border: TableBorder.all(
+                            width: 1, color: Theme.of(context).dividerColor),
+                        children: [
+                          TableRow(children: [
+                            PaddedTableCell(child: Text("Status")),
+                            PaddedTableCell(child: Text(pool.status)),
+                          ]),
+                          TableRow(children: [
+                            PaddedTableCell(child: Text("Price (in RUNE)")),
+                            PaddedTableCell(
+                                child: Text("${f.format(pool.price)} RUNE")),
+                          ]),
+                          TableRow(children: [
+                            PaddedTableCell(child: Text("Price (in USD)")),
+                            PaddedTableCell(
+                                child: Text(
+                                    "\$${f.format(pool.price * cgProvider.runePrice)}")),
+                          ]),
+                          TableRow(children: [
+                            PaddedTableCell(child: Text("Units")),
+                            PaddedTableCell(
+                              child: Text(f.format(pool.units / pow(10, 8))),
                             )
-                          ],
-                        )),
-                  ),
+                          ]),
+                          TableRow(children: [
+                            PaddedTableCell(child: Text("Volume 24 Hour")),
+                            PaddedTableCell(
+                                child: Text(
+                                    f.format(pool.volume24h / pow(10, 8)))),
+                          ]),
+                          TableRow(children: [
+                            PaddedTableCell(child: Text("Pool APY")),
+                            PaddedTableCell(
+                                child: Text("${f.format(pool.poolAPY)}%")),
+                          ]),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        return constraints.maxWidth < 900
+                            ? Container(
+                                child: Column(
+                                  children: [
+                                    PoolStakesTable(pool.stakes),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    PoolDepthTable(pool.depth),
+                                  ],
+                                ),
+                              )
+                            : Row(
+                                children: [
+                                  Expanded(
+                                    child: PoolStakesTable(pool.stakes),
+                                  ),
+                                  SizedBox(
+                                    width: 16,
+                                  ),
+                                  Expanded(
+                                    child: PoolDepthTable(pool.depth),
+                                  )
+                                ],
+                              );
+                      },
+                    )
+                  ],
                 );
               });
             }));

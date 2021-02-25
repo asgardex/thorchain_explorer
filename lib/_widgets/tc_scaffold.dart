@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/app_bar.dart';
+import 'package:thorchain_explorer/_widgets/fluid_container.dart';
 import 'package:thorchain_explorer/_widgets/search_bar.dart';
 import 'package:thorchain_explorer/_widgets/sidebar.dart';
 
@@ -45,7 +46,12 @@ class TCScaffold extends HookWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [ExplorerSearchBar(), child],
+                              children: [
+                                ExplorerSearchBar(),
+                                FluidContainer(
+                                  child: child,
+                                )
+                              ],
                             ),
                           ),
                         ),
@@ -54,7 +60,13 @@ class TCScaffold extends HookWidget {
                   )
                 : SingleChildScrollView(
                     child: Column(
-                      children: [ExplorerAppBar(), ExplorerSearchBar(), child],
+                      children: [
+                        ExplorerAppBar(),
+                        ExplorerSearchBar(),
+                        FluidContainer(
+                          child: child,
+                        )
+                      ],
                     ),
                   ));
       }),

@@ -53,33 +53,18 @@ class PoolsPage extends HookWidget {
                   result.data['pools'].map((pool) => Pool.fromJson(pool)));
 
               return LayoutBuilder(builder: (context, constraints) {
-                return AnimatedContainer(
-                  duration: Duration(milliseconds: 500),
-                  padding: constraints.maxWidth < 500
-                      ? EdgeInsets.zero
-                      : EdgeInsets.all(30.0),
-                  child: Center(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 30.0, horizontal: 25.0),
-                      constraints: BoxConstraints(
-                        maxWidth: 1024,
-                      ),
-                      child: GridView(
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 400,
-                          crossAxisSpacing: 20.0,
-                          mainAxisSpacing: 20.0,
-                          childAspectRatio: 1,
-                        ),
-                        physics:
-                            NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-                        shrinkWrap: true, // You won't see infinite size error
-                        children: createPoolCards(
-                            context, pools, cgProvider.runePrice),
-                      ),
-                    ),
+                return GridView(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 400,
+                    crossAxisSpacing: 20.0,
+                    mainAxisSpacing: 20.0,
+                    childAspectRatio: 1,
                   ),
+                  physics:
+                      NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                  shrinkWrap: true, // You won't see infinite size error
+                  children:
+                      createPoolCards(context, pools, cgProvider.runePrice),
                 );
               });
             }));

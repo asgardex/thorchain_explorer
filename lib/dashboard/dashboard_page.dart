@@ -5,7 +5,6 @@ import 'package:thorchain_explorer/_classes/stats.dart';
 import 'package:thorchain_explorer/_classes/tc_network.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
-import 'package:thorchain_explorer/_widgets/fluid_container.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/dashboard/network_widget.dart';
 import 'package:thorchain_explorer/dashboard/stats_widget.dart';
@@ -40,50 +39,48 @@ class DashboardPage extends StatelessWidget {
               Stats stats = Stats.fromJson(result.data['stats']);
 
               return LayoutBuilder(builder: (context, constraints) {
-                return FluidContainer(
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 200,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            Container(
-                              child: VolumeChart(volumeHistory),
-                            )
-                          ],
-                        ),
+                return Column(
+                  children: [
+                    Container(
+                      height: 200,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          Container(
+                            child: VolumeChart(volumeHistory),
+                          )
+                        ],
                       ),
-                      SizedBox(
-                        height: 32,
-                      ),
-                      constraints.maxWidth < 900
-                          ? Container(
-                              child: Column(
-                                children: [
-                                  StatsWidget(stats),
-                                  SizedBox(
-                                    height: 32,
-                                  ),
-                                  NetworkWidget(network),
-                                ],
-                              ),
-                            )
-                          : Row(
+                    ),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    constraints.maxWidth < 900
+                        ? Container(
+                            child: Column(
                               children: [
-                                Expanded(
-                                  child: StatsWidget(stats),
-                                ),
+                                StatsWidget(stats),
                                 SizedBox(
-                                  width: 32,
+                                  height: 32,
                                 ),
-                                Expanded(
-                                  child: NetworkWidget(network),
-                                )
+                                NetworkWidget(network),
                               ],
-                            )
-                    ],
-                  ),
+                            ),
+                          )
+                        : Row(
+                            children: [
+                              Expanded(
+                                child: StatsWidget(stats),
+                              ),
+                              SizedBox(
+                                width: 32,
+                              ),
+                              Expanded(
+                                child: NetworkWidget(network),
+                              )
+                            ],
+                          )
+                  ],
                 );
               });
             }));

@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
-import 'package:thorchain_explorer/_widgets/fluid_container.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/pool/pool_page.dart';
 
@@ -24,8 +23,7 @@ class NodePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return TCScaffold(
       currentArea: PageOptions.Nodes,
-      child: FluidContainer(
-          child: Query(
+      child: Query(
         options: nodePageQueryOptions(address),
         builder: (QueryResult result,
             {VoidCallback refetch, FetchMore fetchMore}) {
@@ -162,7 +160,7 @@ class NodePage extends StatelessWidget {
                         ])),
               ]);
         },
-      )),
+      ),
     );
   }
 }
