@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:thorchain_explorer/_providers/_state.dart';
-import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/address/address_page.dart';
 import 'package:thorchain_explorer/dashboard/dashboard_page.dart';
 import 'package:thorchain_explorer/network/network_page.dart';
@@ -50,36 +48,14 @@ class ThorchainExplorer extends HookWidget {
               ),
           themeMode: ThemeMode.system,
           initialRoute: '/',
-          // routes: {
-          //   '/': (context) => DashboardPage(),
-          //   '/network': (context) => NetworkPage()
-          // },
           onGenerateRoute: (settings) {
             var uri = Uri.parse(settings.name);
 
             if (settings.name == '/') {
               // Home
-
-              // if (activePageState.state != PageOptions.Dashboard) {
-              //   activePageState.state = PageOptions.Dashboard;
-              // }
-
               return PageRouteBuilder(
                   pageBuilder: (context, animation1, animation2) =>
                       DashboardPage(),
-                  transitionDuration: Duration(seconds: 0),
-                  settings: settings);
-            }
-
-            // testing
-            else if (settings.name == '/test') {
-              // Network Page
-              return PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      TCScaffold(
-                        currentArea: PageOptions.Dashboard,
-                        child: Text("Hello world"),
-                      ),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
             } else if (settings.name == '/network') {

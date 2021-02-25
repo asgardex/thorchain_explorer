@@ -84,9 +84,6 @@ class TransactionPage extends HookWidget {
                                       context, action.inputs, 'In'),
                                 ),
                               ),
-                              // Container(
-                              //   child: createActionTxItems(context, action.inputs, 'In'),
-                              // )
                               Expanded(
                                 flex: 2,
                                 child: Column(
@@ -159,10 +156,6 @@ class TransactionPage extends HookWidget {
                               ],
                             ),
                           )
-
-                          // Text(tx.txID),
-                          // Text(tx.address),
-                          // Text(tx.memo)
                         ],
                       ),
                     ),
@@ -187,9 +180,6 @@ class TransactionPage extends HookWidget {
     return txs
         .map((tx) => Container(
               padding: EdgeInsets.all(16),
-              // decoration: BoxDecoration(
-              //   color: Theme.of(context).cardColor
-              // ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,19 +216,10 @@ class TransactionPage extends HookWidget {
                   AddressLink(tx.address ?? ''),
                   SelectableText(
                     tx.memo ?? '',
-                    // overflow: TextOverflow.ellipsis,
                   )
                 ],
               ),
             ))
         .toList();
-  }
-
-  String buildGraphQlQuery() {
-    if (this.query == '') {
-      return '';
-    } else {
-      return '';
-    }
   }
 }
