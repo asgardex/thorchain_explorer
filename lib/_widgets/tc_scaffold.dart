@@ -21,16 +21,19 @@ class TCScaffold extends HookWidget {
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomCenter,
-                    stops: [
-                  0.0,
-                  0.1,
-                  0.9
-                ],
-                    colors: [
-                  Colors.blueGrey[900],
-                  Colors.blueGrey[900],
-                  Colors.grey[900],
-                ])),
+                    stops: [0.0, 0.1, 0.9],
+                    colors: MediaQuery.of(context).platformBrightness ==
+                            Brightness.dark
+                        ? [
+                            Colors.blueGrey[900],
+                            Colors.blueGrey[900],
+                            Colors.grey[900],
+                          ]
+                        : [
+                            Colors.blueGrey[200],
+                            Colors.blueGrey[200],
+                            Colors.white,
+                          ])),
             child: (constraints.maxWidth > 900)
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,

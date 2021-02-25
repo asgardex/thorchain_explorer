@@ -15,7 +15,7 @@ class ExplorerAppBar extends PreferredSize {
       height: preferredSize.height,
       child: LayoutBuilder(builder: (context, constraints) {
         return AnimatedContainer(
-            color: Colors.black.withOpacity(0.3),
+            color: Theme.of(context).cardColor,
             height: preferredSize.height,
             duration: Duration(milliseconds: 500),
             child: Column(

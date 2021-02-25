@@ -42,12 +42,10 @@ class AddressPage extends HookWidget {
                     SizedBox(
                       height: 32,
                     ),
-                    Container(
-                      // padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(4.0),
-                      ),
+                    Material(
+                      elevation: 1,
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(4.0),
                       child: TxList(actionsResponse.actions),
                     ),
                   ]);

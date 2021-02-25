@@ -21,22 +21,24 @@ class ExplorerSearchBar extends HookWidget {
         child: Row(
           children: [
             Expanded(
-                child: Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              height: 48,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  color: Colors.black.withOpacity(0.3)),
-              child: TextField(
-                onSubmitted: (val) {
-                  navigate(context, controller.value.text);
-                },
-                decoration: InputDecoration.collapsed(
-                  hintText: "Enter Transaction ID or Address",
-                  border: InputBorder.none,
+                child: Material(
+              elevation: 1,
+              borderRadius: BorderRadius.circular(5.0),
+              color: Theme.of(context).cardColor,
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                height: 48,
+                child: TextField(
+                  onSubmitted: (val) {
+                    navigate(context, controller.value.text);
+                  },
+                  decoration: InputDecoration.collapsed(
+                    hintText: "Enter Transaction ID or Address",
+                    border: InputBorder.none,
+                  ),
+                  controller: controller,
                 ),
-                controller: controller,
               ),
             )),
             SizedBox(

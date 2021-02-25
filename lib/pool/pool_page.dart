@@ -72,49 +72,50 @@ class PoolPage extends HookWidget {
                     SizedBox(
                       height: 16,
                     ),
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(4.0),
-                      ),
-                      child: Table(
-                        border: TableBorder.all(
-                            width: 1, color: Theme.of(context).dividerColor),
-                        children: [
-                          TableRow(children: [
-                            PaddedTableCell(child: Text("Status")),
-                            PaddedTableCell(child: Text(pool.status)),
-                          ]),
-                          TableRow(children: [
-                            PaddedTableCell(child: Text("Price (in RUNE)")),
-                            PaddedTableCell(
-                                child: Text("${f.format(pool.price)} RUNE")),
-                          ]),
-                          TableRow(children: [
-                            PaddedTableCell(child: Text("Price (in USD)")),
-                            PaddedTableCell(
-                                child: Text(
-                                    "\$${f.format(pool.price * cgProvider.runePrice)}")),
-                          ]),
-                          TableRow(children: [
-                            PaddedTableCell(child: Text("Units")),
-                            PaddedTableCell(
-                              child: Text(f.format(pool.units / pow(10, 8))),
-                            )
-                          ]),
-                          TableRow(children: [
-                            PaddedTableCell(child: Text("Volume 24 Hour")),
-                            PaddedTableCell(
-                                child: Text(
-                                    f.format(pool.volume24h / pow(10, 8)))),
-                          ]),
-                          TableRow(children: [
-                            PaddedTableCell(child: Text("Pool APY")),
-                            PaddedTableCell(
-                                child: Text("${f.format(pool.poolAPY)}%")),
-                          ]),
-                        ],
+                    Material(
+                      elevation: 1,
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(4.0),
+                      child: Container(
+                        padding: EdgeInsets.all(16),
+                        child: Table(
+                          border: TableBorder.all(
+                              width: 1, color: Theme.of(context).dividerColor),
+                          children: [
+                            TableRow(children: [
+                              PaddedTableCell(child: Text("Status")),
+                              PaddedTableCell(child: Text(pool.status)),
+                            ]),
+                            TableRow(children: [
+                              PaddedTableCell(child: Text("Price (in RUNE)")),
+                              PaddedTableCell(
+                                  child: Text("${f.format(pool.price)} RUNE")),
+                            ]),
+                            TableRow(children: [
+                              PaddedTableCell(child: Text("Price (in USD)")),
+                              PaddedTableCell(
+                                  child: Text(
+                                      "\$${f.format(pool.price * cgProvider.runePrice)}")),
+                            ]),
+                            TableRow(children: [
+                              PaddedTableCell(child: Text("Units")),
+                              PaddedTableCell(
+                                child: Text(f.format(pool.units / pow(10, 8))),
+                              )
+                            ]),
+                            TableRow(children: [
+                              PaddedTableCell(child: Text("Volume 24 Hour")),
+                              PaddedTableCell(
+                                  child: Text(
+                                      f.format(pool.volume24h / pow(10, 8)))),
+                            ]),
+                            TableRow(children: [
+                              PaddedTableCell(child: Text("Pool APY")),
+                              PaddedTableCell(
+                                  child: Text("${f.format(pool.poolAPY)}%")),
+                            ]),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -168,33 +169,32 @@ class PoolStakesTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(5.0),
+    return Material(
+      elevation: 1,
+      color: Theme.of(context).cardColor,
+      borderRadius: BorderRadius.circular(5.0),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Container(
+          padding: EdgeInsets.all(16),
+          child: Text("Asset Pool Deposited"),
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                      width: 1, color: Theme.of(context).dividerColor))),
         ),
-        child:
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Container(
-            padding: EdgeInsets.all(16),
-            child: Text("Asset Pool Deposited"),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        width: 1, color: Theme.of(context).dividerColor))),
-          ),
-          StatListItem(
-              label: "Asset Staked",
-              value: f.format(poolStakes.assetStaked / pow(10, 8))),
-          StatListItem(
-              label: "RUNE Staked",
-              value: f.format(poolStakes.runeStaked / pow(10, 8))),
-          StatListItem(
-            label: "Pool Staked",
-            value: f.format(poolStakes.poolStaked / pow(10, 8)),
-            hideBorder: true,
-          )
-        ]));
+        StatListItem(
+            label: "Asset Staked",
+            value: f.format(poolStakes.assetStaked / pow(10, 8))),
+        StatListItem(
+            label: "RUNE Staked",
+            value: f.format(poolStakes.runeStaked / pow(10, 8))),
+        StatListItem(
+          label: "Pool Staked",
+          value: f.format(poolStakes.poolStaked / pow(10, 8)),
+          hideBorder: true,
+        )
+      ]),
+    );
   }
 }
 
@@ -210,11 +210,10 @@ class PoolDepthTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
+    return Material(
+        elevation: 1,
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(4.0),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Container(

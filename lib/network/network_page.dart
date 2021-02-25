@@ -50,71 +50,75 @@ class NetworkPage extends HookWidget {
                     SizedBox(
                       height: 16,
                     ),
-                    Container(
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(4.0),
-                        ),
-                        child: Table(
-                            border: TableBorder.all(
-                                width: 1,
-                                color: Theme.of(context).dividerColor),
-                            children: [
-                              TableRow(children: [
-                                PaddedTableCell(
-                                    child: SelectableText("Bonding APY")),
-                                PaddedTableCell(
-                                    child: SelectableText(
-                                        "${(network.bondingAPY * 100).toStringAsFixed(2)}%")),
-                              ]),
-                              TableRow(children: [
-                                PaddedTableCell(
-                                    child: SelectableText("Liquidity APY")),
-                                PaddedTableCell(
-                                    child: SelectableText(
-                                        "${(network.liquidityAPY * 100).toStringAsFixed(2)}%")),
-                              ]),
-                              TableRow(children: [
-                                PaddedTableCell(
-                                    child: SelectableText("Next Churn Height")),
-                                PaddedTableCell(
-                                    child: SelectableText(
-                                        network.nextChurnHeight.toString())),
-                              ]),
-                              TableRow(children: [
-                                PaddedTableCell(
-                                    child: SelectableText(
-                                        "Pool Activation Countdown")),
-                                PaddedTableCell(
-                                    child: SelectableText(network
-                                        .poolActivationCountdown
-                                        .toString())),
-                              ]),
-                              TableRow(children: [
-                                PaddedTableCell(
-                                    child: SelectableText("Pool Share Factor")),
-                                PaddedTableCell(
-                                    child: SelectableText(
-                                        "${(network.poolShareFactor * 100).toStringAsFixed(2)}%")),
-                              ]),
-                              TableRow(children: [
-                                PaddedTableCell(
-                                    child: SelectableText("Total Reserve")),
-                                PaddedTableCell(
-                                    child: SelectableText(f.format(
-                                        (network.totalReserve / pow(10, 8))
-                                            .ceil()))),
-                              ]),
-                              TableRow(children: [
-                                PaddedTableCell(
-                                    child: SelectableText("Total Pooled RUNE")),
-                                PaddedTableCell(
-                                    child: SelectableText(f.format(
-                                        network.totalPooledRune /
-                                            pow(10, 8).ceil()))),
-                              ]),
-                            ])),
+                    Material(
+                      elevation: 1,
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(4.0),
+                      child: Container(
+                          padding: EdgeInsets.all(16),
+                          child: Table(
+                              border: TableBorder.all(
+                                  width: 1,
+                                  color: Theme.of(context).dividerColor),
+                              children: [
+                                TableRow(children: [
+                                  PaddedTableCell(
+                                      child: SelectableText("Bonding APY")),
+                                  PaddedTableCell(
+                                      child: SelectableText(
+                                          "${(network.bondingAPY * 100).toStringAsFixed(2)}%")),
+                                ]),
+                                TableRow(children: [
+                                  PaddedTableCell(
+                                      child: SelectableText("Liquidity APY")),
+                                  PaddedTableCell(
+                                      child: SelectableText(
+                                          "${(network.liquidityAPY * 100).toStringAsFixed(2)}%")),
+                                ]),
+                                TableRow(children: [
+                                  PaddedTableCell(
+                                      child:
+                                          SelectableText("Next Churn Height")),
+                                  PaddedTableCell(
+                                      child: SelectableText(
+                                          network.nextChurnHeight.toString())),
+                                ]),
+                                TableRow(children: [
+                                  PaddedTableCell(
+                                      child: SelectableText(
+                                          "Pool Activation Countdown")),
+                                  PaddedTableCell(
+                                      child: SelectableText(network
+                                          .poolActivationCountdown
+                                          .toString())),
+                                ]),
+                                TableRow(children: [
+                                  PaddedTableCell(
+                                      child:
+                                          SelectableText("Pool Share Factor")),
+                                  PaddedTableCell(
+                                      child: SelectableText(
+                                          "${(network.poolShareFactor * 100).toStringAsFixed(2)}%")),
+                                ]),
+                                TableRow(children: [
+                                  PaddedTableCell(
+                                      child: SelectableText("Total Reserve")),
+                                  PaddedTableCell(
+                                      child: SelectableText(f.format(
+                                          (network.totalReserve / pow(10, 8))
+                                              .ceil()))),
+                                ]),
+                                TableRow(children: [
+                                  PaddedTableCell(
+                                      child:
+                                          SelectableText("Total Pooled RUNE")),
+                                  PaddedTableCell(
+                                      child: SelectableText(f.format(
+                                          network.totalPooledRune /
+                                              pow(10, 8).ceil()))),
+                                ]),
+                              ])),
+                    ),
                     SizedBox(
                       height: 32,
                     ),
@@ -177,12 +181,10 @@ class BondsList extends StatelessWidget {
     final topBonds = bonds.sublist(0, (bonds.length > 10) ? 10 : bonds.length);
 
     return Expanded(
-      child: Container(
-        // padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
+      child: Material(
+        elevation: 1,
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(5.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(
               padding: EdgeInsets.all(16),

@@ -64,102 +64,106 @@ class TransactionPage extends HookWidget {
                   SizedBox(
                     height: 32,
                   ),
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                children: createActionTxItems(
-                                    context, action.inputs, 'In'),
-                              ),
-                            ),
-                            // Container(
-                            //   child: createActionTxItems(context, action.inputs, 'In'),
-                            // )
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                children: createActionTxItems(
-                                    context, action.outputs, 'Out'),
-                              ),
-                            )
-                          ],
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(16),
-                          child: Row(
+                  Material(
+                    elevation: 1,
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(4.0),
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
-                                child: Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SelectableText(
-                                        "Block",
-                                        style: TextStyle(
-                                            color: Theme.of(context).hintColor,
-                                            fontSize: 12),
-                                      ),
-                                      SelectableText(action.height)
-                                    ],
-                                  ),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  children: createActionTxItems(
+                                      context, action.inputs, 'In'),
                                 ),
                               ),
-                              Container(
-                                child: Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SelectableText(
-                                        "Status",
-                                        style: TextStyle(
-                                            color: Theme.of(context).hintColor,
-                                            fontSize: 12),
-                                      ),
-                                      SelectableText(action.status)
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                child: Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SelectableText(
-                                        "Type",
-                                        style: TextStyle(
-                                            color: Theme.of(context).hintColor,
-                                            fontSize: 12),
-                                      ),
-                                      SelectableText(action.type)
-                                    ],
-                                  ),
+                              // Container(
+                              //   child: createActionTxItems(context, action.inputs, 'In'),
+                              // )
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  children: createActionTxItems(
+                                      context, action.outputs, 'Out'),
                                 ),
                               )
                             ],
                           ),
-                        )
+                          Container(
+                            padding: EdgeInsets.all(16),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  child: Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Block",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(action.height)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Status",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(action.status)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Type",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(action.type)
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
 
-                        // Text(tx.txID),
-                        // Text(tx.address),
-                        // Text(tx.memo)
-                      ],
+                          // Text(tx.txID),
+                          // Text(tx.address),
+                          // Text(tx.memo)
+                        ],
+                      ),
                     ),
                   ),
                 ],

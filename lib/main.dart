@@ -40,12 +40,13 @@ class ThorchainExplorer extends HookWidget {
         child: MaterialApp(
           title: 'THORChain Explorer',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
+              // primarySwatch: Colors.blue,
+              cardColor: Colors.white),
           darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            /* dark theme settings */
-          ),
+              brightness: Brightness.dark,
+              cardColor: Color.fromRGBO(25, 28, 30, 1)
+              /* dark theme settings */
+              ),
           themeMode: ThemeMode.system,
           initialRoute: '/',
           // routes: {

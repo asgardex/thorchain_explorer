@@ -102,11 +102,10 @@ Widget createNodesGroup(
             groupLabel,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           )),
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(4.0),
-        ),
+      Material(
+        elevation: 1,
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(4.0),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DataTable(

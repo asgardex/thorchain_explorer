@@ -27,78 +27,80 @@ class VolumeChart extends StatelessWidget {
 
     return AspectRatio(
         aspectRatio: 2,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                padding: EdgeInsets.all(16),
-                child: Text("Volume"),
-              ),
-              Expanded(
-                child: BarChart(
-                  BarChartData(
-                    alignment: BarChartAlignment.center,
-                    barTouchData: BarTouchData(
-                      enabled: false,
-                    ),
-                    titlesData: FlTitlesData(
-                      show: true,
-                      bottomTitles: SideTitles(
-                        showTitles: true,
-                        getTextStyles: (value) => const TextStyle(
-                            color: Color(0xff939393), fontSize: 10),
-                        margin: 10,
-                        getTitles: (double value) {
-                          int i = value.toInt();
+        child: Material(
+          elevation: 1,
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(5.0),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(16),
+                  child: Text("Volume"),
+                ),
+                Expanded(
+                  child: BarChart(
+                    BarChartData(
+                      alignment: BarChartAlignment.center,
+                      barTouchData: BarTouchData(
+                        enabled: false,
+                      ),
+                      titlesData: FlTitlesData(
+                        show: true,
+                        bottomTitles: SideTitles(
+                          showTitles: true,
+                          getTextStyles: (value) => const TextStyle(
+                              color: Color(0xff939393), fontSize: 10),
+                          margin: 10,
+                          getTitles: (double value) {
+                            int i = value.toInt();
 
-                          if (i % 2 == 0) {
-                            PoolVolumeHistoryBucket bucket =
-                                volumeHistory.intervals[i];
-                            DateTime date = DateTime.fromMillisecondsSinceEpoch(
-                                bucket.time * 1000);
-                            return dateFormatter.format(date);
-                          }
+                            if (i % 2 == 0) {
+                              PoolVolumeHistoryBucket bucket =
+                                  volumeHistory.intervals[i];
+                              DateTime date =
+                                  DateTime.fromMillisecondsSinceEpoch(
+                                      bucket.time * 1000);
+                              return dateFormatter.format(date);
+                            }
 
-                          return "";
-                        },
+                            return "";
+                          },
+                        ),
+                        leftTitles: SideTitles(
+                          showTitles: true,
+                          getTextStyles: (value) => const TextStyle(
+                              color: Color(
+                                0xff939393,
+                              ),
+                              fontSize: 10),
+                          margin: 4,
+                          interval: (((largestVolume / pow(10, 8)) ~/ divisor) *
+                                  divisor) /
+                              4,
+                        ),
                       ),
-                      leftTitles: SideTitles(
-                        showTitles: true,
-                        getTextStyles: (value) => const TextStyle(
-                            color: Color(
-                              0xff939393,
-                            ),
-                            fontSize: 10),
-                        margin: 4,
-                        interval: (((largestVolume / pow(10, 8)) ~/ divisor) *
-                                divisor) /
-                            4,
+                      gridData: FlGridData(
+                        show: true,
+                        checkToShowHorizontalLine: (value) => value % 10 == 0,
+                        getDrawingHorizontalLine: (value) => FlLine(
+                          color: Theme.of(context).dividerColor,
+                          strokeWidth: 1,
+                        ),
                       ),
-                    ),
-                    gridData: FlGridData(
-                      show: true,
-                      checkToShowHorizontalLine: (value) => value % 10 == 0,
-                      getDrawingHorizontalLine: (value) => FlLine(
-                        color: Theme.of(context).dividerColor,
-                        strokeWidth: 1,
+                      borderData: FlBorderData(
+                        show: false,
                       ),
+                      groupsSpace: 10, // this controls width between x points
+                      barGroups: getData(volumeHistory.intervals),
                     ),
-                    borderData: FlBorderData(
-                      show: false,
-                    ),
-                    groupsSpace: 10, // this controls width between x points
-                    barGroups: getData(volumeHistory.intervals),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ));
   }

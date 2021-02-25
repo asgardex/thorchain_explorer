@@ -34,11 +34,10 @@ class TransactionsListPage extends HookWidget {
                       SizedBox(
                         height: 16,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(4.0),
-                        ),
+                      Material(
+                        elevation: 1,
+                        color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.circular(4.0),
                         child: TxList(actionsResponse.actions),
                       ),
                       SizedBox(
