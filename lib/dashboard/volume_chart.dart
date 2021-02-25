@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/pool_volume_history.dart';
+import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 
 class VolumeChart extends StatelessWidget {
   final Color dark = const Color(0xff3b8c75);
@@ -29,9 +30,9 @@ class VolumeChart extends StatelessWidget {
         aspectRatio: 2,
         child: Material(
           elevation: 1,
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(5.0),
+          borderRadius: BorderRadius.circular(4.0),
           child: Container(
+            decoration: containerBoxDecoration(context),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -42,60 +43,64 @@ class VolumeChart extends StatelessWidget {
                   child: Text("Volume"),
                 ),
                 Expanded(
-                  child: BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.center,
-                      barTouchData: BarTouchData(
-                        enabled: false,
-                      ),
-                      titlesData: FlTitlesData(
-                        show: true,
-                        bottomTitles: SideTitles(
-                          showTitles: true,
-                          getTextStyles: (value) => const TextStyle(
-                              color: Color(0xff939393), fontSize: 10),
-                          margin: 10,
-                          getTitles: (double value) {
-                            int i = value.toInt();
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: BarChart(
+                      BarChartData(
+                        alignment: BarChartAlignment.center,
+                        barTouchData: BarTouchData(
+                          enabled: false,
+                        ),
+                        titlesData: FlTitlesData(
+                          show: true,
+                          bottomTitles: SideTitles(
+                            showTitles: true,
+                            getTextStyles: (value) => const TextStyle(
+                                color: Color(0xff939393), fontSize: 10),
+                            margin: 10,
+                            getTitles: (double value) {
+                              int i = value.toInt();
 
-                            if (i % 2 == 0) {
-                              PoolVolumeHistoryBucket bucket =
-                                  volumeHistory.intervals[i];
-                              DateTime date =
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                      bucket.time * 1000);
-                              return dateFormatter.format(date);
-                            }
+                              if (i % 2 == 0) {
+                                PoolVolumeHistoryBucket bucket =
+                                    volumeHistory.intervals[i];
+                                DateTime date =
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                        bucket.time * 1000);
+                                return dateFormatter.format(date);
+                              }
 
-                            return "";
-                          },
+                              return "";
+                            },
+                          ),
+                          leftTitles: SideTitles(
+                            showTitles: true,
+                            getTextStyles: (value) => const TextStyle(
+                                color: Color(
+                                  0xff939393,
+                                ),
+                                fontSize: 10),
+                            margin: 4,
+                            interval:
+                                (((largestVolume / pow(10, 8)) ~/ divisor) *
+                                        divisor) /
+                                    4,
+                          ),
                         ),
-                        leftTitles: SideTitles(
-                          showTitles: true,
-                          getTextStyles: (value) => const TextStyle(
-                              color: Color(
-                                0xff939393,
-                              ),
-                              fontSize: 10),
-                          margin: 4,
-                          interval: (((largestVolume / pow(10, 8)) ~/ divisor) *
-                                  divisor) /
-                              4,
+                        gridData: FlGridData(
+                          show: true,
+                          checkToShowHorizontalLine: (value) => value % 10 == 0,
+                          getDrawingHorizontalLine: (value) => FlLine(
+                            color: Theme.of(context).dividerColor,
+                            strokeWidth: 1,
+                          ),
                         ),
-                      ),
-                      gridData: FlGridData(
-                        show: true,
-                        checkToShowHorizontalLine: (value) => value % 10 == 0,
-                        getDrawingHorizontalLine: (value) => FlLine(
-                          color: Theme.of(context).dividerColor,
-                          strokeWidth: 1,
+                        borderData: FlBorderData(
+                          show: false,
                         ),
+                        groupsSpace: 10, // this controls width between x points
+                        barGroups: getData(volumeHistory.intervals),
                       ),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      groupsSpace: 10, // this controls width between x points
-                      barGroups: getData(volumeHistory.intervals),
                     ),
                   ),
                 ),

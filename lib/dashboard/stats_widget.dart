@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/stats.dart';
+import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'dart:math';
 
 import 'package:thorchain_explorer/_widgets/stat_list_item.dart';
@@ -17,10 +18,10 @@ class StatsWidget extends HookWidget {
 
     return Material(
       elevation: 1,
-      color: Theme.of(context).cardColor,
-      borderRadius: BorderRadius.circular(5.0),
+      borderRadius: BorderRadius.circular(4.0),
       child: Container(
           height: 540,
+          decoration: containerBoxDecoration(context),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

@@ -8,6 +8,7 @@ import 'package:thorchain_explorer/_classes/pool.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_providers/coingecko_provider.dart';
 import 'package:thorchain_explorer/_widgets/asset_icon.dart';
+import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 
 final coinGeckoProvider =
@@ -91,9 +92,9 @@ class PoolsPage extends HookWidget {
             onTap: () => Navigator.pushNamed(context, '/pools/${pool.asset}'),
             child: Material(
               elevation: 1,
-              color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(4.0),
               child: Container(
+                decoration: containerBoxDecoration(context),
                 padding: EdgeInsets.all(16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

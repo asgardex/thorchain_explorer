@@ -44,7 +44,8 @@ class ThorchainExplorer extends HookWidget {
               cardColor: Colors.white),
           darkTheme: ThemeData(
               brightness: Brightness.dark,
-              cardColor: Color.fromRGBO(25, 28, 30, 1)
+              cardColor: Color.fromRGBO(25, 28, 30, 1),
+              dividerColor: Colors.blueGrey[900]
               /* dark theme settings */
               ),
           themeMode: ThemeMode.system,

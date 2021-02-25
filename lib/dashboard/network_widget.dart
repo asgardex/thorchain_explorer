@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/tc_network.dart';
+import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/stat_list_item.dart';
 
 class NetworkWidget extends StatelessWidget {
@@ -17,9 +18,9 @@ class NetworkWidget extends StatelessWidget {
 
     return Material(
       elevation: 1,
-      borderRadius: BorderRadius.circular(5.0),
-      color: Theme.of(context).cardColor,
+      borderRadius: BorderRadius.circular(4.0),
       child: Container(
+        decoration: containerBoxDecoration(context),
         height: 540,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

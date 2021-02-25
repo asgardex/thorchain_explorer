@@ -10,6 +10,7 @@ import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_providers/coingecko_provider.dart';
 import 'package:thorchain_explorer/_widgets/asset_icon.dart';
+import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/stat_list_item.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 
@@ -74,9 +75,9 @@ class PoolPage extends HookWidget {
                     ),
                     Material(
                       elevation: 1,
-                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(4.0),
                       child: Container(
+                        decoration: containerBoxDecoration(context),
                         padding: EdgeInsets.all(16),
                         child: Table(
                           border: TableBorder.all(
@@ -171,29 +172,32 @@ class PoolStakesTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 1,
-      color: Theme.of(context).cardColor,
       borderRadius: BorderRadius.circular(5.0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Container(
-          padding: EdgeInsets.all(16),
-          child: Text("Asset Pool Deposited"),
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      width: 1, color: Theme.of(context).dividerColor))),
-        ),
-        StatListItem(
-            label: "Asset Staked",
-            value: f.format(poolStakes.assetStaked / pow(10, 8))),
-        StatListItem(
-            label: "RUNE Staked",
-            value: f.format(poolStakes.runeStaked / pow(10, 8))),
-        StatListItem(
-          label: "Pool Staked",
-          value: f.format(poolStakes.poolStaked / pow(10, 8)),
-          hideBorder: true,
-        )
-      ]),
+      child: Container(
+        decoration: containerBoxDecoration(context),
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Container(
+            padding: EdgeInsets.all(16),
+            child: Text("Asset Pool Deposited"),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        width: 1, color: Theme.of(context).dividerColor))),
+          ),
+          StatListItem(
+              label: "Asset Staked",
+              value: f.format(poolStakes.assetStaked / pow(10, 8))),
+          StatListItem(
+              label: "RUNE Staked",
+              value: f.format(poolStakes.runeStaked / pow(10, 8))),
+          StatListItem(
+            label: "Pool Staked",
+            value: f.format(poolStakes.poolStaked / pow(10, 8)),
+            hideBorder: true,
+          )
+        ]),
+      ),
     );
   }
 }
@@ -212,30 +216,32 @@ class PoolDepthTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
         elevation: 1,
-        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(4.0),
-        child:
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Container(
-            padding: EdgeInsets.all(16),
-            child: Text("Asset Pool Depth"),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        width: 1, color: Theme.of(context).dividerColor))),
-          ),
-          StatListItem(
-              label: "Asset Depth",
-              value: f.format(poolDepth.assetDepth / pow(10, 8))),
-          StatListItem(
-              label: "RUNE Depth",
-              value: f.format(poolDepth.runeDepth / pow(10, 8))),
-          StatListItem(
-            label: "Pool Depth",
-            value: f.format(poolDepth.poolDepth / pow(10, 8)),
-            hideBorder: true,
-          )
-        ]));
+        child: Container(
+          decoration: containerBoxDecoration(context),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              child: Text("Asset Pool Depth"),
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(
+                          width: 1, color: Theme.of(context).dividerColor))),
+            ),
+            StatListItem(
+                label: "Asset Depth",
+                value: f.format(poolDepth.assetDepth / pow(10, 8))),
+            StatListItem(
+                label: "RUNE Depth",
+                value: f.format(poolDepth.runeDepth / pow(10, 8))),
+            StatListItem(
+              label: "Pool Depth",
+              value: f.format(poolDepth.poolDepth / pow(10, 8)),
+              hideBorder: true,
+            )
+          ]),
+        ));
   }
 }
 

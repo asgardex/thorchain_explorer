@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_providers/tc_actions_provider.dart';
+import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/_widgets/tx_list.dart';
 
@@ -36,9 +37,11 @@ class TransactionsListPage extends HookWidget {
                       ),
                       Material(
                         elevation: 1,
-                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(4.0),
-                        child: TxList(actionsResponse.actions),
+                        child: Container(
+                          child: TxList(actionsResponse.actions),
+                          decoration: containerBoxDecoration(context),
+                        ),
                       ),
                       SizedBox(
                         height: 16,

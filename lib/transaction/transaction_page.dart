@@ -8,6 +8,7 @@ import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_providers/tc_actions_provider.dart';
 import 'package:thorchain_explorer/_widgets/address_link.dart';
 import 'package:thorchain_explorer/_widgets/coin_amounts_list.dart';
+import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/meta_tag.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/_widgets/tx_link.dart';
@@ -66,9 +67,9 @@ class TransactionPage extends HookWidget {
                   ),
                   Material(
                     elevation: 1,
-                    color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(4.0),
                     child: Container(
+                      decoration: containerBoxDecoration(context),
                       padding: EdgeInsets.all(16),
                       child: Column(
                         children: [

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
+import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/pool/pool_page.dart';
 
@@ -49,9 +50,9 @@ class NodePage extends StatelessWidget {
                 ),
                 Material(
                   elevation: 1,
-                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(4.0),
                   child: Container(
+                      decoration: containerBoxDecoration(context),
                       padding: EdgeInsets.all(16),
                       child: Table(
                           border: TableBorder.all(
