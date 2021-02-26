@@ -28,6 +28,51 @@
 
   <title>thorchain_explorer</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background:
+        linear-gradient(to left top, #212121 0%/*bottom-right color*/, #263238 100% /*top-left color*/),
+        linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1))/*"faked" black background make sure to add last or it will appear before the transparent/colored layer*/;
+    }
+
+    .loading img {
+      width: 32px;
+      -webkit-animation: pulse 1s linear infinite;
+	    animation: pulse 1s linear infinite;
+    }
+
+    @-webkit-keyframes pulse {
+      0% {
+      -webkit-transform: scale(1, 1);
+      }
+      50% {
+      -webkit-transform: scale(1.5, 1.5);
+      }
+      100% {
+      -webkit-transform: scale(1, 1);
+      };
+    }
+
+    @keyframes pulse {
+    0% {
+      transform: scale(1, 1);
+      }
+      50% {
+      transform: scale(1.25, 1.25);
+      }
+      100% {
+      transform: scale(1, 1);
+      };
+    }
+  </style>
 </head>
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
@@ -40,6 +85,11 @@
       });
     }
   </script>
+
+  <div class="loading">
+    <img src="https://raw.githubusercontent.com/Pusher-Labs/thorchain_explorer_build/main/assets/assets/images/thorchain.png?token=ACVKHTSMOXAG5VXHNM6RSM3ADCR3A" />
+  </div>
+
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
