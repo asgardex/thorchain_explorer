@@ -65,10 +65,19 @@ class TCScaffold extends HookWidget {
                     child: Column(
                       children: [
                         ExplorerAppBar(),
+                        SizedBox(
+                          height: 16,
+                        ),
                         ExplorerSearchBar(),
+                        SizedBox(
+                          height: 16,
+                        ),
                         FluidContainer(
                           child: child,
-                        )
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
                       ],
                     ),
                   ));
