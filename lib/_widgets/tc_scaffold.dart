@@ -97,8 +97,6 @@ class TCScaffold extends HookWidget {
                             alignment: Alignment.topCenter,
                             child: SingleChildScrollView(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ExplorerSearchBar(),
                                   FluidContainer(
@@ -111,24 +109,30 @@ class TCScaffold extends HookWidget {
                         ),
                       ],
                     )
-                  : SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 16,
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                ExplorerSearchBar(),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                FluidContainer(
+                                  child: child,
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                              ],
+                            ),
                           ),
-                          ExplorerSearchBar(),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          FluidContainer(
-                            child: child,
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     )));
     });
   }
