@@ -17,22 +17,42 @@ class NetworkWidget extends StatelessWidget {
     );
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          padding: EdgeInsets.all(16),
-          child: Text(
-            "Network",
-            style: TextStyle(color: Theme.of(context).hintColor),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              child: Text(
+                "Network",
+                style: TextStyle(color: Theme.of(context).hintColor),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: FlatButton(
+                child: Row(
+                  children: [
+                    Text(
+                      'View More',
+                      style: TextStyle(color: Theme.of(context).accentColor),
+                    ),
+                    Icon(
+                      Icons.navigate_next,
+                      color: Theme.of(context).accentColor,
+                    )
+                  ],
+                ),
+                onPressed: () => Navigator.pushNamed(context, '/network'),
+              ),
+            )
+          ],
         ),
         Material(
           elevation: 1,
           child: Container(
             decoration: containerBoxDecoration(context),
-            height: 480,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 StatListItem(
                     label: "Bonding APY",
@@ -60,19 +80,6 @@ class NetworkWidget extends StatelessWidget {
                 StatListItem(
                     label: "Total Pooled Rune",
                     value: f.format(network.totalPooledRune / pow(10, 8))),
-
-                // // hide until implemented
-                Container(
-                  child: Expanded(
-                    child: FlatButton(
-                      child: Text(
-                        'View Network Details',
-                        style: TextStyle(color: Theme.of(context).accentColor),
-                      ),
-                      onPressed: () => Navigator.pushNamed(context, '/network'),
-                    ),
-                  ),
-                )
               ],
             ),
           ),

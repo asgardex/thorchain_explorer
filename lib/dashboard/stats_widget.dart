@@ -28,9 +28,7 @@ class StatsWidget extends HookWidget {
         ),
         Material(
           elevation: 1,
-          borderRadius: BorderRadius.circular(4.0),
           child: Container(
-              height: 480,
               decoration: containerBoxDecoration(context),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -42,8 +40,8 @@ class StatsWidget extends HookWidget {
                       label: "Daily Txs", value: f.format(stats.dailyTx)),
                   StatListItem(
                       label: "Monthly Txs", value: f.format(stats.monthlyTx)),
-                  StatListItem(
-                      label: "Total Txs", value: f.format(stats.totalTx)),
+                  // StatListItem(
+                  //     label: "Total Txs", value: f.format(stats.totalTx)),
                   StatListItem(
                       label: "Total Asset Buys",
                       value: f.format(stats.totalAssetBuys)),

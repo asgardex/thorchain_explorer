@@ -71,6 +71,7 @@ class DashboardPage extends StatelessWidget {
                             ),
                           )
                         : Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
                                 child: StatsWidget(stats),
