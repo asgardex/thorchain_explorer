@@ -49,26 +49,27 @@ class PoolPage extends HookWidget {
                 );
               }
 
-              // List<Pool> pools = Pool.from(
-              //     result.data['pools'].map((pool) => Pool.fromJson(pool)));
               final pool = Pool.fromJson(result.data['pool']);
 
               return LayoutBuilder(builder: (context, constraints) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        AssetIcon(
-                          asset,
-                          width: 24,
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text(pool.asset,
-                            style: Theme.of(context).textTheme.headline6),
-                      ],
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: [
+                          AssetIcon(
+                            asset,
+                            width: 24,
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Text(pool.asset,
+                              style: Theme.of(context).textTheme.headline6),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 16,
@@ -170,34 +171,36 @@ class PoolStakesTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 1,
-      borderRadius: BorderRadius.circular(5.0),
-      child: Container(
-        decoration: containerBoxDecoration(context),
-        child:
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Container(
-            padding: EdgeInsets.all(16),
-            child: Text("Asset Pool Deposited"),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        width: 1, color: Theme.of(context).dividerColor))),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.all(16),
+          child: Text("Asset Pool Deposited",
+              style: TextStyle(color: Theme.of(context).hintColor)),
+        ),
+        Material(
+          elevation: 1,
+          child: Container(
+            decoration: containerBoxDecoration(context),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  StatListItem(
+                      label: "Asset Staked",
+                      value: f.format(poolStakes.assetStaked / pow(10, 8))),
+                  StatListItem(
+                      label: "RUNE Staked",
+                      value: f.format(poolStakes.runeStaked / pow(10, 8))),
+                  StatListItem(
+                    label: "Pool Staked",
+                    value: f.format(poolStakes.poolStaked / pow(10, 8)),
+                    hideBorder: true,
+                  )
+                ]),
           ),
-          StatListItem(
-              label: "Asset Staked",
-              value: f.format(poolStakes.assetStaked / pow(10, 8))),
-          StatListItem(
-              label: "RUNE Staked",
-              value: f.format(poolStakes.runeStaked / pow(10, 8))),
-          StatListItem(
-            label: "Pool Staked",
-            value: f.format(poolStakes.poolStaked / pow(10, 8)),
-            hideBorder: true,
-          )
-        ]),
-      ),
+        ),
+      ],
     );
   }
 }
@@ -214,34 +217,36 @@ class PoolDepthTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        elevation: 1,
-        borderRadius: BorderRadius.circular(4.0),
-        child: Container(
-          decoration: containerBoxDecoration(context),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Container(
-              padding: EdgeInsets.all(16),
-              child: Text("Asset Pool Depth"),
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                          width: 1, color: Theme.of(context).dividerColor))),
-            ),
-            StatListItem(
-                label: "Asset Depth",
-                value: f.format(poolDepth.assetDepth / pow(10, 8))),
-            StatListItem(
-                label: "RUNE Depth",
-                value: f.format(poolDepth.runeDepth / pow(10, 8))),
-            StatListItem(
-              label: "Pool Depth",
-              value: f.format(poolDepth.poolDepth / pow(10, 8)),
-              hideBorder: true,
-            )
-          ]),
-        ));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.all(16),
+          child: Text("Asset Pool Depth",
+              style: TextStyle(color: Theme.of(context).hintColor)),
+        ),
+        Material(
+            elevation: 1,
+            child: Container(
+              decoration: containerBoxDecoration(context),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    StatListItem(
+                        label: "Asset Depth",
+                        value: f.format(poolDepth.assetDepth / pow(10, 8))),
+                    StatListItem(
+                        label: "RUNE Depth",
+                        value: f.format(poolDepth.runeDepth / pow(10, 8))),
+                    StatListItem(
+                      label: "Pool Depth",
+                      value: f.format(poolDepth.poolDepth / pow(10, 8)),
+                      hideBorder: true,
+                    )
+                  ]),
+            )),
+      ],
+    );
   }
 }
 

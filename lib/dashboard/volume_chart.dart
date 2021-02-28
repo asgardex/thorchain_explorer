@@ -32,7 +32,10 @@ class VolumeChart extends StatelessWidget {
           elevation: 1,
           borderRadius: BorderRadius.circular(4.0),
           child: Container(
-            decoration: containerBoxDecoration(context),
+            decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                border: Border.all(color: Colors.blueGrey[800], width: 1),
+                borderRadius: BorderRadius.circular(4)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,

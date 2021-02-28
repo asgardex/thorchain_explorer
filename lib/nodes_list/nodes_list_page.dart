@@ -98,11 +98,12 @@ Widget createNodesGroup(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
       Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Text(
-            groupLabel,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          )),
+        padding: EdgeInsets.all(16),
+        child: Text(
+          groupLabel,
+          style: TextStyle(color: Theme.of(context).hintColor),
+        ),
+      ),
       Material(
         elevation: 1,
         borderRadius: BorderRadius.circular(4.0),

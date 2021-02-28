@@ -44,8 +44,11 @@ class NetworkPage extends HookWidget {
                   children: [
                     Row(
                       children: [
-                        Text("Network",
-                            style: Theme.of(context).textTheme.headline6),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Text("Network",
+                              style: Theme.of(context).textTheme.headline6),
+                        ),
                       ],
                     ),
                     SizedBox(
@@ -190,153 +193,163 @@ class BondsList extends StatelessWidget {
     bonds.sort((a, b) => b.compareTo(a));
     final topBonds = bonds.sublist(0, (bonds.length > 10) ? 10 : bonds.length);
 
-    return Material(
-      elevation: 1,
-      borderRadius: BorderRadius.circular(4),
-      child: Container(
-        decoration: containerBoxDecoration(context),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-              padding: EdgeInsets.all(16),
-              // decoration: BoxDecoration(
-              //     border: Border(
-              //         bottom: BorderSide(
-              //             width: 1, color: Theme.of(context).dividerColor))),
-              child: Row(
-                children: [
-                  Text(title),
-                ],
-              )),
-          Container(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+    return Column(
+      children: [
+        Container(
+            padding: EdgeInsets.all(16),
             child: Row(
               children: [
-                Container(
-                  width: 100,
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SelectableText(
-                        "Total Bond",
-                        style: TextStyle(
-                            color: Theme.of(context).hintColor, fontSize: 12),
-                      ),
-                      SelectableText(
-                          f.format((metrics.totalBond / pow(10, 8).ceil())))
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SelectableText(
-                        "Average Bond",
-                        style: TextStyle(
-                            color: Theme.of(context).hintColor, fontSize: 12),
-                      ),
-                      SelectableText(
-                          f.format((metrics.averageBond / pow(10, 8).ceil())))
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SelectableText(
-                        "Total Node Count",
-                        style: TextStyle(
-                            color: Theme.of(context).hintColor, fontSize: 12),
-                      ),
-                      SelectableText(nodeCount.toString())
-                    ],
-                  ),
+                Text(
+                  title,
+                  style: TextStyle(color: Theme.of(context).hintColor),
                 ),
               ],
-            ),
-          ),
-          Container(
-            // padding: EdgeInsets.all(8),
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                        width: 1, color: Theme.of(context).dividerColor))),
-            child: Row(
-              children: [
-                Container(
-                  width: 100,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SelectableText(
-                        "Maximum Bond",
-                        style: TextStyle(
-                            color: Theme.of(context).hintColor, fontSize: 12),
+            )),
+        Material(
+          elevation: 1,
+          borderRadius: BorderRadius.circular(4),
+          child: Container(
+            decoration: containerBoxDecoration(context),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                padding: EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                            "Total Bond",
+                            style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                                fontSize: 12),
+                          ),
+                          SelectableText(
+                              f.format((metrics.totalBond / pow(10, 8).ceil())))
+                        ],
                       ),
-                      SelectableText(
-                          f.format((metrics.maximumBond / pow(10, 8).ceil())))
-                    ],
-                  ),
+                    ),
+                    Container(
+                      width: 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                            "Average Bond",
+                            style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                                fontSize: 12),
+                          ),
+                          SelectableText(f.format(
+                              (metrics.averageBond / pow(10, 8).ceil())))
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 100,
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                            "Total Node Count",
+                            style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                                fontSize: 12),
+                          ),
+                          SelectableText(nodeCount.toString())
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  width: 100,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SelectableText(
-                        "Median Bond",
-                        style: TextStyle(
-                            color: Theme.of(context).hintColor, fontSize: 12),
-                      ),
-                      SelectableText(
-                          f.format((metrics.medianBond / pow(10, 8).ceil())))
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SelectableText(
-                        "Minimum Bond",
-                        style: TextStyle(
-                            color: Theme.of(context).hintColor, fontSize: 12),
-                      ),
-                      SelectableText(
-                          f.format((metrics.minimumBond / pow(10, 8).ceil())))
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          ...topBonds.map((bond) {
-            return Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                  border: (bonds.length > 10
-                          ? bond != bonds[9]
-                          : bond != bonds[bonds.length - 1])
-                      ? Border(
-                          bottom: BorderSide(
-                              width: 1, color: Theme.of(context).dividerColor))
-                      : null),
-              child: Row(
-                children: [
-                  SelectableText(f.format((bond / pow(10, 8)).ceil())),
-                ],
               ),
-            );
-          }).toList(),
-        ]),
-      ),
+              Container(
+                // padding: EdgeInsets.all(8),
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            width: 1, color: Theme.of(context).dividerColor))),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                            "Maximum Bond",
+                            style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                                fontSize: 12),
+                          ),
+                          SelectableText(f.format(
+                              (metrics.maximumBond / pow(10, 8).ceil())))
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                            "Median Bond",
+                            style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                                fontSize: 12),
+                          ),
+                          SelectableText(f
+                              .format((metrics.medianBond / pow(10, 8).ceil())))
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                            "Minimum Bond",
+                            style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                                fontSize: 12),
+                          ),
+                          SelectableText(f.format(
+                              (metrics.minimumBond / pow(10, 8).ceil())))
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              ...topBonds.map((bond) {
+                return Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                      border: (bonds.length > 10
+                              ? bond != bonds[9]
+                              : bond != bonds[bonds.length - 1])
+                          ? Border(
+                              bottom: BorderSide(
+                                  width: 1,
+                                  color: Theme.of(context).dividerColor))
+                          : null),
+                  child: Row(
+                    children: [
+                      SelectableText(f.format((bond / pow(10, 8)).ceil())),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ]),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -29,19 +29,27 @@ class AddressPage extends HookWidget {
                   // mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SelectableText(
-                      'Address',
-                      style: TextStyle(fontSize: 24),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                            'Address',
+                            style: TextStyle(fontSize: 24),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          SelectableText(
+                            address,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
-                      height: 8,
-                    ),
-                    SelectableText(
-                      address,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(
-                      height: 32,
+                      height: 16,
                     ),
                     Material(
                       elevation: 1,

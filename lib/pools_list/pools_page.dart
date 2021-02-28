@@ -54,18 +54,23 @@ class PoolsPage extends HookWidget {
                   result.data['pools'].map((pool) => Pool.fromJson(pool)));
 
               return LayoutBuilder(builder: (context, constraints) {
-                return GridView(
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 400,
-                    crossAxisSpacing: 20.0,
-                    mainAxisSpacing: 20.0,
-                    childAspectRatio: 1,
+                return Container(
+                  padding: MediaQuery.of(context).size.width < 900
+                      ? EdgeInsets.all(16)
+                      : EdgeInsets.zero,
+                  child: GridView(
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 400,
+                      crossAxisSpacing: 20.0,
+                      mainAxisSpacing: 20.0,
+                      childAspectRatio: 1,
+                    ),
+                    physics:
+                        NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                    shrinkWrap: true, // You won't see infinite size error
+                    children:
+                        createPoolCards(context, pools, cgProvider.runePrice),
                   ),
-                  physics:
-                      NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-                  shrinkWrap: true, // You won't see infinite size error
-                  children:
-                      createPoolCards(context, pools, cgProvider.runePrice),
                 );
               });
             }));
@@ -94,7 +99,10 @@ class PoolsPage extends HookWidget {
               elevation: 1,
               borderRadius: BorderRadius.circular(4.0),
               child: Container(
-                decoration: containerBoxDecoration(context),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    border: Border.all(color: Colors.blueGrey[800], width: 1),
+                    borderRadius: BorderRadius.circular(4)),
                 padding: EdgeInsets.all(16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

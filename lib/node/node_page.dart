@@ -43,8 +43,11 @@ class NodePage extends StatelessWidget {
           return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SelectableText(node.address,
-                    style: Theme.of(context).textTheme.headline6),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: SelectableText(node.address,
+                      style: Theme.of(context).textTheme.headline6),
+                ),
                 SizedBox(
                   height: 16,
                 ),

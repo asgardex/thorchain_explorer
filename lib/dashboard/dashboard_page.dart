@@ -44,6 +44,9 @@ class DashboardPage extends StatelessWidget {
                     Container(
                       height: 200,
                       child: ListView(
+                        padding: MediaQuery.of(context).size.width < 900
+                            ? EdgeInsets.symmetric(horizontal: 16)
+                            : EdgeInsets.zero,
                         scrollDirection: Axis.horizontal,
                         children: [
                           Container(

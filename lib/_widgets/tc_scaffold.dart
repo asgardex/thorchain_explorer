@@ -115,13 +115,7 @@ class TCScaffold extends HookWidget {
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                SizedBox(
-                                  height: 16,
-                                ),
                                 ExplorerSearchBar(),
-                                SizedBox(
-                                  height: 16,
-                                ),
                                 FluidContainer(
                                   child: child,
                                 ),

@@ -30,8 +30,11 @@ class TransactionsListPage extends HookWidget {
                 return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SelectableText("Transactions",
-                          style: Theme.of(context).textTheme.headline6),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: SelectableText("Transactions",
+                            style: Theme.of(context).textTheme.headline6),
+                      ),
                       SizedBox(
                         height: 16,
                       ),

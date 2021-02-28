@@ -18,12 +18,15 @@ class ExplorerSearchBar extends HookWidget {
 
     return FluidContainer(
       child: Container(
+        padding: MediaQuery.of(context).size.width < 900
+            ? EdgeInsets.fromLTRB(16, 16, 16, 48)
+            : EdgeInsets.zero,
         child: Row(
           children: [
             Expanded(
                 child: Material(
               elevation: 1,
-              borderRadius: BorderRadius.circular(5.0),
+              borderRadius: BorderRadius.circular(5),
               color: Theme.of(context).cardColor,
               child: Container(
                 alignment: Alignment.center,
@@ -41,9 +44,6 @@ class ExplorerSearchBar extends HookWidget {
                 ),
               ),
             )),
-            SizedBox(
-              width: 6,
-            ),
           ],
         ),
       ),

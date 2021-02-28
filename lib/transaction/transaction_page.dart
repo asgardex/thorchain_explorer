@@ -44,26 +44,33 @@ class TransactionPage extends HookWidget {
                   int.parse(action.date) ~/ 1000);
 
               return Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SelectableText(
-                    'Transaction',
-                    style: TextStyle(fontSize: 24),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SelectableText(
+                          'Transaction',
+                          style: TextStyle(fontSize: 24),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        SelectableText(
+                          query,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        SelectableText(dateFormatter.format(dateTime)),
+                      ],
+                    ),
                   ),
                   SizedBox(
-                    height: 8,
-                  ),
-                  SelectableText(
-                    query,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  SelectableText(dateFormatter.format(dateTime)),
-                  SizedBox(
-                    height: 32,
+                    height: 16,
                   ),
                   Material(
                     elevation: 1,
