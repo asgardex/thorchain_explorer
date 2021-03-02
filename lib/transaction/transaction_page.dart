@@ -170,8 +170,102 @@ class TransactionPage extends HookWidget {
                 ],
               );
             } else {
-              return Center(
-                child: Text("No Transaction Found"),
+              return Material(
+                elevation: 1,
+                child: Container(
+                  decoration: containerBoxDecoration(context),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 72),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.search_off,
+                              size: 48,
+                            ),
+                            SizedBox(
+                              height: 24,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Sorry, we're unable to find this transaction",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Divider(),
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        child: Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4.0),
+                            color: MediaQuery.of(context).platformBrightness ==
+                                    Brightness.dark
+                                ? Colors.blueGrey[900]
+                                : Colors.blueGrey[100],
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.info),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Flexible(
+                                child: SelectableText(
+                                    'THORChain.net only provides an overview of the current state of the blockchain such as your transaction status, but we have no control over these transactions.'),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: SelectableText(
+                                      '1) If you have just submitted a transaction please wait for at least 30 seconds before refreshing this page.'),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: SelectableText(
+                                      '2) It could still be processing on a different network, waiting to be picked up by the THORChain network.'),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: SelectableText(
+                                      '3) When the network is busy it can take a while for your transaction to propagate through the network and for Midgard to index it.'),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               );
             }
           },
