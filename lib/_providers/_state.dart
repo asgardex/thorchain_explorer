@@ -1,32 +1,25 @@
 import 'package:hooks_riverpod/all.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
-import 'package:thorchain_explorer/_providers/tc_actions_provider.dart';
 import 'package:thorchain_explorer/_services/midgard_service.dart';
 import 'package:thorchain_explorer/_classes/tc_action.dart';
 import 'package:thorchain_explorer/_services/thornode_service.dart';
+import 'package:thorchain_explorer/main_mainnet.dart';
 
 final providerAutodisposeFamily = FutureProvider.autoDispose.family;
 final providerAutodispose = FutureProvider.autoDispose;
 
 final actions = providerAutodisposeFamily<TcActionResponse, FetchActionParams>(
     (ref, params) async {
-  final midgardService = new MidgardService();
+  final network = ref.watch(networkProvider);
+  final midgardService = new MidgardService(network);
   return midgardService.fetchActions(params);
 });
 
 final nodes = providerAutodispose<List<TCNode>>((ref) async {
-  final thornodeService = new ThornodeService();
+  final network = ref.watch(networkProvider);
+  final thornodeService = new ThornodeService(network);
   return thornodeService.fetchNodes();
 });
-
-enum PageOptions {
-  Dashboard,
-  Network,
-  Transactions,
-  Nodes,
-  Pools,
-  Unintialized
-}
 
 // final actions = FutureProvider.autoDispose
 //     .family<TcActionResponse, FetchActionParams>((ref, params) async {

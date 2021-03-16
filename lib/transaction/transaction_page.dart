@@ -4,8 +4,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/tc_action.dart';
+import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
-import 'package:thorchain_explorer/_providers/tc_actions_provider.dart';
+import 'package:thorchain_explorer/_services/midgard_service.dart';
 import 'package:thorchain_explorer/_widgets/address_link.dart';
 import 'package:thorchain_explorer/_widgets/coin_amounts_list.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
@@ -15,7 +16,6 @@ import 'package:thorchain_explorer/_widgets/tx_link.dart';
 
 class TransactionPage extends HookWidget {
   final String query;
-  // final String graphQlQuery;
 
   TransactionPage(this.query);
 
@@ -34,8 +34,6 @@ class TransactionPage extends HookWidget {
           loading: () => Center(child: CircularProgressIndicator()),
           error: (err, stack) => Center(child: Text('Error: $err')),
           data: (response) {
-            print("RESPONSE IN VIEW $response");
-
             int count = int.parse(response.count);
 
             if (0 < count) {

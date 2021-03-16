@@ -7,8 +7,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
+import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
-import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 
@@ -60,8 +60,6 @@ class NodesListPage extends HookWidget {
               // final disabledNodes = tcNodes.where((element) => element.status == TCNodeStatus.DISABLED).toList();
 
               return Column(
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   createNodesGroup(
                       context: context,
