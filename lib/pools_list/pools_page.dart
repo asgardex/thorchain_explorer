@@ -6,12 +6,9 @@ import 'package:hooks_riverpod/all.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/pool.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
-import 'package:thorchain_explorer/_providers/coingecko_provider.dart';
+import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/asset_icon.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
-
-final coinGeckoProvider =
-    StateNotifierProvider<CoinGeckoProvider>((ref) => CoinGeckoProvider());
 
 class PoolsPage extends HookWidget {
   @override

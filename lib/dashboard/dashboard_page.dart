@@ -42,17 +42,13 @@ class DashboardPage extends StatelessWidget {
                 return Column(
                   children: [
                     Container(
-                      height: 200,
-                      child: ListView(
-                        padding: MediaQuery.of(context).size.width < 900
-                            ? EdgeInsets.symmetric(horizontal: 16)
-                            : EdgeInsets.zero,
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          Container(
-                            child: VolumeChart(volumeHistory),
-                          )
-                        ],
+                      padding: MediaQuery.of(context).size.width < 900
+                          ? EdgeInsets.symmetric(horizontal: 16)
+                          : null,
+                      height: 340,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [Expanded(child: VolumeChart(volumeHistory))],
                       ),
                     ),
                     SizedBox(
