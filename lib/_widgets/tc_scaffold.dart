@@ -57,7 +57,7 @@ class TCScaffold extends HookWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(4.0),
                             child: Image.network(
-                              'https://raw.githubusercontent.com/Pusher-Labs/thorchain_explorer_build/main/assets/assets/images/thorchain.png?token=ACVKHTSMOXAG5VXHNM6RSM3ADCR3A',
+                              'https://raw.githubusercontent.com/Pusher-Labs/thorchain_explorer/main/assets/images/thorchain.png',
                               width: 32,
                               height: 32,
                             )),
