@@ -175,36 +175,6 @@ class VolumeChart extends HookWidget {
     );
   }
 
-  List<BarChartGroupData> getData(List<PoolVolumeHistoryBucket> buckets) {
-    List<BarChartGroupData> groupData = [];
-
-    for (int i = 0; i < buckets.length; i++) {
-      PoolVolumeHistoryBucket bucket = buckets[i];
-      BarChartGroupData group = BarChartGroupData(
-        x: i,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-              y: bucket.combined.volumeInRune / pow(10, 8),
-              rodStackItems: [
-                BarChartRodStackItem(
-                    0, bucket.toRune.volumeInRune / pow(10, 8), dark),
-                BarChartRodStackItem(
-                    bucket.toRune.volumeInRune / pow(10, 8),
-                    (bucket.toRune.volumeInRune + bucket.toAsset.volumeInRune) /
-                        pow(10, 8),
-                    normal),
-              ],
-              borderRadius: const BorderRadius.all(Radius.zero)),
-        ],
-      );
-
-      groupData.add(group);
-    }
-
-    return groupData;
-  }
-
   List<LineChartBarData> buildData(
       List<PoolVolumeHistoryBucket> buckets, double runePrice) {
     final runeVolumeLine = LineChartBarData(
