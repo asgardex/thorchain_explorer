@@ -14,9 +14,6 @@ import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/stat_list_item.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 
-// final coinGeckoProvider =
-//     StateNotifierProvider<CoinGeckoProvider>((ref) => CoinGeckoProvider());
-
 class PoolPage extends HookWidget {
   final String asset;
 
