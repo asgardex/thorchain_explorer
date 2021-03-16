@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thorchain_explorer/_providers/_state.dart';
+import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_widgets/navigation_item.dart';
 
 class NavigationItemList extends StatelessWidget {

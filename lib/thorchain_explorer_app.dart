@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/address/address_page.dart';
 import 'package:thorchain_explorer/dashboard/dashboard_page.dart';
 import 'package:thorchain_explorer/network/network_page.dart';
@@ -12,24 +10,17 @@ import 'package:thorchain_explorer/pools_list/pools_page.dart';
 import 'package:thorchain_explorer/transaction/transaction_page.dart';
 import 'package:thorchain_explorer/transactions_list/transactions_list_page.dart';
 
-void main() {
-  runApp(ProviderScope(child: ThorchainExplorer()));
-}
+class ThorchainExplorerApp extends StatelessWidget {
+  final HttpLink graphQlLink;
 
-class ThorchainExplorer extends HookWidget {
-  ThorchainExplorer();
+  ThorchainExplorerApp(this.graphQlLink);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final HttpLink httpLink = HttpLink(
-      'https://testnet.midgard.thorchain.info/v2',
-    );
-
     ValueNotifier<GraphQLClient> client = ValueNotifier(
       GraphQLClient(
         cache: GraphQLCache(),
-        link: httpLink,
+        link: graphQlLink,
       ),
     );
 

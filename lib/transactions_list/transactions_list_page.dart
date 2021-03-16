@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
-import 'package:thorchain_explorer/_providers/tc_actions_provider.dart';
+import 'package:thorchain_explorer/_services/midgard_service.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/_widgets/tx_list.dart';
