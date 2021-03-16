@@ -108,14 +108,14 @@ class PoolsPage extends HookWidget {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
                           splitAsset[0],
                           style: TextStyle(color: Theme.of(context).hintColor),
                         ),
-                        Text(
-                            "${simpleCurrency.format(pool.price * runePrice)}"),
+                        Text(runePrice != null
+                            ? "${simpleCurrency.format(pool.price * runePrice)}"
+                            : ""),
                       ],
                     ),
                     SizedBox(
@@ -149,12 +149,13 @@ class PoolsPage extends HookWidget {
                               Text(
                                 "24h Volume",
                                 style: TextStyle(
-                                    // fontWeight: FontWeight.bold,
                                     fontSize: 12,
                                     color: Theme.of(context).hintColor),
                               ),
                               Text(
-                                "${compactCurrency.format(pool.volume24h * runePrice)}",
+                                runePrice != null
+                                    ? "${compactCurrency.format(pool.volume24h * runePrice)}"
+                                    : "",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               )

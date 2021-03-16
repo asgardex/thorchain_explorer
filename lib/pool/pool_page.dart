@@ -96,8 +96,9 @@ class PoolPage extends HookWidget {
                             TableRow(children: [
                               PaddedTableCell(child: Text("Price (in USD)")),
                               PaddedTableCell(
-                                  child: Text(
-                                      "\$${f.format(pool.price * cgProvider.runePrice)}")),
+                                  child: Text(cgProvider.runePrice != null
+                                      ? "\$${f.format(pool.price * cgProvider.runePrice)}"
+                                      : "")),
                             ]),
                             TableRow(children: [
                               PaddedTableCell(child: Text("Units")),
