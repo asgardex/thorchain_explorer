@@ -1,29 +1,46 @@
 import 'package:hooks_riverpod/all.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
+import 'package:thorchain_explorer/_enums/networks.dart';
 import 'package:thorchain_explorer/_providers/coingecko_provider.dart';
 import 'package:thorchain_explorer/_services/midgard_service.dart';
 import 'package:thorchain_explorer/_classes/tc_action.dart';
 import 'package:thorchain_explorer/_services/thornode_service.dart';
-import 'package:thorchain_explorer/main_mainnet.dart';
+
+const String net = String.fromEnvironment("NETWORK");
 
 final providerAutodisposeFamily = FutureProvider.autoDispose.family;
 final providerAutodispose = FutureProvider.autoDispose;
 
+final netEnvProvider = Provider((ref) => net);
+
 final actions = providerAutodisposeFamily<TcActionResponse, FetchActionParams>(
     (ref, params) async {
-  final network = ref.watch(networkProvider);
-  final midgardService = new MidgardService(network);
+  final netEnv = ref.watch(netEnvProvider);
+
+  final midgardService = new MidgardService(selectNetwork(netEnv));
   return midgardService.fetchActions(params);
 });
 
 final nodes = providerAutodispose<List<TCNode>>((ref) async {
-  final network = ref.watch(networkProvider);
-  final thornodeService = new ThornodeService(network);
+  final netEnv = ref.watch(netEnvProvider);
+  final thornodeService = new ThornodeService(selectNetwork(netEnv));
   return thornodeService.fetchNodes();
 });
 
 final coinGeckoProvider =
     StateNotifierProvider<CoinGeckoProvider>((ref) => CoinGeckoProvider());
+
+Networks selectNetwork(String net) {
+  switch (net) {
+    case "TESTNET":
+    case "Testnet":
+    case "testnet":
+      return Networks.Testnet;
+
+    default:
+      return Networks.Mainnet;
+  }
+}
 
 // final actions = FutureProvider.autoDispose
 //     .family<TcActionResponse, FetchActionParams>((ref, params) async {

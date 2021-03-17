@@ -8,13 +8,19 @@
       "name": "THORChain Explorer Testnet",
       "request": "launch",
       "type": "dart",
-      "program": "lib/main_testnet.dart"
+      "program": "lib/main_testnet.dart",
+      "args": [
+        "--dart-define=NETWORK=TESTNET"
+      ]
     },
     {
       "name": "THORChain Explorer",
       "request": "launch",
       "type": "dart",
-      "program": "lib/main_mainnet.dart"
+      "program": "lib/main_mainnet.dart",
+      "args": [
+        "--dart-define=NETWORK=MAINNET"
+      ]
     }
   ]
 }
