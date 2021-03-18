@@ -52,10 +52,10 @@ class StatsWidget extends HookWidget {
                       label: "Total Depth",
                       value: f.format(stats.totalDepth / pow(10, 8))),
                   StatListItem(
-                      label: "Total Staked Transactions",
+                      label: "Total Deposited Transactions",
                       value: f.format(stats.totalStakeTx)),
                   StatListItem(
-                      label: "Total Staked",
+                      label: "Total Deposited",
                       value: f.format(stats.totalStaked / pow(10, 8))),
                   StatListItem(
                       label: "Total Volume",

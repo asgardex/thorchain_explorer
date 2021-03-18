@@ -185,13 +185,13 @@ class PoolStakesTable extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   StatListItem(
-                      label: "Asset Staked",
+                      label: "Asset Deposited",
                       value: f.format(poolStakes.assetStaked / pow(10, 8))),
                   StatListItem(
-                      label: "RUNE Staked",
+                      label: "RUNE Deposited",
                       value: f.format(poolStakes.runeStaked / pow(10, 8))),
                   StatListItem(
-                    label: "Pool Staked",
+                    label: "Pool Deposited",
                     value: f.format(poolStakes.poolStaked / pow(10, 8)),
                     hideBorder: true,
                   )
