@@ -56,12 +56,14 @@ class StatsWidget extends HookWidget {
                       value: f.format(stats.totalStakeTx)),
                   StatListItem(
                       label: "Total Deposited",
-                      value: f.format(stats.totalStaked / pow(10, 8))),
+                      value:
+                          f.format((stats.totalStaked / pow(10, 8)).round())),
                   StatListItem(
                       label: "Total Volume",
-                      value: f.format(stats.totalVolume / pow(10, 8))),
+                      value:
+                          f.format((stats.totalVolume / pow(10, 8)).round())),
                   StatListItem(
-                    label: "Total Withdraw Txs",
+                    label: "Total Withdraw Transactions",
                     value: f.format(stats.totalWithdrawTx),
                     hideBorder: true,
                   ),
