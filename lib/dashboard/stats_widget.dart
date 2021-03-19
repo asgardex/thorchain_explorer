@@ -33,7 +33,9 @@ class StatsWidget extends HookWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // StatListItem(label: "Daily Active Users", value: f.format(stats.dailyActiveUsers)),
+                  StatListItem(
+                      label: "Daily Active Users",
+                      value: f.format(stats.dailyActiveUsers)),
                   // StatListItem(label: "Monthly Active Users", value: f.format(stats.monthlyActiveUsers)),
                   // StatListItem(label: "Total Users", value: f.format(stats.totalUsers)),
                   StatListItem(
@@ -62,11 +64,12 @@ class StatsWidget extends HookWidget {
                       label: "Total Volume",
                       value:
                           f.format((stats.totalVolume / pow(10, 8)).round())),
-                  StatListItem(
-                    label: "Total Withdraw Transactions",
-                    value: f.format(stats.totalWithdrawTx),
-                    hideBorder: true,
-                  ),
+                  // // this is returning the incorrect value in graphql
+                  // StatListItem(
+                  //   label: "Total Withdraw Transactions",
+                  //   value: f.format(stats.totalWithdrawTx),
+                  //   hideBorder: true,
+                  // ),
                 ],
               )),
         ),
