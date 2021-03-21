@@ -17,6 +17,8 @@ class ExternalSidebarLinks extends StatelessWidget {
     _ExternalSidebarLink(url: 'https://t.me/thorchain_org', name: 'Telegram'),
     _ExternalSidebarLink(url: 'https://medium.com/thorchain', name: 'Medium'),
     _ExternalSidebarLink(url: 'https://gitlab.com/thorchain', name: 'Gitlab'),
+    _ExternalSidebarLink(
+        url: 'https://singlechain.thorchain.net', name: 'Singlechain Explorer'),
     (net == "TESTNET")
         ? _ExternalSidebarLink(
             url: 'https://thorchain.net', name: 'Mainnet Explorer')
