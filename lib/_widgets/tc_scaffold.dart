@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
+import 'package:thorchain_explorer/_widgets/external_sidebar_links.dart';
 import 'package:thorchain_explorer/_widgets/fluid_container.dart';
 import 'package:thorchain_explorer/_widgets/navigation_item_list.dart';
 import 'package:thorchain_explorer/_widgets/search_bar.dart';
@@ -36,8 +37,14 @@ class TCScaffold extends HookWidget {
                           Colors.grey[900],
                         ])),
                     padding: EdgeInsets.all(16),
-                    child: NavigationItemList(
-                      currentArea: currentArea,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        NavigationItemList(
+                          currentArea: currentArea,
+                        ),
+                        ExternalSidebarLinks()
+                      ],
                     ),
                   ),
                 ),
