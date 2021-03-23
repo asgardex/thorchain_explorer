@@ -1,6 +1,7 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-QueryOptions poolQueryOptions(String asset) {
+QueryOptions poolQueryOptions(
+    {String asset, DateTime startDate, DateTime currentDate}) {
   return QueryOptions(document: gql("""
       query {
         pool(asset:"$asset") {
@@ -19,6 +20,48 @@ QueryOptions poolQueryOptions(String asset) {
             assetDepth,
             runeDepth,
             poolDepth,
+          }
+        },
+        volumeHistory(
+          from:${(startDate.millisecondsSinceEpoch / 1000).round()},
+          until:${(currentDate.millisecondsSinceEpoch / 1000).round()},
+          interval:DAY,
+          pool:"$asset"
+        ){
+          meta{
+            combined{
+              count,
+              volumeInRune,
+              feesInRune
+            },
+            toRune{
+              count,
+              volumeInRune,
+              feesInRune
+            }
+            toAsset{
+              count,
+              volumeInRune,
+              feesInRune
+            }
+          },
+          intervals{
+            time,
+            combined{
+              count,
+              volumeInRune,
+              feesInRune
+            },
+            toRune{
+              count,
+              volumeInRune,
+              feesInRune
+            }
+            toAsset{
+              count,
+              volumeInRune,
+              feesInRune
+            }
           }
         }
       }

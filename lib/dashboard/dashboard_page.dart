@@ -8,7 +8,7 @@ import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/dashboard/network_widget.dart';
 import 'package:thorchain_explorer/dashboard/stats_widget.dart';
-import 'package:thorchain_explorer/dashboard/volume_chart.dart';
+import 'package:thorchain_explorer/_widgets/volume_chart.dart';
 
 class DashboardPage extends StatelessWidget {
   @override

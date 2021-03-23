@@ -144,6 +144,12 @@ class VolumeChart extends HookWidget {
                         ),
                         leftTitles: SideTitles(
                           showTitles: true,
+                          // reservedSize: 32,
+                          checkToShowTitle: (minValue, maxValue, sideTitles,
+                              appliedInterval, value) {
+                            // display every other line title
+                            return (value % (appliedInterval * 2) == 0);
+                          },
                           getTextStyles: (value) => const TextStyle(
                               color: Color(
                                 0xff939393,
@@ -153,9 +159,6 @@ class VolumeChart extends HookWidget {
                       ),
                       gridData: FlGridData(
                         show: true,
-                        checkToShowHorizontalLine: (value) {
-                          return value % 5000 == 0;
-                        },
                         getDrawingHorizontalLine: (value) {
                           return FlLine(
                             color: Theme.of(context).dividerColor,
