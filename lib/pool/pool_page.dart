@@ -6,6 +6,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/pool.dart';
+import 'package:thorchain_explorer/_classes/pool_volume_history.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
@@ -13,6 +14,7 @@ import 'package:thorchain_explorer/_widgets/asset_icon.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/stat_list_item.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
+import 'package:thorchain_explorer/_widgets/volume_chart.dart';
 
 class PoolPage extends HookWidget {
   final String asset;
@@ -21,6 +23,8 @@ class PoolPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentDate = DateTime.now();
+    final startDate = currentDate.subtract(Duration(days: 14));
     final cgProvider = useProvider(coinGeckoProvider.state);
 
     final f = NumberFormat.currency(
@@ -31,7 +35,8 @@ class PoolPage extends HookWidget {
     return TCScaffold(
         currentArea: PageOptions.Pools,
         child: Query(
-            options: poolQueryOptions(asset),
+            options: poolQueryOptions(
+                asset: asset, startDate: startDate, currentDate: currentDate),
             // Just like in apollo refetch() could be used to manually trigger a refetch
             // while fetchMore() can be used for pagination purpose
             builder: (QueryResult result,
@@ -47,6 +52,8 @@ class PoolPage extends HookWidget {
               }
 
               final pool = Pool.fromJson(result.data['pool']);
+              final volumeHistory =
+                  PoolVolumeHistory.fromJson(result.data['volumeHistory']);
 
               return LayoutBuilder(builder: (context, constraints) {
                 return Column(
@@ -70,6 +77,32 @@ class PoolPage extends HookWidget {
                     ),
                     SizedBox(
                       height: 16,
+                    ),
+                    Container(
+                      height: 340,
+                      child: MediaQuery.of(context).size.width < 900
+                          ? ListView(
+                              padding: MediaQuery.of(context).size.width < 900
+                                  ? EdgeInsets.symmetric(horizontal: 16)
+                                  : EdgeInsets.zero,
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                Container(
+                                  child: AspectRatio(
+                                      aspectRatio: 2,
+                                      child: VolumeChart(volumeHistory)),
+                                )
+                              ],
+                            )
+                          : Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(child: VolumeChart(volumeHistory))
+                              ],
+                            ),
+                    ),
+                    SizedBox(
+                      height: 32,
                     ),
                     Material(
                       elevation: 1,
@@ -129,7 +162,7 @@ class PoolPage extends HookWidget {
                                   children: [
                                     PoolStakesTable(pool.stakes),
                                     SizedBox(
-                                      height: 16,
+                                      height: 32,
                                     ),
                                     PoolDepthTable(pool.depth),
                                   ],
@@ -141,7 +174,7 @@ class PoolPage extends HookWidget {
                                     child: PoolStakesTable(pool.stakes),
                                   ),
                                   SizedBox(
-                                    width: 16,
+                                    width: 32,
                                   ),
                                   Expanded(
                                     child: PoolDepthTable(pool.depth),
