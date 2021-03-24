@@ -9,6 +9,7 @@ import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/asset_icon.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
+import 'dart:math';
 
 class PoolsPage extends HookWidget {
   @override
@@ -151,7 +152,7 @@ class PoolsPage extends HookWidget {
                               ),
                               Text(
                                 runePrice != null
-                                    ? "${compactCurrency.format(pool.volume24h * runePrice)}"
+                                    ? "${compactCurrency.format(pool.volume24h / pow(10, 8) * runePrice)}"
                                     : "",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
