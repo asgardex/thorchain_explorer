@@ -7,7 +7,6 @@ import 'package:thorchain_explorer/_widgets/meta_tag.dart';
 import 'package:thorchain_explorer/_widgets/tx_link.dart';
 
 class TxList extends StatelessWidget {
-
   final List<TcAction> actions;
   final dateFormatter = new DateFormat('M/d/yy H:m:s');
 
@@ -16,95 +15,84 @@ class TxList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return actions.length < 1
-      ? Center(
-        child: Text('No Transactions Found'),
-      )
-     : buildActionsList(actions, context);
+        ? Center(
+            child: Text('No Transactions Found'),
+          )
+        : buildActionsList(actions, context);
   }
 
   Widget buildActionsList(List<TcAction> actions, BuildContext context) {
-
-    // Color tagColor = tag == 'In' ? Colors.blue : Colors.green;
-
     return Column(
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisAlignment: MainAxisAlignment.,
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: actions.map((tx) {
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: actions.map((tx) {
+        DateTime dateTime =
+            DateTime.fromMicrosecondsSinceEpoch(int.parse(tx.date) ~/ 1000);
 
-          DateTime dateTime = DateTime.fromMicrosecondsSinceEpoch(int.parse(tx.date) ~/ 1000);
-
-          return Container(
-            height: 100,
-            // padding: EdgeInsets.all(4),
-            decoration: BoxDecoration(
+        return Container(
+          height: 100,
+          decoration: BoxDecoration(
               border: (tx.date != actions[actions.length - 1].date)
                   ? Border(
-                    bottom: BorderSide(
-                      width: 1,
-                      color: Theme.of(context).dividerColor
-                    )
-                  )
-                  : Border()
-            ),
-            child: Container(
-              padding: EdgeInsets.only(top: 12, bottom: 8),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-
-                  Container(
-                    padding: EdgeInsets.only(left: 12),
-                    width: 150,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(tx.type),
-                        Text(dateFormatter.format(dateTime))
-                      ],
-                    ),
-                  ),
-
-                  Container(
-                    // width: 200,
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      // crossAxisAlignment: CrossAxisAlignment.start,
-                      children: tx.inputs.map((input) {
-
-                        return Container(
-                          width: 200,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  MetaTag('In', Colors.blue),
-                                  SizedBox(width: 12,),
-                                  TxLink(input.txID)
-                                ],
-                              ),
-                              SizedBox(height: 6,),
-                              CoinAmountsList(input.coins),
-                              SizedBox(height: 6,),
-                              AddressLink(input.address),
-                              SizedBox(height: 6,),
-                            ],
-                          ),
-                        );
-                      }
-                      ).toList(),
-                    ),
-                  ),
-                  // SizedBox(width: 12,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                      bottom: BorderSide(
+                          width: 1, color: Theme.of(context).dividerColor))
+                  : Border()),
+          child: Container(
+            padding: EdgeInsets.only(top: 12, bottom: 8),
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 12),
+                  width: 150,
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: tx.outputs.map((output) {
+                    children: [
+                      Text(tx.type),
+                      Text(dateFormatter.format(dateTime))
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Row(
+                    children: tx.inputs.map((input) {
+                      return Container(
+                        width: 200,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                MetaTag('In', Colors.blue),
+                                SizedBox(
+                                  width: 12,
+                                ),
+                                TxLink(input.txID)
+                              ],
+                            ),
+                            SizedBox(
+                              height: 6,
+                            ),
+                            CoinAmountsList(input.coins),
+                            SizedBox(
+                              height: 6,
+                            ),
+                            AddressLink(input.address),
+                            SizedBox(
+                              height: 6,
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: tx.outputs.map(
+                    (output) {
                       return Container(
                         width: 200,
                         child: Column(
@@ -114,28 +102,34 @@ class TxList extends StatelessWidget {
                             Row(
                               children: [
                                 MetaTag('Out', Colors.green),
-                                SizedBox(width: 12,),
+                                SizedBox(
+                                  width: 12,
+                                ),
                                 TxLink(output.txID)
                               ],
                             ),
-                            SizedBox(height: 6,),
+                            SizedBox(
+                              height: 6,
+                            ),
                             CoinAmountsList(output.coins),
-                            SizedBox(height: 6,),
+                            SizedBox(
+                              height: 6,
+                            ),
                             AddressLink(output.address),
-                            SizedBox(height: 6,),
+                            SizedBox(
+                              height: 6,
+                            ),
                           ],
                         ),
                       );
                     },
-                    ).toList(),
-                  ),
-                  // Expanded()
-                  // SizedBox(height: 12,)
-                ],
-              ),
+                  ).toList(),
+                ),
+              ],
             ),
-          );
-        }).toList(),
-      );
+          ),
+        );
+      }).toList(),
+    );
   }
 }
