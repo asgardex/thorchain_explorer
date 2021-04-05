@@ -42,8 +42,7 @@ class ExternalSidebarLinks extends StatelessWidget {
                             onTap: () => _launchURL(e.url),
                             child: Text(
                               e.name,
-                              style:
-                                  TextStyle(color: Theme.of(context).hintColor),
+                              style: TextStyle(color: Colors.grey),
                             )),
                       ),
                       SizedBox(
