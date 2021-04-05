@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/all.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/pool_volume_history.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
+import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 
 class VolumeChart extends HookWidget {
   final Color dark = const Color(0xff3b8c75);
@@ -31,10 +32,7 @@ class VolumeChart extends HookWidget {
       elevation: 1,
       borderRadius: BorderRadius.circular(4.0),
       child: Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            border: Border.all(color: Colors.blueGrey[800], width: 1),
-            borderRadius: BorderRadius.circular(4)),
+        decoration: containerBoxDecoration(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,
