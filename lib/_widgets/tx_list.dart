@@ -8,7 +8,7 @@ import 'package:thorchain_explorer/_widgets/tx_link.dart';
 
 class TxList extends StatelessWidget {
   final List<TcAction> actions;
-  final dateFormatter = new DateFormat('M/d/yy H:m:s');
+  final dateFormatter = new DateFormat.yMd().add_jm();
 
   TxList(this.actions);
 
@@ -44,7 +44,7 @@ class TxList extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.only(left: 12),
-                  width: 150,
+                  width: 180,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
