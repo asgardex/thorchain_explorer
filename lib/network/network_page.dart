@@ -3,22 +3,26 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hooks_riverpod/all.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/tc_network.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
+import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
-import 'package:thorchain_explorer/pool/pool_page.dart';
 
 class NetworkPage extends HookWidget {
   final f = NumberFormat.currency(
     symbol: "",
-    decimalDigits: 0,
+    decimalDigits: 2,
   );
 
   @override
   Widget build(BuildContext context) {
+    final cgProvider = useProvider(coinGeckoProvider.state);
+    final topColWidth = 200.0;
+
     return TCScaffold(
         currentArea: PageOptions.Network,
         child: Query(
@@ -60,68 +64,272 @@ class NetworkPage extends HookWidget {
                       child: Container(
                           decoration: containerBoxDecoration(context),
                           padding: EdgeInsets.all(16),
-                          child: Table(
-                              border: TableBorder.all(
-                                  width: 1,
-                                  color: Theme.of(context).dividerColor),
-                              children: [
-                                TableRow(children: [
-                                  PaddedTableCell(
-                                      child: SelectableText("Bonding APY")),
-                                  PaddedTableCell(
-                                      child: SelectableText(
-                                          "${(network.bondingAPY * 100).toStringAsFixed(2)}%")),
-                                ]),
-                                TableRow(children: [
-                                  PaddedTableCell(
-                                      child: SelectableText("Liquidity APY")),
-                                  PaddedTableCell(
-                                      child: SelectableText(
-                                          "${(network.liquidityAPY * 100).toStringAsFixed(2)}%")),
-                                ]),
-                                TableRow(children: [
-                                  PaddedTableCell(
-                                      child:
-                                          SelectableText("Next Churn Height")),
-                                  PaddedTableCell(
-                                      child: SelectableText(
-                                          network.nextChurnHeight.toString())),
-                                ]),
-                                TableRow(children: [
-                                  PaddedTableCell(
-                                      child: SelectableText(
-                                          "Pool Activation Countdown")),
-                                  PaddedTableCell(
-                                      child: SelectableText(network
-                                          .poolActivationCountdown
-                                          .toString())),
-                                ]),
-                                TableRow(children: [
-                                  PaddedTableCell(
-                                      child:
-                                          SelectableText("Pool Share Factor")),
-                                  PaddedTableCell(
-                                      child: SelectableText(
-                                          "${(network.poolShareFactor * 100).toStringAsFixed(2)}%")),
-                                ]),
-                                TableRow(children: [
-                                  PaddedTableCell(
-                                      child: SelectableText("Total Reserve")),
-                                  PaddedTableCell(
-                                      child: SelectableText(f.format(
-                                          (network.totalReserve / pow(10, 8))
-                                              .ceil()))),
-                                ]),
-                                TableRow(children: [
-                                  PaddedTableCell(
-                                      child:
-                                          SelectableText("Total Pooled RUNE")),
-                                  PaddedTableCell(
-                                      child: SelectableText(f.format(
-                                          network.totalPooledRune /
-                                              pow(10, 8).ceil()))),
-                                ]),
-                              ])),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: topColWidth,
+                                    child: Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Bonding APY",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(
+                                            "${(network.bondingAPY * 100).toStringAsFixed(2)}%")
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: topColWidth,
+                                    child: Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Liquidity APY",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(
+                                            "${(network.liquidityAPY * 100).toStringAsFixed(2)}%")
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: topColWidth,
+                                    child: Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Next Churn Height",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(
+                                            network.nextChurnHeight.toString())
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: topColWidth,
+                                    child: Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Pool Activation Countdown",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(network
+                                            .poolActivationCountdown
+                                            .toString())
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: topColWidth,
+                                    child: Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Pool Share Factor",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(
+                                            "${(network.poolShareFactor * 100).toStringAsFixed(2)}%")
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: topColWidth,
+                                    child: Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Total Reserve",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(f.format(
+                                            (network.totalReserve / pow(10, 8))
+                                                .ceil())),
+                                        SelectableText(
+                                          cgProvider.runePrice != null
+                                              ? "(\$${f.format(network.totalReserve / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                              : "",
+                                          style: TextStyle(
+                                            color: Theme.of(context).hintColor,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: topColWidth,
+                                    child: Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Total Pooled RUNE",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(
+                                            "${f.format(network.totalPooledRune / pow(10, 8).ceil())}"),
+                                        SelectableText(
+                                          cgProvider.runePrice != null
+                                              ? "(\$${f.format(network.totalPooledRune / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                              : "",
+                                          style: TextStyle(
+                                            color: Theme.of(context).hintColor,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: topColWidth,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Block Reward",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(f.format(
+                                            network.blockRewards.blockReward /
+                                                pow(10, 8).ceil())),
+                                        SelectableText(
+                                          cgProvider.runePrice != null
+                                              ? "(\$${f.format(network.blockRewards.blockReward / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                              : "",
+                                          style: TextStyle(
+                                            color: Theme.of(context).hintColor,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: topColWidth,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Block Bond Reward",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(f.format(
+                                            network.blockRewards.bondReward /
+                                                pow(10, 8).ceil())),
+                                        SelectableText(
+                                          cgProvider.runePrice != null
+                                              ? "(\$${f.format(network.blockRewards.bondReward / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                              : "",
+                                          style: TextStyle(
+                                            color: Theme.of(context).hintColor,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: topColWidth,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "Block Pool Reward",
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).hintColor,
+                                              fontSize: 12),
+                                        ),
+                                        SelectableText(f.format(
+                                            network.blockRewards.poolReward /
+                                                pow(10, 8).ceil())),
+                                        SelectableText(
+                                          cgProvider.runePrice != null
+                                              ? "(\$${f.format(network.blockRewards.poolReward / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                              : "",
+                                          style: TextStyle(
+                                            color: Theme.of(context).hintColor,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          )),
                     ),
                     SizedBox(
                       height: 32,
