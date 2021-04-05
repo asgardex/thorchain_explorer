@@ -4,5 +4,6 @@ enum PageOptions {
   Transactions,
   Nodes,
   Pools,
+  MidgardExplorer,
   Unintialized
 }

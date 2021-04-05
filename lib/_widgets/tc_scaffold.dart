@@ -7,6 +7,7 @@ import 'package:thorchain_explorer/_widgets/fluid_container.dart';
 import 'package:thorchain_explorer/_widgets/navigation_item_list.dart';
 import 'package:thorchain_explorer/_widgets/search_bar.dart';
 import 'package:thorchain_explorer/_widgets/sidebar.dart';
+import 'package:thorchain_explorer/_widgets/sidebar_box_decoration.dart';
 
 class TCScaffold extends HookWidget {
   final Widget child;
@@ -22,20 +23,7 @@ class TCScaffold extends HookWidget {
               ? null
               : Drawer(
                   child: Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            stops: [
-                          0.0,
-                          0.6,
-                          0.9
-                        ],
-                            colors: [
-                          Colors.blueGrey[900],
-                          Colors.grey[900],
-                          Colors.grey[900],
-                        ])),
+                    decoration: sidebarBoxDecoration(context),
                     padding: EdgeInsets.all(16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

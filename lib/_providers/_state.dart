@@ -1,5 +1,7 @@
 import 'package:hooks_riverpod/all.dart';
+import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
+import 'package:thorchain_explorer/_const/midgard_endpoints.dart';
 import 'package:thorchain_explorer/_enums/networks.dart';
 import 'package:thorchain_explorer/_providers/coingecko_provider.dart';
 import 'package:thorchain_explorer/_services/midgard_service.dart';
@@ -29,6 +31,14 @@ final nodes = providerAutodispose<List<TCNode>>((ref) async {
 
 final coinGeckoProvider =
     StateNotifierProvider<CoinGeckoProvider>((ref) => CoinGeckoProvider());
+
+final midgardEndpointsProvider =
+    Provider.autoDispose<List<MidgardEndpoint>>((ref) {
+  final netEnv = ref.watch(netEnvProvider);
+  return (selectNetwork(netEnv) == Networks.Testnet)
+      ? testnetMidgardEndpoints
+      : mainnetMidgardEndpoints;
+});
 
 Networks selectNetwork(String net) {
   switch (net) {
