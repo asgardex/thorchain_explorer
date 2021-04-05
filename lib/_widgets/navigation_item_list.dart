@@ -53,6 +53,15 @@ class NavigationItemList extends StatelessWidget {
           navigationRoute: '/pools',
           iconData: Icons.pool,
         ),
+        SizedBox(
+          height: 16,
+        ),
+        NavigationItem(
+          title: "Midgard Explorer",
+          isActive: currentArea == PageOptions.MidgardExplorer,
+          navigationRoute: '/midgard/health',
+          iconData: Icons.explore,
+        ),
       ],
     );
   }

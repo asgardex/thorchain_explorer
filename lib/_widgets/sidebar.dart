@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_widgets/external_sidebar_links.dart';
 import 'package:thorchain_explorer/_widgets/navigation_item_list.dart';
+import 'package:thorchain_explorer/_widgets/sidebar_box_decoration.dart';
 
 class Sidebar extends HookWidget {
   final PageOptions currentArea;
@@ -15,20 +16,7 @@ class Sidebar extends HookWidget {
       padding: EdgeInsets.all(16),
       height: MediaQuery.of(context).size.height,
       width: 220,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              stops: [
-            0.0,
-            0.6,
-            0.9
-          ],
-              colors: [
-            Colors.blueGrey[900],
-            Colors.grey[900],
-            Colors.grey[900],
-          ])),
+      decoration: sidebarBoxDecoration(context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
