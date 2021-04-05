@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
-import 'package:thorchain_explorer/_widgets/tc_scaffold_box_decoration.dart';
+import 'package:thorchain_explorer/_widgets/sidebar_box_decoration.dart';
 import 'package:thorchain_explorer/midgard_explorer/endpoint_details.dart';
 import 'package:thorchain_explorer/midgard_explorer/midgard_explorer_sidebar.dart';
 
@@ -19,7 +19,7 @@ class MidgardExplorerScaffold extends StatelessWidget {
             ? null
             : Drawer(
                 child: Container(
-                  decoration: tcScaffoldBoxDecoration(context),
+                  decoration: sidebarBoxDecoration(context),
                   padding: EdgeInsets.all(16),
                   child: MidgardExplorerSidebar(),
                 ),
