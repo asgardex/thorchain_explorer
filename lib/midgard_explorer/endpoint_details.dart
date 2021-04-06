@@ -113,26 +113,35 @@ class EndpointDetails extends HookWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                          onTap: () => html.window
-                              .open(midgardPath, "Midgard ${endpoint.name}"),
-                          child: MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    Text(midgardPath,
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).hintColor)),
-                                    Icon(
-                                      Icons.open_in_new,
-                                      size: 16,
-                                      color: Colors.grey,
-                                    )
-                                  ],
-                                ),
-                              )))
+                      Flexible(
+                        child: GestureDetector(
+                            onTap: () => html.window
+                                .open(midgardPath, "Midgard ${endpoint.name}"),
+                            child: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: Container(
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        child: RichText(
+                                            text: TextSpan(
+                                                children: [
+                                              TextSpan(text: midgardPath),
+                                              WidgetSpan(
+                                                  child: Icon(
+                                                Icons.open_in_new,
+                                                size: 16,
+                                                color: Colors.grey,
+                                              ))
+                                            ],
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .hintColor))),
+                                      )
+                                    ],
+                                  ),
+                                ))),
+                      )
                     ],
                   ),
                 ),
@@ -144,7 +153,7 @@ class EndpointDetails extends HookWidget {
                   borderRadius: BorderRadius.circular(4.0),
                   child: Container(
                     decoration: containerBoxDecoration(context),
-                    padding: EdgeInsets.all(32),
+                    // padding: EdgeInsets.all(32),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -153,10 +162,17 @@ class EndpointDetails extends HookWidget {
                           children: pathParams.value.length < 1
                               ? [Container()]
                               : [
-                                  Text(
-                                    "Path Params",
-                                    style: TextStyle(
-                                        color: Theme.of(context).hintColor),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16),
+                                    child: Text(
+                                      "Path Params",
+                                      style: TextStyle(
+                                          color: Theme.of(context).hintColor),
+                                    ),
                                   ),
                                   SizedBox(
                                     height: padding,
@@ -170,7 +186,7 @@ class EndpointDetails extends HookWidget {
                                   ),
                                   ...buildParamsForm(context, pathParams.value),
                                   SizedBox(
-                                    height: 48,
+                                    height: 16,
                                   ),
                                 ],
                         ),
@@ -179,10 +195,17 @@ class EndpointDetails extends HookWidget {
                           children: queryPathParams.value.length < 1
                               ? [Container()]
                               : [
-                                  Text(
-                                    "Query Params",
-                                    style: TextStyle(
-                                        color: Theme.of(context).hintColor),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16),
+                                    child: Text(
+                                      "Query Params",
+                                      style: TextStyle(
+                                          color: Theme.of(context).hintColor),
+                                    ),
                                   ),
                                   SizedBox(
                                     height: padding,
@@ -197,7 +220,7 @@ class EndpointDetails extends HookWidget {
                                   ...buildParamsForm(
                                       context, queryPathParams.value),
                                   SizedBox(
-                                    height: padding,
+                                    height: 16,
                                   ),
                                 ],
                         ),
@@ -209,25 +232,33 @@ class EndpointDetails extends HookWidget {
                                   Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        TextButton(
-                                            onPressed: () {
-                                              final path = buildPath(
-                                                  endpoint,
-                                                  pathParams.value,
-                                                  queryPathParams.value);
-                                              Navigator.pushNamed(
-                                                  context, "/midgard$path");
-                                            },
-                                            child: Text("Search"))
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                          child: TextButton(
+                                              onPressed: () {
+                                                final path = buildPath(
+                                                    endpoint,
+                                                    pathParams.value,
+                                                    queryPathParams.value);
+                                                Navigator.pushNamed(
+                                                    context, "/midgard$path");
+                                              },
+                                              child: Text("Search")),
+                                        )
                                       ]),
                                   SizedBox(
                                     height: 48,
                                   ),
                                 ],
                               ),
-                        Text(
-                          "Result",
-                          style: TextStyle(color: Theme.of(context).hintColor),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                          child: Text(
+                            "Result",
+                            style:
+                                TextStyle(color: Theme.of(context).hintColor),
+                          ),
                         ),
                         SizedBox(
                           height: padding,
@@ -243,8 +274,11 @@ class EndpointDetails extends HookWidget {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              SelectableText(
-                                snapshot.data,
+                              Container(
+                                padding: EdgeInsets.all(16),
+                                child: SelectableText(
+                                  snapshot.data,
+                                ),
                               ),
                             ],
                           ),
@@ -278,7 +312,8 @@ List<Container> buildParamsForm(
                     Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 8),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 0, horizontal: 16),
                           child: Text(e.param.name,
                               style: TextStyle(
                                   color: Theme.of(context).hintColor)),
@@ -297,41 +332,53 @@ List<Container> buildParamsForm(
                     (e.param.valueOptions != null &&
                             e.param.valueOptions.length > 0)
                         ? Container(
-                            padding: EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              children: [
-                                Text("Options: ",
-                                    style: TextStyle(
-                                        color: Theme.of(context).hintColor)),
-                                ...e.param.valueOptions
-                                    .map((option) => Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 6),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: MediaQuery.of(context)
-                                                          .platformBrightness ==
-                                                      Brightness.dark
-                                                  ? Color.fromRGBO(
-                                                      255, 255, 255, 0.075)
-                                                  : Color.fromRGBO(
-                                                      0, 0, 0, 0.075),
+                            padding: EdgeInsets.only(bottom: 4),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 16,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(top: 4),
+                                    child: Text("Options: ",
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).hintColor)),
+                                  ),
+                                  ...e.param.valueOptions
+                                      .map((option) => Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 6, top: 6),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: MediaQuery.of(context)
+                                                            .platformBrightness ==
+                                                        Brightness.dark
+                                                    ? Color.fromRGBO(
+                                                        255, 255, 255, 0.075)
+                                                    : Color.fromRGBO(
+                                                        0, 0, 0, 0.075),
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 4,
+                                                      horizontal: 8),
+                                              child: SelectableText(option,
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .hintColor)),
                                             ),
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 4, horizontal: 8),
-                                            child: SelectableText(option,
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .hintColor)),
-                                          ),
-                                        ))
-                                    .toList()
-                              ],
+                                          ))
+                                      .toList()
+                                ],
+                              ),
                             ),
                           )
                         : Container(),
                     Container(
-                      padding: EdgeInsets.only(bottom: 16),
+                      padding: EdgeInsets.fromLTRB(16, 4, 16, 32),
                       child: TextField(
                         controller: e.controller,
                         decoration: InputDecoration(

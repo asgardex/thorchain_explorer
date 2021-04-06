@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-import 'package:thorchain_explorer/_classes/tc_node.dart';
+import 'package:thorchain_explorer/_classes/tc_bank_balances.dart';
 import 'package:http/http.dart' as http;
 import 'package:thorchain_explorer/_enums/networks.dart';
 
@@ -10,22 +9,15 @@ class ThornodeService {
 
   ThornodeService(Networks network)
       : baseUrl = (network == Networks.Mainnet)
-            ? 'midgard.thorchain.info'
-            : 'testnet.midgard.thorchain.info';
+            ? 'thornode.thorchain.info'
+            : 'testnet.thornode.thorchain.info';
 
-  List<TCNode> _parseNodes(String response) {
-    var l = json.decode(response) as List<dynamic>;
-    List<TCNode> nodes = l.map((e) => TCNode.fromJson(e)).toList();
-    nodes.sort((a, b) => b.bond.compareTo(a.bond));
-    return nodes;
-  }
-
-  Future<List<TCNode>> fetchNodes() async {
-    var uri = Uri.https(baseUrl, '/thorchain/nodes');
-    var response = await http.get(uri).timeout(Duration(seconds: 5));
+  Future<BankBalances> fetchBalances(String address) async {
+    final uri = Uri.https(baseUrl, '/bank/balances/$address');
+    final response = await http.get(uri).timeout(Duration(seconds: 5));
 
     if (response.statusCode == 200) {
-      return compute(_parseNodes, response.body);
+      return BankBalances.fromJson(json.decode(response.body));
     } else
       throw Exception('Couldn\'t load actions');
   }

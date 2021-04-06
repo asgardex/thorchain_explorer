@@ -60,8 +60,11 @@ class ExplorerSearchBar extends HookWidget {
             queryCaps.contains('BNB', 0) ||
             queryCaps.contains('TBNB', 0) // BINANCE CHAIN
             ||
-            queryCaps.contains('bc1') ||
-            queryCaps.contains('TB1') // BITCOIN
+            queryCaps.contains('BC1', 0) ||
+            queryCaps.contains('TB1', 0) // BITCOIN
+            ||
+            queryCaps.contains('LTC', 0) ||
+            queryCaps.contains('TLTC', 0) // LITECOIN
         ) {
       Navigator.pushNamed(context, '/address/$query');
     } else {

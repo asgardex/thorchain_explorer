@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/all.dart';
 import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
+import 'package:thorchain_explorer/_classes/tc_bank_balances.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
 import 'package:thorchain_explorer/_const/midgard_endpoints.dart';
 import 'package:thorchain_explorer/_enums/networks.dart';
@@ -25,8 +26,8 @@ final actions = providerAutodisposeFamily<TcActionResponse, FetchActionParams>(
 
 final nodes = providerAutodispose<List<TCNode>>((ref) async {
   final netEnv = ref.watch(netEnvProvider);
-  final thornodeService = new ThornodeService(selectNetwork(netEnv));
-  return thornodeService.fetchNodes();
+  final midgardService = new MidgardService(selectNetwork(netEnv));
+  return midgardService.fetchNodes();
 });
 
 final coinGeckoProvider =
@@ -38,6 +39,18 @@ final midgardEndpointsProvider =
   return (selectNetwork(netEnv) == Networks.Testnet)
       ? testnetMidgardEndpoints
       : mainnetMidgardEndpoints;
+});
+
+final bankBalancesProvider =
+    providerAutodisposeFamily<BankBalances, String>((ref, address) async {
+  if (!address.toUpperCase().contains('TTHOR', 0) &&
+      !address.toUpperCase().contains('THOR', 0)) {
+    return null;
+  }
+
+  final netEnv = ref.watch(netEnvProvider);
+  final thornodeService = new ThornodeService(selectNetwork(netEnv));
+  return thornodeService.fetchBalances(address);
 });
 
 Networks selectNetwork(String net) {

@@ -64,7 +64,9 @@ class AssetIcon extends StatelessWidget {
     return Container(
         width: width,
         child: logoPath != null
-            ? Image.network(logoPath)
+            ? (splitAsset.length > 0 && splitAsset[0] != 'THOR')
+                ? Image.network(logoPath)
+                : Image.asset('images/thorchain-logo.png')
             : Icon(
                 Icons.error_outline,
                 size: iconSize,

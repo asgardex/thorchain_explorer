@@ -20,7 +20,6 @@ class MidgardExplorerScaffold extends StatelessWidget {
             : Drawer(
                 child: Container(
                   decoration: sidebarBoxDecoration(context),
-                  padding: EdgeInsets.all(16),
                   child: MidgardExplorerSidebar(),
                 ),
               ),
