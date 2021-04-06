@@ -54,7 +54,7 @@ class AssetIcon extends StatelessWidget {
       case 'THOR':
         if (splitAsset[1] != null && splitAsset[1] == 'RUNE') {
           logoPath =
-              'https://raw.githubusercontent.com/trustwallet/assets/cb8de815813e330b8db3d9ec01fa0ffc7d60f914/blockchains/binance/assets/RUNE-B1A/logo.png';
+              'https://raw.githubusercontent.com/Pusher-Labs/thorchain_explorer/main/assets/images/thorchain-logo.png';
         }
         break;
     }
@@ -64,9 +64,7 @@ class AssetIcon extends StatelessWidget {
     return Container(
         width: width,
         child: logoPath != null
-            ? (splitAsset.length > 0 && splitAsset[0] != 'THOR')
-                ? Image.network(logoPath)
-                : Image.asset('images/thorchain-logo.png')
+            ? Image.network(logoPath)
             : Icon(
                 Icons.error_outline,
                 size: iconSize,
