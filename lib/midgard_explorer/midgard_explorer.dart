@@ -2,17 +2,22 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
+import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/sidebar_box_decoration.dart';
 import 'package:thorchain_explorer/midgard_explorer/endpoint_details.dart';
 import 'package:thorchain_explorer/midgard_explorer/midgard_explorer_sidebar.dart';
 
-class MidgardExplorerScaffold extends StatelessWidget {
+class MidgardExplorerScaffold extends HookWidget {
   final MidgardEndpoint endpoint;
   MidgardExplorerScaffold({this.endpoint});
 
   @override
   Widget build(BuildContext context) {
+    final ThemeMode mode = useProvider(userThemeProvider.state);
+
     return LayoutBuilder(
       builder: (context, constraints) => Scaffold(
         endDrawer: (constraints.maxWidth > 900)
@@ -41,10 +46,9 @@ class MidgardExplorerScaffold extends StatelessWidget {
                     ],
                   ),
                 ),
-                iconTheme:
-                    MediaQuery.of(context).platformBrightness == Brightness.dark
-                        ? IconThemeData(color: Colors.white)
-                        : IconThemeData(color: Colors.grey[900]),
+                iconTheme: mode == ThemeMode.dark
+                    ? IconThemeData(color: Colors.white)
+                    : IconThemeData(color: Colors.grey[900]),
                 automaticallyImplyLeading: false,
                 backgroundColor: Theme.of(context).cardColor,
               ),
@@ -54,8 +58,7 @@ class MidgardExplorerScaffold extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomCenter,
                     stops: [0.0, 0.1, 0.9],
-                    colors: MediaQuery.of(context).platformBrightness ==
-                            Brightness.dark
+                    colors: mode == ThemeMode.dark
                         ? [
                             Colors.blueGrey[900],
                             Colors.blueGrey[900],

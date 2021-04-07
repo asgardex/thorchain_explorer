@@ -4,11 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
+import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 
@@ -16,6 +18,7 @@ class NodesListPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final starredNodes = useState<List<String>>([]);
+    final ThemeMode mode = useProvider(userThemeProvider.state);
 
     Future<void> getStarredNodes() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -69,7 +72,8 @@ class NodesListPage extends HookWidget {
                       context: context,
                       nodes: activeNodes,
                       groupLabel: "Active Nodes",
-                      starredNodes: starredNodes),
+                      starredNodes: starredNodes,
+                      mode: mode),
                   SizedBox(
                     height: 32,
                   ),
@@ -77,7 +81,8 @@ class NodesListPage extends HookWidget {
                       context: context,
                       nodes: standbyNodes,
                       groupLabel: "Standby Nodes",
-                      starredNodes: starredNodes),
+                      starredNodes: starredNodes,
+                      mode: mode),
                   SizedBox(
                     height: 32,
                   ),
@@ -85,7 +90,8 @@ class NodesListPage extends HookWidget {
                       context: context,
                       nodes: readyNodes,
                       groupLabel: "Ready Nodes",
-                      starredNodes: starredNodes)
+                      starredNodes: starredNodes,
+                      mode: mode)
                 ],
               );
             },
@@ -98,7 +104,8 @@ Widget createNodesGroup(
     {BuildContext context,
     List<TCNode> nodes,
     String groupLabel,
-    ValueNotifier<List<String>> starredNodes}) {
+    ValueNotifier<List<String>> starredNodes,
+    ThemeMode mode}) {
   final f = NumberFormat.currency(
     symbol: "",
     decimalDigits: 0,
@@ -118,7 +125,7 @@ Widget createNodesGroup(
         elevation: 1,
         borderRadius: BorderRadius.circular(4.0),
         child: Container(
-          decoration: containerBoxDecoration(context),
+          decoration: containerBoxDecoration(context, mode),
           child: nodes.length <= 0
               ? Container(
                   padding: EdgeInsets.symmetric(vertical: 32),

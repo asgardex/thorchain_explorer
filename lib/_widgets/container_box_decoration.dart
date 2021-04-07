@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-BoxDecoration containerBoxDecoration(BuildContext context) => BoxDecoration(
-      border: (MediaQuery.of(context).platformBrightness == Brightness.dark)
+BoxDecoration containerBoxDecoration(BuildContext context, ThemeMode mode) =>
+    BoxDecoration(
+      border: (mode == ThemeMode.dark)
 
           // dark mode
           ? MediaQuery.of(context).size.width < 900

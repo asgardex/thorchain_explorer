@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/tc_network.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
@@ -22,6 +22,7 @@ class NetworkPage extends HookWidget {
   Widget build(BuildContext context) {
     final cgProvider = useProvider(coinGeckoProvider.state);
     final topColWidth = 200.0;
+    final ThemeMode mode = useProvider(userThemeProvider.state);
 
     return TCScaffold(
         currentArea: PageOptions.Network,
@@ -62,7 +63,7 @@ class NetworkPage extends HookWidget {
                       elevation: 1,
                       borderRadius: BorderRadius.circular(4.0),
                       child: Container(
-                          decoration: containerBoxDecoration(context),
+                          decoration: containerBoxDecoration(context, mode),
                           padding: EdgeInsets.all(16),
                           child: Column(
                             children: [
@@ -383,7 +384,7 @@ class NetworkPage extends HookWidget {
   }
 }
 
-class BondsList extends StatelessWidget {
+class BondsList extends HookWidget {
   final List<int> bonds;
   final BondMetricsStat metrics;
   final String title;
@@ -400,6 +401,7 @@ class BondsList extends StatelessWidget {
   Widget build(BuildContext context) {
     bonds.sort((a, b) => b.compareTo(a));
     final topBonds = bonds.sublist(0, (bonds.length > 10) ? 10 : bonds.length);
+    final ThemeMode mode = useProvider(userThemeProvider.state);
 
     return Column(
       children: [
@@ -417,7 +419,7 @@ class BondsList extends StatelessWidget {
           elevation: 1,
           borderRadius: BorderRadius.circular(4),
           child: Container(
-            decoration: containerBoxDecoration(context),
+            decoration: containerBoxDecoration(context, mode),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(

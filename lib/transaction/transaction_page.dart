@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/tc_action.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
@@ -24,6 +24,7 @@ class TransactionPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final params = FetchActionParams(offset: 0, limit: 10, txId: query);
+    final ThemeMode mode = useProvider(userThemeProvider.state);
 
     return TCScaffold(
       currentArea: PageOptions.Transactions,
@@ -74,7 +75,7 @@ class TransactionPage extends HookWidget {
                     elevation: 1,
                     borderRadius: BorderRadius.circular(4.0),
                     child: Container(
-                      decoration: containerBoxDecoration(context),
+                      decoration: containerBoxDecoration(context, mode),
                       padding: EdgeInsets.all(16),
                       child: Column(
                         children: [
@@ -171,7 +172,7 @@ class TransactionPage extends HookWidget {
               return Material(
                 elevation: 1,
                 child: Container(
-                  decoration: containerBoxDecoration(context),
+                  decoration: containerBoxDecoration(context, mode),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -205,8 +206,7 @@ class TransactionPage extends HookWidget {
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
-                            color: MediaQuery.of(context).platformBrightness ==
-                                    Brightness.dark
+                            color: mode == ThemeMode.dark
                                 ? Colors.blueGrey[900]
                                 : Colors.blueGrey[100],
                           ),

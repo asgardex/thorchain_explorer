@@ -5,6 +5,7 @@ import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_widgets/external_sidebar_links.dart';
 import 'package:thorchain_explorer/_widgets/navigation_item_list.dart';
 import 'package:thorchain_explorer/_widgets/sidebar_box_decoration.dart';
+import 'package:thorchain_explorer/_widgets/user_theme_toggle.dart';
 
 class Sidebar extends HookWidget {
   final PageOptions currentArea;
@@ -55,7 +56,9 @@ class Sidebar extends HookWidget {
             ]),
           ),
           Container(
-            child: ExternalSidebarLinks(),
+            child: Column(
+              children: [ExternalSidebarLinks(), UserThemeToggle()],
+            ),
           )
         ],
       ),

@@ -1,11 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/tc_network.dart';
+import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/stat_list_item.dart';
 
-class NetworkWidget extends StatelessWidget {
+class NetworkWidget extends HookWidget {
   final TCNetwork network;
   NetworkWidget(this.network);
 
@@ -15,6 +18,7 @@ class NetworkWidget extends StatelessWidget {
       symbol: "",
       decimalDigits: 0,
     );
+    final ThemeMode mode = useProvider(userThemeProvider.state);
 
     return Column(
       children: [
@@ -51,7 +55,7 @@ class NetworkWidget extends StatelessWidget {
         Material(
           elevation: 1,
           child: Container(
-            decoration: containerBoxDecoration(context),
+            decoration: containerBoxDecoration(context, mode),
             child: Column(
               children: [
                 StatListItem(

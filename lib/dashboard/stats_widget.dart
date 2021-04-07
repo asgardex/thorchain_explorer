@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/stats.dart';
+import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'dart:math';
 
@@ -15,6 +17,7 @@ class StatsWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final f = NumberFormat();
+    final ThemeMode mode = useProvider(userThemeProvider.state);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +32,7 @@ class StatsWidget extends HookWidget {
         Material(
           elevation: 1,
           child: Container(
-              decoration: containerBoxDecoration(context),
+              decoration: containerBoxDecoration(context, mode),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

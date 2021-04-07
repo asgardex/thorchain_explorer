@@ -18,6 +18,7 @@ class TransactionsListPage extends HookWidget {
     final offset = useState<int>(0);
 
     final params = FetchActionParams(offset: offset.value, limit: limit);
+    final ThemeMode mode = useProvider(userThemeProvider.state);
 
     return TCScaffold(
         currentArea: PageOptions.Transactions,
@@ -44,7 +45,7 @@ class TransactionsListPage extends HookWidget {
                         borderRadius: BorderRadius.circular(4.0),
                         child: Container(
                           child: TxList(actionsResponse.actions),
-                          decoration: containerBoxDecoration(context),
+                          decoration: containerBoxDecoration(context, mode),
                         ),
                       ),
                       SizedBox(

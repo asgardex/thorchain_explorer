@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
 import 'package:thorchain_explorer/_enums/networks.dart';
@@ -63,6 +64,8 @@ class EndpointDetails extends HookWidget {
     final midgardPath = (selectNetwork(net) == Networks.Testnet)
         ? "https://testnet.midgard.thorchain.info/v2${createNavigatorPath(endpoint)}"
         : "https://midgard.thorchain.info/v2${createNavigatorPath(endpoint)}";
+
+    ThemeMode mode = useProvider(userThemeProvider.state);
 
     // final pathParams = useState([]);
     final pathParams = useState<List<MidgardEndpointController>>(
@@ -152,7 +155,7 @@ class EndpointDetails extends HookWidget {
                   elevation: 1,
                   borderRadius: BorderRadius.circular(4.0),
                   child: Container(
-                    decoration: containerBoxDecoration(context),
+                    decoration: containerBoxDecoration(context, mode),
                     // padding: EdgeInsets.all(32),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,7 +187,8 @@ class EndpointDetails extends HookWidget {
                                   SizedBox(
                                     height: padding,
                                   ),
-                                  ...buildParamsForm(context, pathParams.value),
+                                  ...buildParamsForm(
+                                      context, pathParams.value, mode),
                                   SizedBox(
                                     height: 16,
                                   ),
@@ -218,7 +222,7 @@ class EndpointDetails extends HookWidget {
                                     height: padding,
                                   ),
                                   ...buildParamsForm(
-                                      context, queryPathParams.value),
+                                      context, queryPathParams.value, mode),
                                   SizedBox(
                                     height: 16,
                                   ),
@@ -301,8 +305,8 @@ class EndpointDetails extends HookWidget {
   }
 }
 
-List<Container> buildParamsForm(
-    BuildContext context, List<MidgardEndpointController> paramControllers) {
+List<Container> buildParamsForm(BuildContext context,
+    List<MidgardEndpointController> paramControllers, ThemeMode mode) {
   return (paramControllers != null && paramControllers.length > 0)
       ? paramControllers
           .map((e) => Container(
@@ -382,11 +386,9 @@ List<Container> buildParamsForm(
                       child: TextField(
                         controller: e.controller,
                         decoration: InputDecoration(
-                          fillColor:
-                              MediaQuery.of(context).platformBrightness ==
-                                      Brightness.dark
-                                  ? Color.fromRGBO(255, 255, 255, 0.075)
-                                  : Color.fromRGBO(0, 0, 0, 0.075),
+                          fillColor: mode == ThemeMode.dark
+                              ? Color.fromRGBO(255, 255, 255, 0.075)
+                              : Color.fromRGBO(0, 0, 0, 0.075),
                           filled: true,
                           enabledBorder: OutlineInputBorder(
                             borderSide:
