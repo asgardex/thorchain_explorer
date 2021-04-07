@@ -24,31 +24,8 @@ class ThorchainExplorerApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final midgardEndpoints = useProvider(midgardEndpointsProvider);
-    final userTheme = useState<Brightness>(null);
 
-    Future<void> _getUserTheme() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      final theme = prefs.getString('userTheme');
-      if (theme != null && (theme == 'DARK' || theme == 'LIGHT')) {
-        switch (theme) {
-          case 'LIGHT':
-            userTheme.value = Brightness.light;
-            break;
-          default:
-            userTheme.value = Brightness.dark;
-            return;
-        }
-      } else {
-        prefs.setString('userTheme', 'DARK');
-        userTheme.value = Brightness.dark;
-      }
-      return;
-    }
-
-    useEffect(() {
-      _getUserTheme();
-      return;
-    }, const []);
+    ThemeMode mode = useProvider(userThemeProvider.state);
 
     final client = ValueNotifier(
       GraphQLClient(
@@ -60,7 +37,7 @@ class ThorchainExplorerApp extends HookWidget {
     return GraphQLProvider(
         client: client,
         child: MaterialApp(
-          title: 'THORChain Explorer',
+          title: 'THORChain Network Explorer',
           theme: ThemeData(
               // primarySwatch: Colors.blue,
               cardColor: Colors.white,
@@ -76,7 +53,7 @@ class ThorchainExplorerApp extends HookWidget {
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.white))),
-          themeMode: ThemeMode.system,
+          themeMode: mode,
           initialRoute: '/',
           onGenerateRoute: (settings) {
             var uri = Uri.parse(settings.name);

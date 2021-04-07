@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
@@ -20,6 +20,7 @@ class AddressPage extends HookWidget {
   Widget build(BuildContext context) {
     final params = FetchActionParams(offset: 0, limit: 10, address: address);
     final f = new NumberFormat.currency(name: '', decimalDigits: 2);
+    final ThemeMode mode = useProvider(userThemeProvider.state);
 
     return TCScaffold(
         currentArea: PageOptions.Transactions,
@@ -89,7 +90,7 @@ class AddressPage extends HookWidget {
                       elevation: 1,
                       borderRadius: BorderRadius.circular(4.0),
                       child: Container(
-                          decoration: containerBoxDecoration(context),
+                          decoration: containerBoxDecoration(context, mode),
                           child: TxList(actionsResponse.actions)),
                     ),
                   ]);

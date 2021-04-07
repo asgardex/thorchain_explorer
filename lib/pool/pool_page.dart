@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/pool.dart';
 import 'package:thorchain_explorer/_classes/pool_volume_history.dart';
@@ -26,6 +26,7 @@ class PoolPage extends HookWidget {
     final currentDate = DateTime.now();
     final startDate = currentDate.subtract(Duration(days: 14));
     final cgProvider = useProvider(coinGeckoProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider.state);
 
     final f = NumberFormat.currency(
       symbol: "",
@@ -108,7 +109,7 @@ class PoolPage extends HookWidget {
                       elevation: 1,
                       borderRadius: BorderRadius.circular(4.0),
                       child: Container(
-                        decoration: containerBoxDecoration(context),
+                        decoration: containerBoxDecoration(context, mode),
                         padding: EdgeInsets.all(16),
                         child: Table(
                           border: TableBorder.all(
@@ -190,7 +191,7 @@ class PoolPage extends HookWidget {
   }
 }
 
-class PoolStakesTable extends StatelessWidget {
+class PoolStakesTable extends HookWidget {
   final PoolStakes poolStakes;
 
   final f = NumberFormat.currency(
@@ -202,6 +203,8 @@ class PoolStakesTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeMode mode = useProvider(userThemeProvider.state);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -213,7 +216,7 @@ class PoolStakesTable extends StatelessWidget {
         Material(
           elevation: 1,
           child: Container(
-            decoration: containerBoxDecoration(context),
+            decoration: containerBoxDecoration(context, mode),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -236,7 +239,7 @@ class PoolStakesTable extends StatelessWidget {
   }
 }
 
-class PoolDepthTable extends StatelessWidget {
+class PoolDepthTable extends HookWidget {
   final PoolDepth poolDepth;
 
   final f = NumberFormat.currency(
@@ -248,6 +251,8 @@ class PoolDepthTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeMode mode = useProvider(userThemeProvider.state);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -259,7 +264,7 @@ class PoolDepthTable extends StatelessWidget {
         Material(
             elevation: 1,
             child: Container(
-              decoration: containerBoxDecoration(context),
+              decoration: containerBoxDecoration(context, mode),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [

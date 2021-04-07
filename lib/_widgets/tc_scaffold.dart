@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
+import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/external_sidebar_links.dart';
 import 'package:thorchain_explorer/_widgets/fluid_container.dart';
 import 'package:thorchain_explorer/_widgets/navigation_item_list.dart';
@@ -17,6 +19,8 @@ class TCScaffold extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeMode mode = useProvider(userThemeProvider.state);
+
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
           endDrawer: (constraints.maxWidth > 900)
@@ -39,8 +43,7 @@ class TCScaffold extends HookWidget {
           appBar: (constraints.maxWidth > 900)
               ? null
               : AppBar(
-                  iconTheme: MediaQuery.of(context).platformBrightness ==
-                          Brightness.dark
+                  iconTheme: mode == ThemeMode.dark
                       ? IconThemeData(color: Colors.white)
                       : IconThemeData(color: Colors.grey[900]),
                   leading: Container(
@@ -67,8 +70,7 @@ class TCScaffold extends HookWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomCenter,
                       stops: [0.0, 0.1, 0.9],
-                      colors: MediaQuery.of(context).platformBrightness ==
-                              Brightness.dark
+                      colors: mode == ThemeMode.dark
                           ? [
                               Colors.blueGrey[900],
                               Colors.blueGrey[900],
