@@ -14,7 +14,6 @@ class UserThemeToggle extends HookWidget {
     return Container(
       child: Row(
         children: [
-          // Text('$mode'),
           IconButton(
               icon: Icon(
                 Icons.wb_sunny,
