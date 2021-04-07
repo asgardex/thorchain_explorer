@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/all.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/address/address_page.dart';
@@ -22,10 +23,34 @@ class ThorchainExplorerApp extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MidgardEndpoint> midgardEndpoints =
-        useProvider(midgardEndpointsProvider);
+    final midgardEndpoints = useProvider(midgardEndpointsProvider);
+    final userTheme = useState<Brightness>(null);
 
-    ValueNotifier<GraphQLClient> client = ValueNotifier(
+    Future<void> _getUserTheme() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final theme = prefs.getString('userTheme');
+      if (theme != null && (theme == 'DARK' || theme == 'LIGHT')) {
+        switch (theme) {
+          case 'LIGHT':
+            userTheme.value = Brightness.light;
+            break;
+          default:
+            userTheme.value = Brightness.dark;
+            return;
+        }
+      } else {
+        prefs.setString('userTheme', 'DARK');
+        userTheme.value = Brightness.dark;
+      }
+      return;
+    }
+
+    useEffect(() {
+      _getUserTheme();
+      return;
+    }, const []);
+
+    final client = ValueNotifier(
       GraphQLClient(
         cache: GraphQLCache(),
         link: graphQlLink,
@@ -44,7 +69,7 @@ class ThorchainExplorerApp extends HookWidget {
                       TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
           darkTheme: ThemeData(
               brightness: Brightness.dark,
-              cardColor: Color.fromRGBO(25, 28, 30, 1),
+              cardColor: const Color.fromRGBO(25, 28, 30, 1),
               dividerColor: Colors.blueGrey[900],
               textTheme: TextTheme(
                   headline1: TextStyle(
