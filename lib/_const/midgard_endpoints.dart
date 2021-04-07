@@ -474,7 +474,7 @@ final List<MidgardEndpoint> mainnetMidgardEndpoints = [
         MidgardParam(
             name: 'Address',
             key: 'address',
-            value: 'tthor1myt9t89nq7fph7x04lzpr8ymvjss8tzzpya5rs')
+            value: 'tthor10d5qahattrrf3nwpl79ukp3h8lm3upql70ssfy')
       ],
       queryParams: []),
   MidgardEndpoint(
