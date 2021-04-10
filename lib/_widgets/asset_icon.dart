@@ -54,7 +54,7 @@ class AssetIcon extends StatelessWidget {
       case 'THOR':
         if (splitAsset[1] != null && splitAsset[1] == 'RUNE') {
           logoPath =
-              'https://raw.githubusercontent.com/Pusher-Labs/thorchain_explorer/main/assets/images/thorchain-logo.png';
+              'https://raw.githubusercontent.com/asgardex/thorchain_explorer/main/assets/images/thorchain-logo.png';
         }
         break;
     }

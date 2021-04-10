@@ -34,7 +34,7 @@ class Sidebar extends HookWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(4.0),
                             child: Image.network(
-                              'https://raw.githubusercontent.com/Pusher-Labs/thorchain_explorer/main/assets/images/thorchain.png',
+                              'https://raw.githubusercontent.com/asgardex/thorchain_explorer/main/assets/images/thorchain.png',
                               width: 32,
                               height: 32,
                             )),
