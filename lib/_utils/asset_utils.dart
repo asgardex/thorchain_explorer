@@ -29,11 +29,7 @@ EthereumAddress ethAddressFromAsset(Asset a) {
     return null;
   }
 
-  // Crypto.strip0x(data[1]);
-
-  print(data[1]);
   final address = EthereumAddress.fromHex(strip0x(data[1]));
-  print('address is $address');
 
   return address;
 }

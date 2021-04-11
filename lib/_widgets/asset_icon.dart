@@ -46,8 +46,6 @@ class AssetIcon extends StatelessWidget {
           } else {
             // print(a.symbol);
             final address = ethAddressFromAsset(a);
-            print(address);
-            print(address.hexEip55);
 
             logoPath =
                 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address.hexEip55}/logo.png';
@@ -250,6 +248,3 @@ const Map<String, String> CoinIconsFromTrustWallet = {
   'XTZ': 'XTZ-F7A',
   'ZEBI': 'ZEBI-84F',
 };
-
-// https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdac17f958d2ee523a2206206994597c13d831ec7/logo.png
-// https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png
