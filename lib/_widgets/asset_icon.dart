@@ -80,8 +80,7 @@ class AssetIcon extends StatelessWidget {
         width: width,
         height: width,
         child: logoPath != null
-            ? // Image.network(logoPath)
-            ClipRRect(
+            ? ClipRRect(
                 borderRadius: BorderRadius.circular(width),
                 child: Image.network(logoPath),
               )
