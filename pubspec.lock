@@ -423,6 +423,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.5"
+  isolate:
+    dependency: transitive
+    description:
+      name: isolate
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   js:
     dependency: transitive
     description:
@@ -437,6 +444,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.1"
+  json_rpc_2:
+    dependency: transitive
+    description:
+      name: json_rpc_2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.2"
   json_serializable:
     dependency: "direct dev"
     description:
@@ -563,6 +577,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  pointycastle:
+    dependency: transitive
+    description:
+      name: pointycastle
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   pool:
     dependency: transitive
     description:
@@ -792,6 +813,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.2"
   uuid_enhanced:
     dependency: transitive
     description:
@@ -820,6 +848,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  web3dart:
+    dependency: "direct dev"
+    description:
+      name: web3dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.3"
   web_socket_channel:
     dependency: transitive
     description:
