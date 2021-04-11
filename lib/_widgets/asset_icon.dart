@@ -72,7 +72,10 @@ class AssetIcon extends StatelessWidget {
         break;
     }
 
-    // }
+    final errorIcon = Icon(
+      Icons.error_outline,
+      size: iconSize,
+    );
 
     return Container(
         width: width,
@@ -80,12 +83,15 @@ class AssetIcon extends StatelessWidget {
         child: logoPath != null
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(width),
-                child: Image.network(logoPath),
+                child: Image.network(
+                  logoPath,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace stackTrace) {
+                    return errorIcon;
+                  },
+                ),
               )
-            : Icon(
-                Icons.error_outline,
-                size: iconSize,
-              ));
+            : errorIcon);
   }
 }
 
