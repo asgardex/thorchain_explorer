@@ -44,9 +44,7 @@ class AssetIcon extends StatelessWidget {
             logoPath =
                 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png';
           } else {
-            // print(a.symbol);
             final address = ethAddressFromAsset(a);
-
             logoPath =
                 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address.hexEip55}/logo.png';
           }
