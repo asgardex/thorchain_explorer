@@ -8,7 +8,7 @@ class TxLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (txId != null && txId.length >= 4)
+    return (txId != null && txId.length > 4)
         ? Tooltip(
             message: txId,
             child: MouseRegion(
