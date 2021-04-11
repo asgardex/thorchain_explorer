@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:thorchain_explorer/_classes/asset.dart';
+import 'package:thorchain_explorer/_utils/asset_utils.dart';
 
 class AssetIcon extends StatelessWidget {
   final String asset;
@@ -19,24 +21,35 @@ class AssetIcon extends StatelessWidget {
         break;
 
       case 'BNB':
-        if (splitAsset[1] != null && splitAsset[1] == 'BNB') {
-          logoPath =
-              'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/info/logo.png';
-        } else {
-          String trustWalletMatch = CoinIconsFromTrustWallet[asset];
-          if (trustWalletMatch != null) {
+        Asset a = assetFromString(asset);
+        if (a != null) {
+          if (splitAsset[1] != null && splitAsset[1] == 'BNB') {
             logoPath =
-                "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/$trustWalletMatch/logo.png";
+                'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/info/logo.png';
+          } else {
+            String trustWalletMatch = CoinIconsFromTrustWallet[a.ticker];
+            if (trustWalletMatch != null) {
+              logoPath =
+                  "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/$trustWalletMatch/logo.png";
+            }
           }
         }
 
         break;
 
       case 'ETH':
-        if (splitAsset[1] != null && splitAsset[1] == 'ETH') {
-          logoPath =
-              'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png';
+        Asset a = assetFromString(asset);
+        if (a != null) {
+          if (a.ticker == 'ETH') {
+            logoPath =
+                'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png';
+          } else {
+            final address = ethAddressFromAsset(a);
+            logoPath =
+                'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address.hexEip55}/logo.png';
+          }
         }
+
         break;
 
       case 'BTC':
@@ -63,8 +76,12 @@ class AssetIcon extends StatelessWidget {
 
     return Container(
         width: width,
+        height: width,
         child: logoPath != null
-            ? Image.network(logoPath)
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(width),
+                child: Image.network(logoPath),
+              )
             : Icon(
                 Icons.error_outline,
                 size: iconSize,
