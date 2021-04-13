@@ -161,7 +161,20 @@ class TransactionPage extends HookWidget {
                                 )
                               ],
                             ),
-                          )
+                          ),
+                          (action.metadata != null &&
+                                  action.metadata.refund != null &&
+                                  action.metadata.refund.reason != null)
+                              ? Container(
+                                  padding: EdgeInsets.all(16),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                          "Transaction refunded: ${action.metadata.refund.reason}")
+                                    ],
+                                  ),
+                                )
+                              : Container()
                         ],
                       ),
                     ),
