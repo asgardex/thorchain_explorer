@@ -170,7 +170,7 @@ class PoolsPage extends HookWidget {
                                     color: Theme.of(context).hintColor),
                               ),
                               Text(
-                                "${pool.poolAPY.toStringAsPrecision(2)}%",
+                                "${(pool.poolAPY * 100).toStringAsPrecision(2)}%",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               )

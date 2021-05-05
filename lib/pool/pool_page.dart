@@ -146,7 +146,9 @@ class PoolPage extends HookWidget {
                             TableRow(children: [
                               PaddedTableCell(child: Text("Pool APY")),
                               PaddedTableCell(
-                                  child: Text("${f.format(pool.poolAPY)}%")),
+                                  child: Text(
+                                "${(pool.poolAPY * 100).toStringAsPrecision(2)}%",
+                              )),
                             ]),
                           ],
                         ),
