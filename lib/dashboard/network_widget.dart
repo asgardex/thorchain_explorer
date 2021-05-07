@@ -60,12 +60,14 @@ class NetworkWidget extends HookWidget {
               children: [
                 StatListItem(
                     label: "Bonding APY",
-                    value: network.bondingAPY.round().toString()),
+                    value: (network.bondingAPY * 100).toStringAsFixed(2) + '%'),
                 StatListItem(
                     label: "Active Node Count",
                     value: f.format(network.activeNodeCount)),
                 StatListItem(
-                    label: "Liquidity APY", value: "${network.liquidityAPY}%"),
+                    label: "Liquidity APY",
+                    value:
+                        (network.liquidityAPY * 100).toStringAsFixed(2) + '%'),
                 StatListItem(
                     label: "Next Churn Height",
                     value: network.nextChurnHeight.toString()),
