@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/tc_action.dart';
+import 'package:thorchain_explorer/_utils/asset_utils.dart';
 import 'package:thorchain_explorer/_widgets/address_link.dart';
 import 'package:thorchain_explorer/_widgets/coin_amounts_list.dart';
+import 'package:thorchain_explorer/_widgets/external_explorer_link.dart';
 import 'package:thorchain_explorer/_widgets/meta_tag.dart';
 import 'package:thorchain_explorer/_widgets/tx_link.dart';
 
@@ -68,7 +70,19 @@ class TxList extends StatelessWidget {
                                 SizedBox(
                                   width: 12,
                                 ),
-                                TxLink(input.txID)
+                                TxLink(input.txID),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                input.coins.length > 0 &&
+                                        assetFromString(input.coins[0].asset)
+                                                .chain !=
+                                            'THOR'
+                                    ? ExternalExplorerLink(
+                                        type: ExplorerLinkType.Tx,
+                                        hash: input.txID,
+                                        asset: input.coins[0].asset)
+                                    : Container()
                               ],
                             ),
                             SizedBox(
@@ -105,7 +119,19 @@ class TxList extends StatelessWidget {
                                 SizedBox(
                                   width: 12,
                                 ),
-                                TxLink(output.txID)
+                                TxLink(output.txID),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                output.coins.length > 0 &&
+                                        assetFromString(output.coins[0].asset)
+                                                .chain !=
+                                            'THOR'
+                                    ? ExternalExplorerLink(
+                                        type: ExplorerLinkType.Tx,
+                                        hash: output.txID,
+                                        asset: output.coins[0].asset)
+                                    : Container()
                               ],
                             ),
                             SizedBox(

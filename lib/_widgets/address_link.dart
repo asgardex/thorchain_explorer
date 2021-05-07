@@ -10,22 +10,26 @@ class AddressLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return (address.length <= 8)
         ? Text('')
-        : Tooltip(
-            message: address,
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/address/$address');
-                },
-                child: Text(
-                  '${address.substring(0, 8)}...${address.substring(address.length - 4, address.length)}',
-                  style: TextStyle(
-                      color: Theme.of(context).accentColor,
-                      fontWeight: FontWeight.w500),
+        : Row(
+            children: [
+              Tooltip(
+                message: address,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/address/$address');
+                    },
+                    child: Text(
+                      '${address.substring(0, 8)}...${address.substring(address.length - 4, address.length)}',
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           );
   }
 }

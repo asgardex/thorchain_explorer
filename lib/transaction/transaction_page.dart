@@ -303,24 +303,30 @@ class TransactionPage extends HookWidget {
                         width: 12,
                       ),
                       TxLink(tx.txID),
-                      ClipOval(
-                        child: Material(
-                          color: Colors.transparent,
-                          child: IconButton(
-                              iconSize: 12,
-                              icon: Icon(Icons.copy),
-                              onPressed: () {
-                                Clipboard.setData(ClipboardData(text: tx.txID));
+                      (tx.txID.length > 0)
+                          ? ClipOval(
+                              child: Material(
+                                color: Colors.transparent,
+                                child: IconButton(
+                                    iconSize: 12,
+                                    icon: Icon(Icons.copy),
+                                    onPressed: () {
+                                      Clipboard.setData(
+                                          ClipboardData(text: tx.txID));
 
-                                final snackBar = SnackBar(
-                                    content: Text('Transaction ID Copied'));
+                                      final snackBar = SnackBar(
+                                          content:
+                                              Text('Transaction ID Copied'));
 
-                                // Find the Scaffold in the widget tree and use it to show a SnackBar.
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }),
-                        ),
-                      ),
+                                      // Find the Scaffold in the widget tree and use it to show a SnackBar.
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    }),
+                              ),
+                            )
+                          : Container(
+                              height: 36,
+                            ),
                     ],
                   ),
                   CoinAmountsList(tx.coins),

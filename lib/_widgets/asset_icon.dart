@@ -81,14 +81,17 @@ class AssetIcon extends StatelessWidget {
         width: width,
         height: width,
         child: logoPath != null
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(width),
-                child: Image.network(
-                  logoPath,
-                  errorBuilder: (BuildContext context, Object exception,
-                      StackTrace stackTrace) {
-                    return errorIcon;
-                  },
+            ? Tooltip(
+                message: "${splitAsset[0]}.${splitAsset[1]}",
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(width),
+                  child: Image.network(
+                    logoPath,
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace stackTrace) {
+                      return errorIcon;
+                    },
+                  ),
                 ),
               )
             : errorIcon);
