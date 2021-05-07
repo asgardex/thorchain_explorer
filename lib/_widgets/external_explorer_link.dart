@@ -29,8 +29,6 @@ class ExternalExplorerLink extends StatelessWidget {
                 child: Icon(
                   Icons.open_in_new,
                   size: 16,
-                  // color: Colors.grey,
-                  // size: 16,
                 )))
         : Container();
   }
