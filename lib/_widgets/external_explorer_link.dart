@@ -58,8 +58,8 @@ String explorerBase(String chain, ExplorerLinkType type) {
 
     case 'BCH':
       return (net == "TESTNET")
-          ? 'https://explorer.bitcoin.com/tbch/'
-          : 'https://explorer.bitcoin.com/bch/';
+          ? 'https://www.blockchain.com/bch-testnet/'
+          : 'https://www.blockchain.com/bch/';
 
     default:
       return '';
