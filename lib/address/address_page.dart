@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -47,9 +48,35 @@ class AddressPage extends HookWidget {
                       SizedBox(
                         height: 8,
                       ),
-                      SelectableText(
-                        address,
-                        style: TextStyle(fontSize: 16),
+                      Row(
+                        children: [
+                          SelectableText(
+                            address,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          ClipOval(
+                            child: Material(
+                              color: Colors.transparent,
+                              child: IconButton(
+                                  iconSize: 16,
+                                  icon: Icon(Icons.copy),
+                                  onPressed: () {
+                                    Clipboard.setData(
+                                        ClipboardData(text: address));
+
+                                    final snackBar = SnackBar(
+                                        content: Text('Address Copied'));
+
+                                    // Find the Scaffold in the widget tree and use it to show a SnackBar.
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }),
+                            ),
+                          ),
+                        ],
                       ),
                       (thorBalance != null)
                           ? Column(
