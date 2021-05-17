@@ -172,7 +172,15 @@ QueryOptions dashboardQueryOptions(DateTime startDate, DateTime currentDate) {
         totalReserve,
         standbyBonds,
         standbyNodeCount,
-        totalPooledRune
+        totalPooledRune,
+        bondMetrics {
+          active {
+            totalBond
+          },
+          standby {
+            totalBond
+          }
+        },
       },
       volumeHistory(
         from:${(startDate.millisecondsSinceEpoch / 1000).round()},
