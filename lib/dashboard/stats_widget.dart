@@ -16,8 +16,12 @@ class StatsWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final f = NumberFormat();
+    final f = NumberFormat.currency(
+      symbol: "",
+      decimalDigits: 0,
+    );
     final ThemeMode mode = useProvider(userThemeProvider.state);
+    final cgProvider = useProvider(coinGeckoProvider.state);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,37 +40,228 @@ class StatsWidget extends HookWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  StatListItem(
-                      label: "Daily Active Users",
-                      value: f.format(stats.dailyActiveUsers)),
-                  // StatListItem(label: "Monthly Active Users", value: f.format(stats.monthlyActiveUsers)),
-                  // StatListItem(label: "Total Users", value: f.format(stats.totalUsers)),
-                  StatListItem(
-                      label: "Daily Txs", value: f.format(stats.dailyTx)),
-                  StatListItem(
-                      label: "Monthly Txs", value: f.format(stats.monthlyTx)),
-                  // StatListItem(
-                  //     label: "Total Txs", value: f.format(stats.totalTx)),
+                  Container(
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 150,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Daily Users",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              SelectableText(f.format(stats.dailyActiveUsers)),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 150,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Monthly Users",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              SelectableText(
+                                  f.format(stats.monthlyActiveUsers)),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 150,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Total Users",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              SelectableText(f.format(stats.totalUsers)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1,
+                                color: Theme.of(context).dividerColor))),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  ),
+
+                  Container(
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 150,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Daily Txs",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              SelectableText(f.format(stats.dailyTx)),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 150,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Monthly Txs",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              SelectableText(f.format(stats.monthlyTx)),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 150,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Total Txs",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              SelectableText(f.format(stats.totalTx)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1,
+                                color: Theme.of(context).dividerColor))),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  ),
+
                   StatListItem(
                       label: "Total Asset Buys",
                       value: f.format(stats.totalAssetBuys)),
                   StatListItem(
                       label: "Total Asset Sells",
                       value: f.format(stats.totalAssetSells)),
-                  StatListItem(
-                      label: "Total Depth",
-                      value: f.format(stats.totalDepth / pow(10, 8))),
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SelectableText(
+                          "Total Depth",
+                          style: TextStyle(
+                              color: Theme.of(context).hintColor, fontSize: 12),
+                        ),
+                        Row(
+                          children: [
+                            SelectableText(
+                                f.format(stats.totalDepth / pow(10, 8))),
+                            SelectableText(
+                              cgProvider.runePrice != null
+                                  ? "(\$${f.format(stats.totalDepth / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                  : "",
+                              style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1,
+                                color: Theme.of(context).dividerColor))),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  ),
                   StatListItem(
                       label: "Total Deposited Transactions",
                       value: f.format(stats.totalStakeTx)),
-                  StatListItem(
-                      label: "Total Deposited",
-                      value:
-                          f.format((stats.totalStaked / pow(10, 8)).round())),
-                  StatListItem(
-                      label: "Total Volume",
-                      value:
-                          f.format((stats.totalVolume / pow(10, 8)).round())),
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SelectableText(
+                          "Total Deposited",
+                          style: TextStyle(
+                              color: Theme.of(context).hintColor, fontSize: 12),
+                        ),
+                        Row(
+                          children: [
+                            SelectableText(
+                                f.format(stats.totalStaked / pow(10, 8))),
+                            SelectableText(
+                              cgProvider.runePrice != null
+                                  ? "(\$${f.format(stats.totalStaked / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                  : "",
+                              style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 1,
+                                color: Theme.of(context).dividerColor))),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  ),
+
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SelectableText(
+                          "Total Volume",
+                          style: TextStyle(
+                              color: Theme.of(context).hintColor, fontSize: 12),
+                        ),
+                        Row(
+                          children: [
+                            SelectableText(
+                                f.format(stats.totalVolume / pow(10, 8))),
+                            SelectableText(
+                              cgProvider.runePrice != null
+                                  ? "(\$${f.format(stats.totalVolume / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                  : "",
+                              style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  ),
+
                   // // this is returning the incorrect value in graphql
                   // StatListItem(
                   //   label: "Total Withdraw Transactions",

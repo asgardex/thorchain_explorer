@@ -19,6 +19,7 @@ class NetworkWidget extends HookWidget {
       decimalDigits: 0,
     );
     final ThemeMode mode = useProvider(userThemeProvider.state);
+    final cgProvider = useProvider(coinGeckoProvider.state);
 
     return Column(
       children: [
@@ -58,16 +59,181 @@ class NetworkWidget extends HookWidget {
             decoration: containerBoxDecoration(context, mode),
             child: Column(
               children: [
-                StatListItem(
-                    label: "Bonding APY",
-                    value: (network.bondingAPY * 100).toStringAsFixed(2) + '%'),
-                StatListItem(
-                    label: "Active Node Count",
-                    value: f.format(network.activeNodeCount)),
-                StatListItem(
-                    label: "Liquidity APY",
-                    value:
-                        (network.liquidityAPY * 100).toStringAsFixed(2) + '%'),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 225,
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Bonding APY",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              SelectableText((network.bondingAPY * 100)
+                                      .toStringAsFixed(2) +
+                                  '%')
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 225,
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Liquidity APY",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              SelectableText((network.liquidityAPY * 100)
+                                      .toStringAsFixed(2) +
+                                  '%'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              width: 1,
+                              color: Theme.of(context).dividerColor))),
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 225,
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Total Standby Bonded",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              Row(
+                                children: [
+                                  SelectableText(f.format(
+                                      network.bondMetrics.standby.totalBond /
+                                          pow(10, 8))),
+                                  SelectableText(
+                                    cgProvider.runePrice != null
+                                        ? "(\$${f.format(network.bondMetrics.standby.totalBond / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                        : "",
+                                    style: TextStyle(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 225,
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Total Active Bonded",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              Row(
+                                children: [
+                                  SelectableText(f.format(
+                                      network.bondMetrics.active.totalBond /
+                                          pow(10, 8))),
+                                  SelectableText(
+                                    cgProvider.runePrice != null
+                                        ? "(\$${f.format(network.bondMetrics.active.totalBond / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                        : "",
+                                    style: TextStyle(
+                                      color: Theme.of(context).hintColor,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              width: 1,
+                              color: Theme.of(context).dividerColor))),
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 225,
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Active Node Count",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              SelectableText(f.format(network.activeNodeCount))
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 225,
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                "Standby Node Count",
+                                style: TextStyle(
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 12),
+                              ),
+                              SelectableText(f.format(network.standbyNodeCount))
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              width: 1,
+                              color: Theme.of(context).dividerColor))),
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                ),
                 StatListItem(
                     label: "Next Churn Height",
                     value: network.nextChurnHeight.toString()),
@@ -76,16 +242,69 @@ class NetworkWidget extends HookWidget {
                     value: network.poolActivationCountdown.toString()),
                 StatListItem(
                     label: "Pool Share Factor",
-                    value: "${network.poolShareFactor}"),
-                StatListItem(
-                    label: "Total Reserve",
-                    value: f.format(network.totalReserve / pow(10, 8))),
-                StatListItem(
-                    label: "Standby Node Count",
-                    value: f.format(network.standbyNodeCount)),
-                StatListItem(
-                    label: "Total Pooled Rune",
-                    value: f.format(network.totalPooledRune / pow(10, 8))),
+                    value: (network.poolShareFactor * 100).toStringAsFixed(2) +
+                        '%'),
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SelectableText(
+                        "Total Reserve",
+                        style: TextStyle(
+                            color: Theme.of(context).hintColor, fontSize: 12),
+                      ),
+                      Row(
+                        children: [
+                          SelectableText(
+                              f.format(network.totalReserve / pow(10, 8))),
+                          SelectableText(
+                            cgProvider.runePrice != null
+                                ? "(\$${f.format(network.totalReserve / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                : "",
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              width: 1,
+                              color: Theme.of(context).dividerColor))),
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                ),
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SelectableText(
+                        "Total Pooled Rune",
+                        style: TextStyle(
+                            color: Theme.of(context).hintColor, fontSize: 12),
+                      ),
+                      Row(
+                        children: [
+                          SelectableText(
+                              f.format(network.totalPooledRune / pow(10, 8))),
+                          SelectableText(
+                            cgProvider.runePrice != null
+                                ? "(\$${f.format(network.totalPooledRune / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                : "",
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                ),
               ],
             ),
           ),
