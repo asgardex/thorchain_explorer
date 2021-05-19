@@ -16,7 +16,7 @@ class MidgardExplorerScaffold extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     return LayoutBuilder(
       builder: (context, constraints) => Scaffold(

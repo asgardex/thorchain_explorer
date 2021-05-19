@@ -8,8 +8,8 @@ import 'package:thorchain_explorer/_providers/user_theme_notifier.dart';
 class UserThemeToggle extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    UserThemeNotifier notifier = useProvider(userThemeProvider);
-    ThemeMode mode = useProvider(userThemeProvider.state);
+    UserThemeNotifier notifier = useProvider(userThemeProvider.notifier);
+    ThemeMode mode = useProvider(userThemeProvider);
 
     return Container(
       child: Row(

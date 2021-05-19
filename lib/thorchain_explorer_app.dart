@@ -4,6 +4,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
+// import 'package:thorchain_explorer/_providers/coingecko_provider.dart';
 import 'package:thorchain_explorer/address/address_page.dart';
 import 'package:thorchain_explorer/dashboard/dashboard_page.dart';
 import 'package:thorchain_explorer/midgard_explorer/midgard_explorer.dart';
@@ -24,7 +25,9 @@ class ThorchainExplorerApp extends HookWidget {
   Widget build(BuildContext context) {
     final midgardEndpoints = useProvider(midgardEndpointsProvider);
 
-    ThemeMode mode = useProvider(userThemeProvider.state);
+    ThemeMode mode = useProvider(userThemeProvider);
+    // CoinGeckoProvider cgProvider = useProvider(coinGeckoProvider.notifier);
+    // cgProvider.fetchRunePrice();
 
     final client = ValueNotifier(
       GraphQLClient(

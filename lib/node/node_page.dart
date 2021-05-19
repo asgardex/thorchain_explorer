@@ -25,7 +25,7 @@ class NodePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     return TCScaffold(
       currentArea: PageOptions.Nodes,

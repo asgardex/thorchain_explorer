@@ -18,8 +18,8 @@ class NetworkWidget extends HookWidget {
       symbol: "",
       decimalDigits: 0,
     );
-    final ThemeMode mode = useProvider(userThemeProvider.state);
-    final cgProvider = useProvider(coinGeckoProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider);
+    final cgProvider = useProvider(coinGeckoProvider);
 
     return Column(
       children: [

@@ -65,7 +65,7 @@ class EndpointDetails extends HookWidget {
         ? "https://testnet.midgard.thorchain.info/v2${createNavigatorPath(endpoint)}"
         : "https://midgard.thorchain.info/v2${createNavigatorPath(endpoint)}";
 
-    ThemeMode mode = useProvider(userThemeProvider.state);
+    ThemeMode mode = useProvider(userThemeProvider);
 
     // final pathParams = useState([]);
     final pathParams = useState<List<MidgardEndpointController>>(

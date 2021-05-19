@@ -20,9 +20,9 @@ class NetworkPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cgProvider = useProvider(coinGeckoProvider.state);
+    final cgProvider = useProvider(coinGeckoProvider);
     final topColWidth = 200.0;
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     return TCScaffold(
         currentArea: PageOptions.Network,
@@ -401,7 +401,7 @@ class BondsList extends HookWidget {
   Widget build(BuildContext context) {
     bonds.sort((a, b) => b.compareTo(a));
     final topBonds = bonds.sublist(0, (bonds.length > 10) ? 10 : bonds.length);
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     return Column(
       children: [

@@ -35,8 +35,6 @@ class MidgardService {
   }
 
   Future<TcActionResponse> fetchActions(FetchActionParams params) async {
-    print('midgard fetch actions called');
-
     Map<String, String> queryParameters = {
       'offset': '${params.offset}',
       'limit': '${params.limit}',
@@ -69,7 +67,7 @@ class MidgardService {
 
   Future<List<TCNode>> fetchNodes() async {
     var uri = Uri.https(baseUrl, '/thorchain/nodes');
-    var response = await http.get(uri).timeout(Duration(seconds: 5));
+    var response = await http.get(uri).timeout(Duration(seconds: 10));
 
     if (response.statusCode == 200) {
       return compute(_parseNodes, response.body);
