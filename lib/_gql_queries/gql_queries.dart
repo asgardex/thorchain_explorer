@@ -83,6 +83,24 @@ QueryOptions nodesListPageQueryOptions() {
             reason
           },
           currentAward
+        },
+        network{
+          bondMetrics {
+            active {
+              averageBond,
+              maximumBond,
+              medianBond,
+              minimumBond,
+              totalBond
+            },
+            standby {
+              averageBond,
+              maximumBond,
+              medianBond,
+              minimumBond,
+              totalBond
+            }
+          },
         }
       }
     """));
