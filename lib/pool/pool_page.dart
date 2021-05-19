@@ -25,8 +25,8 @@ class PoolPage extends HookWidget {
   Widget build(BuildContext context) {
     final currentDate = DateTime.now();
     final startDate = currentDate.subtract(Duration(days: 14));
-    final cgProvider = useProvider(coinGeckoProvider.state);
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final cgProvider = useProvider(coinGeckoProvider);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     final f = NumberFormat.currency(
       symbol: "",
@@ -205,7 +205,7 @@ class PoolStakesTable extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,7 +253,7 @@ class PoolDepthTable extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

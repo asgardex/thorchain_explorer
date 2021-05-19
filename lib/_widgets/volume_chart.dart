@@ -26,8 +26,8 @@ class VolumeChart extends HookWidget {
       decimalDigits: 0,
     );
 
-    final cgProvider = useProvider(coinGeckoProvider.state);
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final cgProvider = useProvider(coinGeckoProvider);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     return Material(
       elevation: 1,

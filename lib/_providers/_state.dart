@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
 import 'package:thorchain_explorer/_classes/tc_bank_balances.dart';
@@ -32,7 +33,8 @@ final nodes = providerAutodispose<List<TCNode>>((ref) async {
 });
 
 final coinGeckoProvider =
-    StateNotifierProvider<CoinGeckoProvider>((ref) => CoinGeckoProvider());
+    StateNotifierProvider<CoinGeckoProvider, CoinGeckoProviderState>(
+        (ref) => CoinGeckoProvider());
 
 final midgardEndpointsProvider =
     Provider.autoDispose<List<MidgardEndpoint>>((ref) {
@@ -54,8 +56,8 @@ final bankBalancesProvider =
   return thornodeService.fetchBalances(address);
 });
 
-final userThemeProvider =
-    StateNotifierProvider<UserThemeNotifier>((ref) => UserThemeNotifier());
+final userThemeProvider = StateNotifierProvider<UserThemeNotifier, ThemeMode>(
+    (ref) => UserThemeNotifier());
 
 Networks selectNetwork(String net) {
   switch (net) {

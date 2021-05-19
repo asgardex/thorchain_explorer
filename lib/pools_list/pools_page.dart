@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/pool.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
@@ -14,7 +14,7 @@ import 'dart:math';
 class PoolsPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final cgProvider = useProvider(coinGeckoProvider.state);
+    final cgProvider = useProvider(coinGeckoProvider);
 
     return TCScaffold(
         currentArea: PageOptions.Pools,

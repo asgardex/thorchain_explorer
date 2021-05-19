@@ -19,7 +19,7 @@ class TransactionsListPage extends HookWidget {
     final offset = useState<int>(0);
 
     final params = FetchActionParams(offset: offset.value, limit: limit);
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     return TCScaffold(
         currentArea: PageOptions.Transactions,

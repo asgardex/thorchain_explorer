@@ -25,7 +25,7 @@ class AddressPage extends HookWidget {
     final params =
         FetchActionParams(offset: offset.value, limit: 10, address: address);
     final f = new NumberFormat.currency(name: '', decimalDigits: 2);
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     return TCScaffold(
         currentArea: PageOptions.Transactions,

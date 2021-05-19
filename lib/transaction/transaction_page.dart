@@ -24,7 +24,7 @@ class TransactionPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final params = FetchActionParams(offset: 0, limit: 10, txId: query);
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     return TCScaffold(
       currentArea: PageOptions.Transactions,

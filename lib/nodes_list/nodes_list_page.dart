@@ -19,7 +19,7 @@ class NodesListPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final starredNodes = useState<List<String>>([]);
-    final ThemeMode mode = useProvider(userThemeProvider.state);
+    final ThemeMode mode = useProvider(userThemeProvider);
 
     Future<void> getStarredNodes() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -279,7 +279,7 @@ class BondMetric extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cgProvider = useProvider(coinGeckoProvider.state);
+    final cgProvider = useProvider(coinGeckoProvider);
 
     return Container(
       width: 200,
