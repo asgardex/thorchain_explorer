@@ -7,6 +7,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:thorchain_explorer/_classes/node_location.dart';
 import 'package:thorchain_explorer/_classes/tc_network.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
@@ -20,6 +21,7 @@ class NodesListPage extends HookWidget {
   Widget build(BuildContext context) {
     final starredNodes = useState<List<String>>([]);
     final ThemeMode mode = useProvider(userThemeProvider);
+    final nodeLocationsNotifier = useProvider(nodeLocationsProvider.notifier);
 
     Future<void> getStarredNodes() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -54,6 +56,8 @@ class NodesListPage extends HookWidget {
 
               List<TCNode> tcNodes = List<TCNode>.from(
                   result.data?['nodes'].map((node) => TCNode.fromJson(node)));
+
+              nodeLocationsNotifier.fetchLocations(tcNodes);
 
               TCNetwork network = TCNetwork.fromJson(result.data?['network']);
 
@@ -122,6 +126,9 @@ class NodesGroup extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nodeLocationsState = useProvider(nodeLocationsProvider);
+    final nodeLocations = nodeLocationsState.nodeLocations;
+
     nodes.sort((a, b) => b.bond.compareTo(a.bond));
 
     return Column(
@@ -202,60 +209,68 @@ class NodesGroup extends HookWidget {
                             DataColumn(label: Text("Slash Points")),
                             DataColumn(label: Text("Current Award")),
                             DataColumn(label: Text("Bond")),
+                            DataColumn(label: Text("Org")),
+                            DataColumn(label: Text("City")),
+                            DataColumn(label: Text("Region")),
+                            DataColumn(label: Text("Country"))
                           ],
-                          rows: nodes
-                              .map((node) => DataRow(
-                                      onSelectChanged: (_) {
-                                        Navigator.pushNamed(
-                                            context, '/nodes/${node.address}');
-                                      },
-                                      cells: [
-                                        DataCell(IconButton(
-                                          icon: (starredNodes.value
-                                                  .contains(node.address))
-                                              ? Icon(
-                                                  Icons.star,
-                                                  color: Colors.orange,
-                                                )
-                                              : Icon(Icons.star_border),
-                                          onPressed: () async {
-                                            SharedPreferences prefs =
-                                                await SharedPreferences
-                                                    .getInstance();
+                          rows: nodes.map((node) {
+                            NodeLocation? locationMatch =
+                                nodeLocations.firstWhere(
+                              (location) => location.ip == node.ipAddress,
+                              orElse: () => NodeLocation(),
+                            );
 
-                                            if (starredNodes.value
-                                                .contains(node.address)) {
-                                              starredNodes.value
-                                                  .remove(node.address);
-                                              starredNodes.value =
-                                                  List.from(starredNodes.value);
-                                            } else {
-                                              starredNodes.value += [
-                                                node.address
-                                              ];
-                                            }
+                            return DataRow(
+                                onSelectChanged: (_) {
+                                  Navigator.pushNamed(
+                                      context, '/nodes/${node.address}');
+                                },
+                                cells: [
+                                  DataCell(IconButton(
+                                    icon: (starredNodes.value
+                                            .contains(node.address))
+                                        ? Icon(
+                                            Icons.star,
+                                            color: Colors.orange,
+                                          )
+                                        : Icon(Icons.star_border),
+                                    onPressed: () async {
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
 
-                                            prefs.setStringList('starredNodes',
-                                                starredNodes.value);
-                                          },
-                                        )),
-                                        DataCell(
-                                          Text(
-                                              '${node.address.substring(0, 8)}...${node.address.substring(node.address.length - 4)}'),
-                                        ),
-                                        DataCell(Container(
-                                            width: 110,
-                                            child: SelectableText(
-                                                node.ipAddress))),
-                                        DataCell(Text(node.version)),
-                                        DataCell(
-                                            Text(node.slashPoints.toString())),
-                                        DataCell(Text(f.format(
-                                            node.currentAward / pow(10, 8)))),
-                                        DataCell(Text(
-                                            f.format(node.bond / pow(10, 8))))
-                                      ]))
-                              .toList(),
+                                      if (starredNodes.value
+                                          .contains(node.address)) {
+                                        starredNodes.value.remove(node.address);
+                                        starredNodes.value =
+                                            List.from(starredNodes.value);
+                                      } else {
+                                        starredNodes.value += [node.address];
+                                      }
+
+                                      prefs.setStringList(
+                                          'starredNodes', starredNodes.value);
+                                    },
+                                  )),
+                                  DataCell(
+                                    Text(
+                                        '${node.address.substring(0, 8)}...${node.address.substring(node.address.length - 4)}'),
+                                  ),
+                                  DataCell(Container(
+                                      width: 110,
+                                      child: SelectableText(node.ipAddress))),
+                                  DataCell(Text(node.version)),
+                                  DataCell(Text(node.slashPoints.toString())),
+                                  DataCell(Text(f
+                                      .format(node.currentAward / pow(10, 8)))),
+                                  DataCell(
+                                      Text(f.format(node.bond / pow(10, 8)))),
+                                  DataCell(Text(locationMatch.org ?? '')),
+                                  DataCell(Text(locationMatch.city ?? '')),
+                                  DataCell(Text(locationMatch.region ?? '')),
+                                  DataCell(Text(locationMatch.country ?? ''))
+                                ]);
+                          }).toList(),
                         ),
                       ),
                     ],
