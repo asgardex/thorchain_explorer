@@ -7,9 +7,10 @@ part of 'tc_action.dart';
 // **************************************************************************
 
 CoinAmount _$CoinAmountFromJson(Map<String, dynamic> json) {
-  return CoinAmount()
-    ..asset = json['asset'] as String
-    ..amount = json['amount'] as String;
+  return CoinAmount(
+    asset: json['asset'] as String,
+    amount: json['amount'] as String,
+  );
 }
 
 Map<String, dynamic> _$CoinAmountToJson(CoinAmount instance) =>
@@ -19,32 +20,30 @@ Map<String, dynamic> _$CoinAmountToJson(CoinAmount instance) =>
     };
 
 ActionTx _$ActionTxFromJson(Map<String, dynamic> json) {
-  return ActionTx()
-    ..txID = json['txID'] as String
-    ..memo = json['memo'] as String
-    ..address = json['address'] as String
-    ..coins = (json['coins'] as List)
-        ?.map((e) =>
-            e == null ? null : CoinAmount.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+  return ActionTx(
+    txID: json['txID'] as String,
+    address: json['address'] as String,
+    coins: (json['coins'] as List<dynamic>)
+        .map((e) => CoinAmount.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 }
 
 Map<String, dynamic> _$ActionTxToJson(ActionTx instance) => <String, dynamic>{
       'txID': instance.txID,
-      'memo': instance.memo,
       'address': instance.address,
       'coins': instance.coins,
     };
 
 ActionMetadataSwap _$ActionMetadataSwapFromJson(Map<String, dynamic> json) {
-  return ActionMetadataSwap()
-    ..liquidityFee = json['liquidityFee'] as String
-    ..tradeSlip = json['tradeSlip'] as String
-    ..tradeTarget = json['tradeTarget'] as String
-    ..networkFees = (json['networkFees'] as List)
-        ?.map((e) =>
-            e == null ? null : CoinAmount.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+  return ActionMetadataSwap(
+    liquidityFee: json['liquidityFee'] as String,
+    networkFees: (json['networkFees'] as List<dynamic>)
+        .map((e) => CoinAmount.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  )
+    ..tradeSlip = json['tradeSlip'] as String?
+    ..tradeTarget = json['tradeTarget'] as String?;
 }
 
 Map<String, dynamic> _$ActionMetadataSwapToJson(ActionMetadataSwap instance) =>
@@ -69,14 +68,14 @@ Map<String, dynamic> _$ActionMetadataAddLiquidityToJson(
 
 ActionMetadataWithdraw _$ActionMetadataWithdrawFromJson(
     Map<String, dynamic> json) {
-  return ActionMetadataWithdraw()
-    ..liquidityUnits = json['liquidityUnits'] as String
-    ..asymmetry = json['asymmetry'] as String
-    ..basisPoints = json['basisPoints'] as String
-    ..networkFees = (json['networkFees'] as List)
-        ?.map((e) =>
-            e == null ? null : CoinAmount.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+  return ActionMetadataWithdraw(
+    liquidityUnits: json['liquidityUnits'] as String,
+    asymmetry: json['asymmetry'] as String,
+    basisPoints: json['basisPoints'] as String,
+    networkFees: (json['networkFees'] as List<dynamic>)
+        .map((e) => CoinAmount.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 }
 
 Map<String, dynamic> _$ActionMetadataWithdrawToJson(
@@ -90,10 +89,9 @@ Map<String, dynamic> _$ActionMetadataWithdrawToJson(
 
 ActionMetadataRefund _$ActionMetadataRefundFromJson(Map<String, dynamic> json) {
   return ActionMetadataRefund()
-    ..networkFees = (json['networkFees'] as List)
-        ?.map((e) =>
-            e == null ? null : CoinAmount.fromJson(e as Map<String, dynamic>))
-        ?.toList()
+    ..networkFees = (json['networkFees'] as List<dynamic>)
+        .map((e) => CoinAmount.fromJson(e as Map<String, dynamic>))
+        .toList()
     ..reason = json['reason'] as String;
 }
 
@@ -132,17 +130,15 @@ Map<String, dynamic> _$ActionMetadataToJson(ActionMetadata instance) =>
 
 TcAction _$TcActionFromJson(Map<String, dynamic> json) {
   return TcAction()
-    ..pools = (json['pools'] as List)?.map((e) => e as String)?.toList()
+    ..pools = (json['pools'] as List<dynamic>).map((e) => e as String).toList()
     ..type = json['type'] as String
     ..status = json['status'] as String
-    ..inputs = (json['in'] as List)
-        ?.map((e) =>
-            e == null ? null : ActionTx.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..outputs = (json['out'] as List)
-        ?.map((e) =>
-            e == null ? null : ActionTx.fromJson(e as Map<String, dynamic>))
-        ?.toList()
+    ..inputs = (json['in'] as List<dynamic>)
+        .map((e) => ActionTx.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..outputs = (json['out'] as List<dynamic>)
+        .map((e) => ActionTx.fromJson(e as Map<String, dynamic>))
+        .toList()
     ..date = json['date'] as String
     ..height = json['height'] as String
     ..metadata = json['metadata'] == null
@@ -162,12 +158,12 @@ Map<String, dynamic> _$TcActionToJson(TcAction instance) => <String, dynamic>{
     };
 
 TcActionResponse _$TcActionResponseFromJson(Map<String, dynamic> json) {
-  return TcActionResponse()
-    ..count = json['count'] as String
-    ..actions = (json['actions'] as List)
-        ?.map((e) =>
-            e == null ? null : TcAction.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+  return TcActionResponse(
+    count: json['count'] as String,
+    actions: (json['actions'] as List<dynamic>)
+        .map((e) => TcAction.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 }
 
 Map<String, dynamic> _$TcActionResponseToJson(TcActionResponse instance) =>

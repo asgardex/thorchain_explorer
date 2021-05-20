@@ -6,7 +6,7 @@ class StatListItem extends StatelessWidget {
   final bool hideBorder;
 
   StatListItem(
-      {@required this.label, @required this.value, this.hideBorder = false});
+      {required this.label, required this.value, this.hideBorder = false});
 
   @override
   Widget build(BuildContext context) {

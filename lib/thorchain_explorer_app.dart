@@ -4,7 +4,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
-// import 'package:thorchain_explorer/_providers/coingecko_provider.dart';
 import 'package:thorchain_explorer/address/address_page.dart';
 import 'package:thorchain_explorer/dashboard/dashboard_page.dart';
 import 'package:thorchain_explorer/midgard_explorer/midgard_explorer.dart';
@@ -26,8 +25,6 @@ class ThorchainExplorerApp extends HookWidget {
     final midgardEndpoints = useProvider(midgardEndpointsProvider);
 
     ThemeMode mode = useProvider(userThemeProvider);
-    // CoinGeckoProvider cgProvider = useProvider(coinGeckoProvider.notifier);
-    // cgProvider.fetchRunePrice();
 
     final client = ValueNotifier(
       GraphQLClient(
@@ -58,7 +55,7 @@ class ThorchainExplorerApp extends HookWidget {
           themeMode: mode,
           initialRoute: '/',
           onGenerateRoute: (settings) {
-            var uri = Uri.parse(settings.name);
+            var uri = Uri.parse(settings.name ?? '');
 
             if (settings.name == '/') {
               // Home
@@ -150,8 +147,9 @@ PageRouteBuilder _handleMidgardRouting(
     endpoints[i].active = false;
   }
 
-  final match = endpoints.firstWhere((e) => matchMidgardRoute(e, settings),
-      orElse: () => null);
+  final MidgardEndpoint match = endpoints.firstWhere(
+      (e) => matchMidgardRoute(e, settings),
+      orElse: () => endpoints[0]);
   if (settings.name == '/') {
     // this should redirect to first endpoint
     return PageRouteBuilder(
@@ -181,8 +179,9 @@ PageRouteBuilder _handleMidgardRouting(
 }
 
 bool matchMidgardRoute(MidgardEndpoint e, RouteSettings settings) {
-  final midgardPath = settings.name.replaceAll('/midgard', '');
-  var settingsUri = Uri.parse(midgardPath);
+  final midgardPath =
+      (settings.name != null) ? settings.name?.replaceAll('/midgard', '') : '';
+  var settingsUri = Uri.parse(midgardPath ?? '');
   var endpointUri = Uri.parse(e.path);
 
   if (settingsUri.pathSegments.length != endpointUri.pathSegments.length) {
@@ -197,7 +196,7 @@ bool matchMidgardRoute(MidgardEndpoint e, RouteSettings settings) {
       for (var j = 0; j < settingsUri.queryParameters.length; j++) {
         if (settingsUri.queryParameters[endpointQP.key] != null) {
           e.queryParams[i].value =
-              settingsUri.queryParameters[e.queryParams[i].key];
+              settingsUri.queryParameters[e.queryParams[i].key] ?? '';
           matchingUriQuery = true;
           break;
         }

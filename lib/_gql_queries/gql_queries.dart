@@ -1,7 +1,9 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 QueryOptions poolQueryOptions(
-    {String asset, DateTime startDate, DateTime currentDate}) {
+    {required String asset,
+    required DateTime startDate,
+    required DateTime currentDate}) {
   return QueryOptions(document: gql("""
       query {
         pool(asset:"$asset") {

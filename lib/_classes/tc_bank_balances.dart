@@ -7,7 +7,7 @@ class BankBalance {
   String denom;
   String amount;
 
-  BankBalance();
+  BankBalance({required this.denom, required this.amount});
 
   factory BankBalance.fromJson(Map<String, dynamic> json) =>
       _$BankBalanceFromJson(json);
@@ -15,8 +15,8 @@ class BankBalance {
 
 @JsonSerializable()
 class BankBalances {
-  String height;
-  List<BankBalance> result;
+  String height = '0';
+  List<BankBalance> result = [];
 
   BankBalances();
 

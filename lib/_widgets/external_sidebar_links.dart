@@ -7,7 +7,7 @@ class _ExternalSidebarLink {
   String url;
   String name;
 
-  _ExternalSidebarLink({this.url, this.name});
+  _ExternalSidebarLink({required this.url, required this.name});
 }
 
 class ExternalSidebarLinks extends StatelessWidget {

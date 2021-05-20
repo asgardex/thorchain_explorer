@@ -7,7 +7,11 @@ class Paginator extends StatelessWidget {
   final int totalCount;
   final IntCallback updateOffset;
 
-  Paginator({this.offset, this.limit, this.totalCount, this.updateOffset});
+  Paginator(
+      {this.offset = 0,
+      this.limit = 10,
+      this.totalCount = 0,
+      required this.updateOffset});
 
   @override
   Widget build(BuildContext context) {

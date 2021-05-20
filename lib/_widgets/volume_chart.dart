@@ -185,7 +185,7 @@ class VolumeChart extends HookWidget {
           .entries
           .map((e) => FlSpot(
               e.key.toDouble(),
-              ((e.value.toRune.volumeInRune / pow(10, 8)) * runePrice)
+              (((e.value.toRune.volumeInRune ?? 0) / pow(10, 8)) * runePrice)
                   .roundToDouble()))
           .toList(),
       isCurved: false,
@@ -205,7 +205,7 @@ class VolumeChart extends HookWidget {
           .entries
           .map((e) => FlSpot(
               e.key.toDouble(),
-              ((e.value.toAsset.volumeInRune / pow(10, 8)) * runePrice)
+              (((e.value.toAsset.volumeInRune ?? 0) / pow(10, 8)) * runePrice)
                   .roundToDouble()))
           .toList(),
       isCurved: false,
@@ -227,7 +227,8 @@ class VolumeChart extends HookWidget {
           .entries
           .map((e) => FlSpot(
               e.key.toDouble(),
-              (((e.value.toAsset.volumeInRune + e.value.toRune.volumeInRune) /
+              ((((e.value.toAsset.volumeInRune ?? 0) +
+                              (e.value.toRune.volumeInRune ?? 0)) /
                           pow(10, 8)) *
                       runePrice)
                   .roundToDouble()))

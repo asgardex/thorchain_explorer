@@ -76,7 +76,7 @@ class TxList extends StatelessWidget {
                                 ),
                                 input.coins.length > 0 &&
                                         assetFromString(input.coins[0].asset)
-                                                .chain !=
+                                                ?.chain !=
                                             'THOR'
                                     ? ExternalExplorerLink(
                                         type: ExplorerLinkType.Tx,
@@ -125,7 +125,7 @@ class TxList extends StatelessWidget {
                                 ),
                                 output.coins.length > 0 &&
                                         assetFromString(output.coins[0].asset)
-                                                .chain !=
+                                                ?.chain !=
                                             'THOR'
                                     ? ExternalExplorerLink(
                                         type: ExplorerLinkType.Tx,

@@ -4,20 +4,20 @@ part 'coingecko_price.g.dart';
 
 @JsonSerializable()
 class USDPrice {
-
-  USDPrice();
+  USDPrice({required this.usd});
 
   double usd;
 
-  factory USDPrice.fromJson(Map<String, dynamic> json) => _$USDPriceFromJson(json);
+  factory USDPrice.fromJson(Map<String, dynamic> json) =>
+      _$USDPriceFromJson(json);
 }
 
 @JsonSerializable()
 class CoinGeckoPrice {
-
-  CoinGeckoPrice();
+  CoinGeckoPrice({required this.thorchain});
 
   USDPrice thorchain;
 
-  factory CoinGeckoPrice.fromJson(Map<String, dynamic> json) => _$CoinGeckoPriceFromJson(json);
+  factory CoinGeckoPrice.fromJson(Map<String, dynamic> json) =>
+      _$CoinGeckoPriceFromJson(json);
 }

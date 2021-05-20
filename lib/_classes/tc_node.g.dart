@@ -7,9 +7,10 @@ part of 'tc_node.dart';
 // **************************************************************************
 
 PubKeySet _$PubKeySetFromJson(Map<String, dynamic> json) {
-  return PubKeySet()
-    ..secp256k1 = json['secp256k1'] as String
-    ..ed25519 = json['ed25519'] as String;
+  return PubKeySet(
+    secp256k1: json['secp256k1'] as String,
+    ed25519: json['ed25519'] as String,
+  );
 }
 
 Map<String, dynamic> _$PubKeySetToJson(PubKeySet instance) => <String, dynamic>{
@@ -19,9 +20,9 @@ Map<String, dynamic> _$PubKeySetToJson(PubKeySet instance) => <String, dynamic>{
 
 TCNodeJail _$TCNodeJailFromJson(Map<String, dynamic> json) {
   return TCNodeJail()
-    ..nodeAddr = json['nodeAddr'] as String
+    ..nodeAddr = json['nodeAddr'] as String?
     ..releaseHeight = json['releaseHeight'] as int
-    ..reason = json['reason'] as String;
+    ..reason = json['reason'] as String?;
 }
 
 Map<String, dynamic> _$TCNodeJailToJson(TCNodeJail instance) =>
@@ -46,7 +47,7 @@ Map<String, dynamic> _$ObservedChainToJson(ObservedChain instance) =>
 PreflightStatus _$PreflightStatusFromJson(Map<String, dynamic> json) {
   return PreflightStatus()
     ..status = json['status'] as String
-    ..reason = json['reason'] as String
+    ..reason = json['reason'] as String?
     ..code = json['code'] as int;
 }
 
@@ -58,16 +59,17 @@ Map<String, dynamic> _$PreflightStatusToJson(PreflightStatus instance) =>
     };
 
 TCNode _$TCNodeFromJson(Map<String, dynamic> json) {
-  return TCNode()
-    ..address = json['address'] as String
-    ..status = _$enumDecodeNullable(_$TCNodeStatusEnumMap, json['status'])
-    ..publicKeys = json['publicKeys'] == null
+  return TCNode(
+    status: _$enumDecode(_$TCNodeStatusEnumMap, json['status']),
+    publicKeys: json['publicKeys'] == null
         ? null
-        : PubKeySet.fromJson(json['publicKeys'] as Map<String, dynamic>)
+        : PubKeySet.fromJson(json['publicKeys'] as Map<String, dynamic>),
+  )
+    ..address = json['address'] as String
     ..bond = json['bond'] as int
-    ..requestedToLeave = json['requestedToLeave'] as bool
-    ..forcedToLeave = json['forcedToLeave'] as bool
-    ..leaveHeight = json['leaveHeight'] as int
+    ..requestedToLeave = json['requestedToLeave'] as bool?
+    ..forcedToLeave = json['forcedToLeave'] as bool?
+    ..leaveHeight = json['leaveHeight'] as int?
     ..ipAddress = json['ipAddress'] as String
     ..version = json['version'] as String
     ..slashPoints = json['slashPoints'] as int
@@ -92,36 +94,30 @@ Map<String, dynamic> _$TCNodeToJson(TCNode instance) => <String, dynamic>{
       'currentAward': instance.currentAward,
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$TCNodeStatusEnumMap = {

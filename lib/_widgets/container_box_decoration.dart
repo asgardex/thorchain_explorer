@@ -9,11 +9,12 @@ BoxDecoration containerBoxDecoration(BuildContext context, ThemeMode mode) =>
 
               // mobile - only border on top and bottom
               ? Border.symmetric(
-                  horizontal: BorderSide(color: Colors.blueGrey[800], width: 1),
+                  horizontal:
+                      BorderSide(color: Colors.blueGrey.shade800, width: 1),
                 )
 
               // desktop - border on all sides
-              : Border.all(color: Colors.blueGrey[800], width: 1)
+              : Border.all(color: Colors.blueGrey.shade800, width: 1)
 
           // light mode no border
           : null,

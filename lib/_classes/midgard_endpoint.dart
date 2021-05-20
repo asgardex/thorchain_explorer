@@ -6,7 +6,11 @@ class MidgardParam {
   bool required;
 
   MidgardParam(
-      {this.name, this.key, this.value, this.valueOptions, this.required});
+      {required this.name,
+      required this.key,
+      required this.value,
+      this.valueOptions = const [],
+      this.required = false});
 }
 
 class MidgardEndpoint {
@@ -17,16 +21,16 @@ class MidgardEndpoint {
   bool active;
 
   MidgardEndpoint(
-      {this.path,
-      this.name,
-      this.pathParams,
-      this.queryParams,
+      {required this.path,
+      required this.name,
+      this.pathParams = const [],
+      this.queryParams = const [],
       this.active = false});
 }
 
 String createNavigatorPath(MidgardEndpoint e) {
   String path = e.path;
-  if (e.pathParams != null && e.pathParams.length > 0) {
+  if (e.pathParams.length > 0) {
     for (var i = 0; i < e.pathParams.length; i++) {
       path = path.replaceAll("{${e.pathParams[i].key}}", e.pathParams[i].value);
     }
@@ -37,7 +41,7 @@ String createNavigatorPath(MidgardEndpoint e) {
 
 String appendQueryParams(String path, MidgardEndpoint e) {
   String queryParams = '';
-  if (e.queryParams != null && e.queryParams.length > 0) {
+  if (e.queryParams.length > 0) {
     List<MidgardParam> requiredQueryParams = [];
 
     for (var i = 0; i < e.queryParams.length; i++) {

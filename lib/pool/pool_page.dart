@@ -41,7 +41,7 @@ class PoolPage extends HookWidget {
             // Just like in apollo refetch() could be used to manually trigger a refetch
             // while fetchMore() can be used for pagination purpose
             builder: (QueryResult result,
-                {VoidCallback refetch, FetchMore fetchMore}) {
+                {VoidCallback? refetch, FetchMore? fetchMore}) {
               if (result.hasException) {
                 return Text(result.exception.toString());
               }
@@ -52,9 +52,9 @@ class PoolPage extends HookWidget {
                 );
               }
 
-              final pool = Pool.fromJson(result.data['pool']);
+              final pool = Pool.fromJson(result.data?['pool']);
               final volumeHistory =
-                  PoolVolumeHistory.fromJson(result.data['volumeHistory']);
+                  PoolVolumeHistory.fromJson(result.data?['volumeHistory']);
 
               return LayoutBuilder(builder: (context, constraints) {
                 return Column(
@@ -127,14 +127,15 @@ class PoolPage extends HookWidget {
                             TableRow(children: [
                               PaddedTableCell(child: Text("Price (in USD)")),
                               PaddedTableCell(
-                                  child: Text(cgProvider.runePrice != null
+                                  child: Text(cgProvider.runePrice > 0
                                       ? "\$${f.format(pool.price * cgProvider.runePrice)}"
                                       : "")),
                             ]),
                             TableRow(children: [
                               PaddedTableCell(child: Text("Units")),
                               PaddedTableCell(
-                                child: Text(f.format(pool.units / pow(10, 8))),
+                                child: Text(
+                                    f.format((pool.units ?? 0) / pow(10, 8))),
                               )
                             ]),
                             TableRow(children: [
@@ -163,24 +164,32 @@ class PoolPage extends HookWidget {
                             ? Container(
                                 child: Column(
                                   children: [
-                                    PoolStakesTable(pool.stakes),
+                                    (pool.stakes != null)
+                                        ? PoolStakesTable(pool.stakes!)
+                                        : Container(),
                                     SizedBox(
                                       height: 32,
                                     ),
-                                    PoolDepthTable(pool.depth),
+                                    (pool.depth != null)
+                                        ? PoolDepthTable(pool.depth!)
+                                        : Container(),
                                   ],
                                 ),
                               )
                             : Row(
                                 children: [
                                   Expanded(
-                                    child: PoolStakesTable(pool.stakes),
+                                    child: (pool.stakes != null)
+                                        ? PoolStakesTable(pool.stakes!)
+                                        : Container(),
                                   ),
                                   SizedBox(
                                     width: 32,
                                   ),
                                   Expanded(
-                                    child: PoolDepthTable(pool.depth),
+                                    child: (pool.depth != null)
+                                        ? PoolDepthTable(pool.depth!)
+                                        : Container(),
                                   )
                                 ],
                               );
@@ -291,7 +300,7 @@ class PoolDepthTable extends HookWidget {
 class PaddedTableCell extends StatelessWidget {
   final Widget child;
 
-  PaddedTableCell({this.child});
+  PaddedTableCell({required this.child});
 
   @override
   Widget build(BuildContext context) {

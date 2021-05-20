@@ -12,7 +12,7 @@ import 'package:thorchain_explorer/midgard_explorer/midgard_explorer_sidebar.dar
 
 class MidgardExplorerScaffold extends HookWidget {
   final MidgardEndpoint endpoint;
-  MidgardExplorerScaffold({this.endpoint});
+  MidgardExplorerScaffold({required this.endpoint});
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +60,13 @@ class MidgardExplorerScaffold extends HookWidget {
                     stops: [0.0, 0.1, 0.9],
                     colors: mode == ThemeMode.dark
                         ? [
-                            Colors.blueGrey[900],
-                            Colors.blueGrey[900],
-                            Colors.grey[900],
+                            Colors.blueGrey.shade900,
+                            Colors.blueGrey.shade900,
+                            Colors.grey.shade900,
                           ]
                         : [
-                            Colors.blueGrey[200],
-                            Colors.blueGrey[200],
+                            Colors.blueGrey.shade200,
+                            Colors.blueGrey.shade200,
                             Colors.white,
                           ])),
             child: (constraints.maxWidth > 900)
