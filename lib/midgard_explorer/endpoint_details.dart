@@ -27,7 +27,7 @@ Future<String> midgardApi(MidgardEndpoint endpoint, Networks net) async {
       (endpoint.queryParams != null && endpoint.queryParams.length > 0)
           ? endpoint.queryParams.fold({}, (map, param) {
               if (param.value != null && param.value.length > 0) {
-                map[param.key] = param.value;
+                map?[param.key] = param.value;
               }
               return map;
             })
@@ -49,17 +49,17 @@ class MidgardEndpointController {
   TextEditingController controller;
   MidgardParam param;
 
-  MidgardEndpointController({this.controller, this.param});
+  MidgardEndpointController({required this.controller, required this.param});
 }
 
 class EndpointDetails extends HookWidget {
   final MidgardEndpoint endpoint;
 
-  EndpointDetails({this.endpoint});
+  EndpointDetails({required this.endpoint});
 
   @override
   Widget build(BuildContext context) {
-    Future<String> futureEndpoint;
+    late Future<String> futureEndpoint;
 
     final midgardPath = (selectNetwork(net) == Networks.Testnet)
         ? "https://testnet.midgard.thorchain.info/v2${createNavigatorPath(endpoint)}"
@@ -280,9 +280,7 @@ class EndpointDetails extends HookWidget {
                             children: [
                               Container(
                                 padding: EdgeInsets.all(16),
-                                child: SelectableText(
-                                  snapshot.data,
-                                ),
+                                child: SelectableText(snapshot.data ?? ''),
                               ),
                             ],
                           ),
@@ -307,7 +305,7 @@ class EndpointDetails extends HookWidget {
 
 List<Container> buildParamsForm(BuildContext context,
     List<MidgardEndpointController> paramControllers, ThemeMode mode) {
-  return (paramControllers != null && paramControllers.length > 0)
+  return (paramControllers.length > 0)
       ? paramControllers
           .map((e) => Container(
                 child: Column(
@@ -405,7 +403,7 @@ List<Container> buildParamsForm(BuildContext context,
                 ),
               ))
           .toList()
-      : Container();
+      : [Container()];
 }
 
 String buildPath(

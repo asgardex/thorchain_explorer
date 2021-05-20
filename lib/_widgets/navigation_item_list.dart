@@ -5,7 +5,7 @@ import 'package:thorchain_explorer/_widgets/navigation_item.dart';
 class NavigationItemList extends StatelessWidget {
   final PageOptions currentArea;
 
-  NavigationItemList({this.currentArea});
+  NavigationItemList({required this.currentArea});
 
   @override
   Widget build(BuildContext context) {

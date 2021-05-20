@@ -7,9 +7,10 @@ part of 'tc_bank_balances.dart';
 // **************************************************************************
 
 BankBalance _$BankBalanceFromJson(Map<String, dynamic> json) {
-  return BankBalance()
-    ..denom = json['denom'] as String
-    ..amount = json['amount'] as String;
+  return BankBalance(
+    denom: json['denom'] as String,
+    amount: json['amount'] as String,
+  );
 }
 
 Map<String, dynamic> _$BankBalanceToJson(BankBalance instance) =>
@@ -21,10 +22,9 @@ Map<String, dynamic> _$BankBalanceToJson(BankBalance instance) =>
 BankBalances _$BankBalancesFromJson(Map<String, dynamic> json) {
   return BankBalances()
     ..height = json['height'] as String
-    ..result = (json['result'] as List)
-        ?.map((e) =>
-            e == null ? null : BankBalance.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+    ..result = (json['result'] as List<dynamic>)
+        .map((e) => BankBalance.fromJson(e as Map<String, dynamic>))
+        .toList();
 }
 
 Map<String, dynamic> _$BankBalancesToJson(BankBalances instance) =>

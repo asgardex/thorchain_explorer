@@ -7,10 +7,11 @@ part of 'pool_volume_history.dart';
 // **************************************************************************
 
 VolumeStats _$VolumeStatsFromJson(Map<String, dynamic> json) {
-  return VolumeStats()
-    ..count = json['count'] as int
-    ..volumeInRune = json['volumeInRune'] as int
-    ..volumeInAsset = json['volumeInAsset'] as int;
+  return VolumeStats(
+    count: json['count'] as int?,
+    volumeInAsset: json['volumeInAsset'] as int?,
+    volumeInRune: json['volumeInRune'] as int?,
+  );
 }
 
 Map<String, dynamic> _$VolumeStatsToJson(VolumeStats instance) =>
@@ -22,18 +23,13 @@ Map<String, dynamic> _$VolumeStatsToJson(VolumeStats instance) =>
 
 PoolVolumeHistoryMeta _$PoolVolumeHistoryMetaFromJson(
     Map<String, dynamic> json) {
-  return PoolVolumeHistoryMeta()
-    ..first = json['first'] as int
-    ..last = json['last'] as int
-    ..combined = json['combined'] == null
-        ? null
-        : VolumeStats.fromJson(json['combined'] as Map<String, dynamic>)
-    ..toRune = json['toRune'] == null
-        ? null
-        : VolumeStats.fromJson(json['toRune'] as Map<String, dynamic>)
-    ..toAsset = json['toAsset'] == null
-        ? null
-        : VolumeStats.fromJson(json['toAsset'] as Map<String, dynamic>);
+  return PoolVolumeHistoryMeta(
+    first: json['first'] as int?,
+    last: json['last'] as int?,
+    combined: VolumeStats.fromJson(json['combined'] as Map<String, dynamic>),
+    toRune: VolumeStats.fromJson(json['toRune'] as Map<String, dynamic>),
+    toAsset: VolumeStats.fromJson(json['toAsset'] as Map<String, dynamic>),
+  );
 }
 
 Map<String, dynamic> _$PoolVolumeHistoryMetaToJson(
@@ -48,17 +44,12 @@ Map<String, dynamic> _$PoolVolumeHistoryMetaToJson(
 
 PoolVolumeHistoryBucket _$PoolVolumeHistoryBucketFromJson(
     Map<String, dynamic> json) {
-  return PoolVolumeHistoryBucket()
-    ..time = json['time'] as int
-    ..combined = json['combined'] == null
-        ? null
-        : VolumeStats.fromJson(json['combined'] as Map<String, dynamic>)
-    ..toRune = json['toRune'] == null
-        ? null
-        : VolumeStats.fromJson(json['toRune'] as Map<String, dynamic>)
-    ..toAsset = json['toAsset'] == null
-        ? null
-        : VolumeStats.fromJson(json['toAsset'] as Map<String, dynamic>);
+  return PoolVolumeHistoryBucket(
+    time: json['time'] as int,
+    combined: VolumeStats.fromJson(json['combined'] as Map<String, dynamic>),
+    toRune: VolumeStats.fromJson(json['toRune'] as Map<String, dynamic>),
+    toAsset: VolumeStats.fromJson(json['toAsset'] as Map<String, dynamic>),
+  );
 }
 
 Map<String, dynamic> _$PoolVolumeHistoryBucketToJson(
@@ -71,15 +62,12 @@ Map<String, dynamic> _$PoolVolumeHistoryBucketToJson(
     };
 
 PoolVolumeHistory _$PoolVolumeHistoryFromJson(Map<String, dynamic> json) {
-  return PoolVolumeHistory()
-    ..meta = json['meta'] == null
-        ? null
-        : PoolVolumeHistoryMeta.fromJson(json['meta'] as Map<String, dynamic>)
-    ..intervals = (json['intervals'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PoolVolumeHistoryBucket.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+  return PoolVolumeHistory(
+    meta: PoolVolumeHistoryMeta.fromJson(json['meta'] as Map<String, dynamic>),
+    intervals: (json['intervals'] as List<dynamic>)
+        .map((e) => PoolVolumeHistoryBucket.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 }
 
 Map<String, dynamic> _$PoolVolumeHistoryToJson(PoolVolumeHistory instance) =>

@@ -32,7 +32,7 @@ class NodePage extends HookWidget {
       child: Query(
         options: nodePageQueryOptions(address),
         builder: (QueryResult result,
-            {VoidCallback refetch, FetchMore fetchMore}) {
+            {VoidCallback? refetch, FetchMore? fetchMore}) {
           if (result.hasException) {
             return Text(result.exception.toString());
           }
@@ -43,7 +43,7 @@ class NodePage extends HookWidget {
             );
           }
 
-          final node = TCNode.fromJson(result.data['node']);
+          final node = TCNode.fromJson(result.data?['node']);
 
           return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,14 +114,14 @@ class NodePage extends HookWidget {
                                       SelectableText("Public Keys secp256k1")),
                               PaddedTableCell(
                                   child: SelectableText(
-                                      node.publicKeys.secp256k1)),
+                                      node.publicKeys?.secp256k1 ?? '')),
                             ]),
                             TableRow(children: [
                               PaddedTableCell(
                                   child: SelectableText("Public Keys ed25519")),
                               PaddedTableCell(
-                                  child:
-                                      SelectableText(node.publicKeys.ed25519)),
+                                  child: SelectableText(
+                                      node.publicKeys?.ed25519 ?? '')),
                             ]),
                             TableRow(children: [
                               PaddedTableCell(
@@ -149,26 +149,22 @@ class NodePage extends HookWidget {
                                   child: SelectableText("Jail Node Address")),
                               PaddedTableCell(
                                   child: SelectableText(
-                                      node.jail.nodeAddr != null
-                                          ? node.jail.nodeAddr
-                                          : "")),
+                                      node.jail?.nodeAddr ?? "")),
                             ]),
                             TableRow(children: [
                               PaddedTableCell(
                                   child: SelectableText("Jail Release Height")),
                               PaddedTableCell(
                                   child: SelectableText(
-                                      node.jail.releaseHeight != null
-                                          ? node.jail.releaseHeight.toString()
-                                          : "")),
+                                      node.jail?.releaseHeight.toString() ??
+                                          "")),
                             ]),
                             TableRow(children: [
                               PaddedTableCell(
                                   child: SelectableText("Jail Reason")),
                               PaddedTableCell(
-                                  child: SelectableText(node.jail.reason != null
-                                      ? node.jail.reason
-                                      : "")),
+                                  child:
+                                      SelectableText(node.jail?.reason ?? "")),
                             ]),
                           ])),
                 ),

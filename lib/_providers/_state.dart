@@ -45,7 +45,7 @@ final midgardEndpointsProvider =
 });
 
 final bankBalancesProvider =
-    providerAutodisposeFamily<BankBalances, String>((ref, address) async {
+    providerAutodisposeFamily<BankBalances?, String>((ref, address) async {
   if (!address.toUpperCase().contains('TTHOR', 0) &&
       !address.toUpperCase().contains('THOR', 0)) {
     return null;

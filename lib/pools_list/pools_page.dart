@@ -36,7 +36,7 @@ class PoolsPage extends HookWidget {
             // Just like in apollo refetch() could be used to manually trigger a refetch
             // while fetchMore() can be used for pagination purpose
             builder: (QueryResult result,
-                {VoidCallback refetch, FetchMore fetchMore}) {
+                {VoidCallback? refetch, FetchMore? fetchMore}) {
               if (result.hasException) {
                 return Text(result.exception.toString());
               }
@@ -48,7 +48,7 @@ class PoolsPage extends HookWidget {
               }
 
               List<Pool> pools = List<Pool>.from(
-                  result.data['pools'].map((pool) => Pool.fromJson(pool)));
+                  result.data?['pools'].map((pool) => Pool.fromJson(pool)));
 
               return LayoutBuilder(builder: (context, constraints) {
                 return Container(
@@ -82,7 +82,7 @@ class PoolsPage extends HookWidget {
       List<String> splitAsset = pool.asset.split('.');
       String tickerAndContract = splitAsset.length > 1 ? splitAsset[1] : '';
       List<String> splitAssetContract = tickerAndContract.split('-');
-      String ticker = splitAssetContract[0] ?? '';
+      String ticker = splitAssetContract[0];
       String contractAddress =
           splitAssetContract.length > 1 ? splitAssetContract[1] : '';
 
@@ -98,7 +98,8 @@ class PoolsPage extends HookWidget {
               child: Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
-                    border: Border.all(color: Colors.blueGrey[800], width: 1),
+                    border:
+                        Border.all(color: Colors.blueGrey.shade800, width: 1),
                     borderRadius: BorderRadius.circular(4)),
                 padding: EdgeInsets.all(16),
                 child: Column(

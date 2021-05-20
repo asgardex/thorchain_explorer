@@ -31,7 +31,7 @@ class NetworkPage extends HookWidget {
             // Just like in apollo refetch() could be used to manually trigger a refetch
             // while fetchMore() can be used for pagination purpose
             builder: (QueryResult result,
-                {VoidCallback refetch, FetchMore fetchMore}) {
+                {VoidCallback? refetch, FetchMore? fetchMore}) {
               if (result.hasException) {
                 return Text(result.exception.toString());
               }
@@ -42,7 +42,7 @@ class NetworkPage extends HookWidget {
                 );
               }
 
-              final network = TCNetwork.fromJson(result.data['network']);
+              final network = TCNetwork.fromJson(result.data?['network']);
 
               return LayoutBuilder(builder: (context, constraints) {
                 return Column(
@@ -84,7 +84,7 @@ class NetworkPage extends HookWidget {
                                               fontSize: 12),
                                         ),
                                         SelectableText(
-                                            "${(network.bondingAPY * 100).toStringAsFixed(2)}%")
+                                            "${((network.bondingAPY ?? 0) * 100).toStringAsFixed(2)}%")
                                       ],
                                     ),
                                   ),
@@ -103,7 +103,7 @@ class NetworkPage extends HookWidget {
                                               fontSize: 12),
                                         ),
                                         SelectableText(
-                                            "${(network.liquidityAPY * 100).toStringAsFixed(2)}%")
+                                            "${((network.liquidityAPY ?? 0) * 100).toStringAsFixed(2)}%")
                                       ],
                                     ),
                                   ),
@@ -168,7 +168,7 @@ class NetworkPage extends HookWidget {
                                               fontSize: 12),
                                         ),
                                         SelectableText(
-                                            "${(network.poolShareFactor * 100).toStringAsFixed(2)}%")
+                                            "${((network.poolShareFactor ?? 0) * 100).toStringAsFixed(2)}%")
                                       ],
                                     ),
                                   ),
@@ -194,11 +194,12 @@ class NetworkPage extends HookWidget {
                                               fontSize: 12),
                                         ),
                                         SelectableText(f.format(
-                                            (network.totalReserve / pow(10, 8))
+                                            ((network.totalReserve ?? 0) /
+                                                    pow(10, 8))
                                                 .ceil())),
                                         SelectableText(
                                           cgProvider.runePrice != null
-                                              ? "(\$${f.format(network.totalReserve / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                              ? "(\$${f.format((network.totalReserve ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
                                               : "",
                                           style: TextStyle(
                                             color: Theme.of(context).hintColor,
@@ -223,10 +224,10 @@ class NetworkPage extends HookWidget {
                                               fontSize: 12),
                                         ),
                                         SelectableText(
-                                            "${f.format(network.totalPooledRune / pow(10, 8).ceil())}"),
+                                            "${f.format((network.totalPooledRune ?? 0) / pow(10, 8).ceil())}"),
                                         SelectableText(
                                           cgProvider.runePrice != null
-                                              ? "(\$${f.format(network.totalPooledRune / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                              ? "(\$${f.format((network.totalPooledRune ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
                                               : "",
                                           style: TextStyle(
                                             color: Theme.of(context).hintColor,
@@ -256,12 +257,14 @@ class NetworkPage extends HookWidget {
                                                   Theme.of(context).hintColor,
                                               fontSize: 12),
                                         ),
-                                        SelectableText(f.format(
-                                            network.blockRewards.blockReward /
-                                                pow(10, 8).ceil())),
+                                        SelectableText(f.format((network
+                                                    .blockRewards
+                                                    ?.blockReward ??
+                                                0) /
+                                            pow(10, 8).ceil())),
                                         SelectableText(
                                           cgProvider.runePrice != null
-                                              ? "(\$${f.format(network.blockRewards.blockReward / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                              ? "(\$${f.format((network.blockRewards?.blockReward ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
                                               : "",
                                           style: TextStyle(
                                             color: Theme.of(context).hintColor,
@@ -285,11 +288,12 @@ class NetworkPage extends HookWidget {
                                               fontSize: 12),
                                         ),
                                         SelectableText(f.format(
-                                            network.blockRewards.bondReward /
+                                            (network.blockRewards?.bondReward ??
+                                                    0) /
                                                 pow(10, 8).ceil())),
                                         SelectableText(
                                           cgProvider.runePrice != null
-                                              ? "(\$${f.format(network.blockRewards.bondReward / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                              ? "(\$${f.format((network.blockRewards?.bondReward ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
                                               : "",
                                           style: TextStyle(
                                             color: Theme.of(context).hintColor,
@@ -313,11 +317,12 @@ class NetworkPage extends HookWidget {
                                               fontSize: 12),
                                         ),
                                         SelectableText(f.format(
-                                            network.blockRewards.poolReward /
+                                            (network.blockRewards?.poolReward ??
+                                                    0) /
                                                 pow(10, 8).ceil())),
                                         SelectableText(
                                           cgProvider.runePrice != null
-                                              ? "(\$${f.format(network.blockRewards.poolReward / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                              ? "(\$${f.format((network.blockRewards?.poolReward ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
                                               : "",
                                           style: TextStyle(
                                             color: Theme.of(context).hintColor,
@@ -337,46 +342,54 @@ class NetworkPage extends HookWidget {
                     ),
                     constraints.maxWidth < 900
                         ? Container(
-                            child: Column(
-                              children: [
-                                BondsList(
-                                    bonds: network.activeBonds,
-                                    title: "Top Active Bonds",
-                                    nodeCount: network.activeNodeCount,
-                                    metrics: network.bondMetrics.active),
-                                SizedBox(
-                                  height: 32,
-                                ),
-                                BondsList(
-                                    bonds: network.standbyBonds,
-                                    nodeCount: network.standbyNodeCount,
-                                    title: "Top Standby Bonds",
-                                    metrics: network.bondMetrics.standby),
-                              ],
-                            ),
+                            child: (network.bondMetrics != null)
+                                ? Column(
+                                    children: [
+                                      BondsList(
+                                          bonds: network.activeBonds ?? [],
+                                          title: "Top Active Bonds",
+                                          nodeCount:
+                                              network.activeNodeCount ?? 0,
+                                          metrics: network.bondMetrics?.active),
+                                      SizedBox(
+                                        height: 32,
+                                      ),
+                                      BondsList(
+                                          bonds: network.standbyBonds ?? [],
+                                          nodeCount:
+                                              network.standbyNodeCount ?? 0,
+                                          title: "Top Standby Bonds",
+                                          metrics:
+                                              network.bondMetrics!.standby),
+                                    ],
+                                  )
+                                : Container(),
                           )
-                        : Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: BondsList(
-                                    bonds: network.activeBonds,
-                                    nodeCount: network.activeNodeCount,
-                                    title: "Top Active Bonds",
-                                    metrics: network.bondMetrics.active),
-                              ),
-                              SizedBox(
-                                width: 32,
-                              ),
-                              Expanded(
-                                child: BondsList(
-                                    bonds: network.standbyBonds,
-                                    nodeCount: network.standbyNodeCount,
-                                    title: "Top Standby Bonds",
-                                    metrics: network.bondMetrics.standby),
-                              ),
-                            ],
-                          )
+                        : (network.bondMetrics != null)
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: BondsList(
+                                        bonds: network.activeBonds ?? [],
+                                        nodeCount: network.activeNodeCount ?? 0,
+                                        title: "Top Active Bonds",
+                                        metrics: network.bondMetrics!.active),
+                                  ),
+                                  SizedBox(
+                                    width: 32,
+                                  ),
+                                  Expanded(
+                                    child: BondsList(
+                                        bonds: network.standbyBonds ?? [],
+                                        nodeCount:
+                                            network.standbyNodeCount ?? 0,
+                                        title: "Top Standby Bonds",
+                                        metrics: network.bondMetrics!.standby),
+                                  ),
+                                ],
+                              )
+                            : Container()
                   ],
                 );
               });
@@ -386,11 +399,15 @@ class NetworkPage extends HookWidget {
 
 class BondsList extends HookWidget {
   final List<int> bonds;
-  final BondMetricsStat metrics;
+  final BondMetricsStat? metrics;
   final String title;
   final int nodeCount;
 
-  BondsList({this.bonds, this.title, this.metrics, this.nodeCount});
+  BondsList(
+      {required this.bonds,
+      required this.title,
+      required this.metrics,
+      required this.nodeCount});
 
   final f = NumberFormat.currency(
     symbol: "",
@@ -437,8 +454,8 @@ class BondsList extends HookWidget {
                                 color: Theme.of(context).hintColor,
                                 fontSize: 12),
                           ),
-                          SelectableText(
-                              f.format((metrics.totalBond / pow(10, 8).ceil())))
+                          SelectableText(f.format(
+                              ((metrics?.totalBond ?? 0) / pow(10, 8).ceil())))
                         ],
                       ),
                     ),
@@ -453,8 +470,8 @@ class BondsList extends HookWidget {
                                 color: Theme.of(context).hintColor,
                                 fontSize: 12),
                           ),
-                          SelectableText(f.format(
-                              (metrics.averageBond / pow(10, 8).ceil())))
+                          SelectableText(f.format(((metrics?.averageBond ?? 0) /
+                              pow(10, 8).ceil())))
                         ],
                       ),
                     ),
@@ -497,8 +514,8 @@ class BondsList extends HookWidget {
                                 color: Theme.of(context).hintColor,
                                 fontSize: 12),
                           ),
-                          SelectableText(f.format(
-                              (metrics.maximumBond / pow(10, 8).ceil())))
+                          SelectableText(f.format(((metrics?.maximumBond ?? 0) /
+                              pow(10, 8).ceil())))
                         ],
                       ),
                     ),
@@ -513,8 +530,8 @@ class BondsList extends HookWidget {
                                 color: Theme.of(context).hintColor,
                                 fontSize: 12),
                           ),
-                          SelectableText(f
-                              .format((metrics.medianBond / pow(10, 8).ceil())))
+                          SelectableText(f.format(
+                              ((metrics?.medianBond ?? 0) / pow(10, 8).ceil())))
                         ],
                       ),
                     ),
@@ -529,8 +546,8 @@ class BondsList extends HookWidget {
                                 color: Theme.of(context).hintColor,
                                 fontSize: 12),
                           ),
-                          SelectableText(f.format(
-                              (metrics.minimumBond / pow(10, 8).ceil())))
+                          SelectableText(f.format(((metrics?.minimumBond ?? 0) /
+                              pow(10, 8).ceil())))
                         ],
                       ),
                     )

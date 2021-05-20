@@ -3,5 +3,5 @@ class Asset {
   String symbol;
   String ticker;
 
-  Asset({this.chain, this.symbol, this.ticker});
+  Asset({required this.chain, required this.symbol, required this.ticker});
 }

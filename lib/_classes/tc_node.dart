@@ -4,92 +4,88 @@ part 'tc_node.g.dart';
 
 @JsonSerializable()
 class PubKeySet {
-
   String secp256k1;
   String ed25519;
 
-  PubKeySet();
-  factory PubKeySet.fromJson(Map<String, dynamic> json) => _$PubKeySetFromJson(json);
-
+  PubKeySet({required this.secp256k1, required this.ed25519});
+  factory PubKeySet.fromJson(Map<String, dynamic> json) =>
+      _$PubKeySetFromJson(json);
 }
 
 @JsonSerializable()
 class TCNodeJail {
-
-  String nodeAddr;
-
-  int releaseHeight;
-
-  String reason;
-
+  String? nodeAddr = '';
+  int releaseHeight = 0;
+  String? reason = '';
   TCNodeJail();
 
-  factory TCNodeJail.fromJson(Map<String, dynamic> json) => _$TCNodeJailFromJson(json);
-
+  factory TCNodeJail.fromJson(Map<String, dynamic> json) =>
+      _$TCNodeJailFromJson(json);
 }
 
 @JsonSerializable()
 class ObservedChain {
-
-  String chain; // todo -> ENUM this
-  int height;
+  String chain = ''; // todo -> ENUM this
+  int height = 0;
 
   ObservedChain();
 
-  factory ObservedChain.fromJson(Map<String, dynamic> json) => _$ObservedChainFromJson(json);
-
+  factory ObservedChain.fromJson(Map<String, dynamic> json) =>
+      _$ObservedChainFromJson(json);
 }
 
 @JsonSerializable()
 class PreflightStatus {
-
-  String status;
-  String reason;
-  int code;
+  String status = '';
+  String? reason = '';
+  int code = 0;
 
   PreflightStatus();
 
-  factory PreflightStatus.fromJson(Map<String, dynamic> json) => _$PreflightStatusFromJson(json);
-
+  factory PreflightStatus.fromJson(Map<String, dynamic> json) =>
+      _$PreflightStatusFromJson(json);
 }
 
 enum TCNodeStatus {
-  @JsonValue("Active") ACTIVE,
-  @JsonValue("Ready") READY,
-  @JsonValue("Standby") STANDBY,
-  @JsonValue("Disabled") DISABLED,
-  @JsonValue("Whitelisted") WHITELISTED,
+  @JsonValue("Active")
+  ACTIVE,
+  @JsonValue("Ready")
+  READY,
+  @JsonValue("Standby")
+  STANDBY,
+  @JsonValue("Disabled")
+  DISABLED,
+  @JsonValue("Whitelisted")
+  WHITELISTED,
 }
 
 @JsonSerializable()
 class TCNode {
-
-  String address;
+  String address = '';
 
   TCNodeStatus status;
 
-  PubKeySet publicKeys;
+  PubKeySet? publicKeys;
 
-  int bond;
+  int bond = 0;
 
-  bool requestedToLeave;
+  bool? requestedToLeave = false;
 
-  bool forcedToLeave;
+  bool? forcedToLeave = false;
 
-  int leaveHeight;
+  int? leaveHeight = 0;
 
-  String ipAddress;
+  String ipAddress = '';
 
-  String version;
+  String version = '';
 
-  int slashPoints;
+  int slashPoints = 0;
 
-  TCNodeJail jail;
+  TCNodeJail? jail;
 
-  int currentAward;
+  int currentAward = 0;
 
-  TCNode();
+  TCNode({required this.status, required this.publicKeys});
 
   factory TCNode.fromJson(Map<String, dynamic> json) => _$TCNodeFromJson(json);
-
 }

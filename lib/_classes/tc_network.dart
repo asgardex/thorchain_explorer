@@ -4,11 +4,11 @@ part 'tc_network.g.dart';
 
 @JsonSerializable()
 class BondMetricsStat {
-  int averageBond;
-  int maximumBond;
-  int medianBond;
-  int minimumBond;
-  int totalBond;
+  int? averageBond = 0;
+  int? maximumBond = 0;
+  int? medianBond = 0;
+  int? minimumBond = 0;
+  int? totalBond = 0;
 
   BondMetricsStat();
 
@@ -18,10 +18,10 @@ class BondMetricsStat {
 
 @JsonSerializable()
 class BondMetrics {
-  BondMetricsStat active;
-  BondMetricsStat standby;
+  BondMetricsStat? active;
+  BondMetricsStat? standby;
 
-  BondMetrics();
+  BondMetrics({required this.active, required this.standby});
 
   factory BondMetrics.fromJson(Map<String, dynamic> json) =>
       _$BondMetricsFromJson(json);
@@ -29,9 +29,9 @@ class BondMetrics {
 
 @JsonSerializable()
 class BlockRewards {
-  int blockReward;
-  int bondReward;
-  int poolReward;
+  int? blockReward = 0;
+  int? bondReward = 0;
+  int? poolReward = 0;
 
   BlockRewards();
 
@@ -43,23 +43,20 @@ class BlockRewards {
 class TCNetwork {
   TCNetwork();
 
-  double bondingAPY;
-  List<int> activeBonds;
-  int activeNodeCount;
-  BondMetrics bondMetrics;
-  BlockRewards blockRewards;
-  double liquidityAPY;
-  int nextChurnHeight;
-  int poolActivationCountdown;
-  double poolShareFactor;
-  int totalReserve;
-  List<int> standbyBonds;
-  int standbyNodeCount;
-  int totalPooledRune;
+  double? bondingAPY = 0;
+  List<int>? activeBonds = [];
+  int? activeNodeCount = 0;
+  BondMetrics? bondMetrics;
+  BlockRewards? blockRewards;
+  double? liquidityAPY = 0;
+  int? nextChurnHeight = 0;
+  int? poolActivationCountdown = 0;
+  double? poolShareFactor = 0;
+  int? totalReserve = 0;
+  List<int>? standbyBonds = [];
+  int? standbyNodeCount = 0;
+  int? totalPooledRune = 0;
 
-  /// A necessary factory constructor for creating a new User instance
-  /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
-  /// The constructor is named after the source class, in this case, User.
   factory TCNetwork.fromJson(Map<String, dynamic> json) =>
       _$TCNetworkFromJson(json);
 }

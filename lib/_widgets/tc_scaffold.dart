@@ -15,7 +15,7 @@ class TCScaffold extends HookWidget {
   final Widget child;
   final PageOptions currentArea;
 
-  TCScaffold({this.child, this.currentArea});
+  TCScaffold({required this.child, required this.currentArea});
 
   @override
   Widget build(BuildContext context) {
@@ -72,13 +72,13 @@ class TCScaffold extends HookWidget {
                       stops: [0.0, 0.1, 0.9],
                       colors: mode == ThemeMode.dark
                           ? [
-                              Colors.blueGrey[900],
-                              Colors.blueGrey[900],
-                              Colors.grey[900],
+                              Colors.blueGrey.shade900,
+                              Colors.blueGrey.shade900,
+                              Colors.grey.shade900,
                             ]
                           : [
-                              Colors.blueGrey[200],
-                              Colors.blueGrey[200],
+                              Colors.blueGrey.shade200,
+                              Colors.blueGrey.shade200,
                               Colors.white,
                             ])),
               child: (constraints.maxWidth > 900)

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class FluidContainer extends StatelessWidget {
   final Widget child;
 
-  FluidContainer({this.child});
+  FluidContainer({required this.child});
 
   @override
   Widget build(BuildContext context) {

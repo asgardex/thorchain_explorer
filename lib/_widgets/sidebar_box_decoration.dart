@@ -10,7 +10,7 @@ BoxDecoration sidebarBoxDecoration(BuildContext context) => BoxDecoration(
           0.9
         ],
             colors: [
-          Colors.blueGrey[900],
-          Colors.grey[900],
-          Colors.grey[900],
+          Colors.blueGrey.shade900,
+          Colors.grey.shade900,
+          Colors.grey.shade900,
         ]));

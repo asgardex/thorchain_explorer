@@ -4,15 +4,15 @@ import 'package:http/http.dart' as http;
 import 'package:thorchain_explorer/_classes/tc_action.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
 import 'package:thorchain_explorer/_enums/networks.dart';
-// import 'package:thorchain_explorer/_providers/tc_actions_provider.dart';
 
 class FetchActionParams {
   int offset;
   int limit;
-  String txId;
-  String address;
+  String? txId;
+  String? address;
 
-  FetchActionParams({this.offset, this.limit, String txId, String address}) {
+  FetchActionParams(
+      {this.offset = 0, this.limit = 10, String? txId, String? address}) {
     if (txId != null) {
       this.txId = txId;
     }

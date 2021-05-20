@@ -11,14 +11,15 @@ class ExternalExplorerLink extends StatelessWidget {
   final String hash;
   final String asset;
 
-  ExternalExplorerLink({this.type, this.hash, this.asset});
+  ExternalExplorerLink(
+      {required this.type, required this.hash, required this.asset});
 
   @override
   Widget build(BuildContext context) {
-    final chain = assetFromString(asset).chain;
+    final chain = assetFromString(asset)?.chain;
     final prefixedHash = chain == 'ETH' ? '0x$hash' : hash;
-    final path = explorerBase(chain, type) +
-        explorerTypePath(chain, type) +
+    final path = explorerBase(chain ?? '', type) +
+        explorerTypePath(chain ?? '', type) +
         prefixedHash;
 
     return (hash.length > 0)
@@ -80,7 +81,6 @@ String explorerTypePath(String chain, ExplorerLinkType type) {
         default:
           return '';
       }
-      break;
 
     // Litecoin explorer users no explorer type path in url
     default:

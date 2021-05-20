@@ -7,7 +7,9 @@ part of 'coingecko_price.dart';
 // **************************************************************************
 
 USDPrice _$USDPriceFromJson(Map<String, dynamic> json) {
-  return USDPrice()..usd = (json['usd'] as num)?.toDouble();
+  return USDPrice(
+    usd: (json['usd'] as num).toDouble(),
+  );
 }
 
 Map<String, dynamic> _$USDPriceToJson(USDPrice instance) => <String, dynamic>{
@@ -15,10 +17,9 @@ Map<String, dynamic> _$USDPriceToJson(USDPrice instance) => <String, dynamic>{
     };
 
 CoinGeckoPrice _$CoinGeckoPriceFromJson(Map<String, dynamic> json) {
-  return CoinGeckoPrice()
-    ..thorchain = json['thorchain'] == null
-        ? null
-        : USDPrice.fromJson(json['thorchain'] as Map<String, dynamic>);
+  return CoinGeckoPrice(
+    thorchain: USDPrice.fromJson(json['thorchain'] as Map<String, dynamic>),
+  );
 }
 
 Map<String, dynamic> _$CoinGeckoPriceToJson(CoinGeckoPrice instance) =>

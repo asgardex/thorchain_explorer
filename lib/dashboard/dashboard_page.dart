@@ -23,7 +23,7 @@ class DashboardPage extends StatelessWidget {
             // Just like in apollo refetch() could be used to manually trigger a refetch
             // while fetchMore() can be used for pagination purpose
             builder: (QueryResult result,
-                {VoidCallback refetch, FetchMore fetchMore}) {
+                {VoidCallback? refetch, FetchMore? fetchMore}) {
               if (result.hasException) {
                 return Text(result.exception.toString());
               }
@@ -33,10 +33,10 @@ class DashboardPage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               }
-              TCNetwork network = TCNetwork.fromJson(result.data['network']);
+              TCNetwork network = TCNetwork.fromJson(result.data?['network']);
               PoolVolumeHistory volumeHistory =
-                  PoolVolumeHistory.fromJson(result.data['volumeHistory']);
-              Stats stats = Stats.fromJson(result.data['stats']);
+                  PoolVolumeHistory.fromJson(result.data?['volumeHistory']);
+              Stats stats = Stats.fromJson(result.data?['stats']);
 
               return LayoutBuilder(builder: (context, constraints) {
                 return Column(

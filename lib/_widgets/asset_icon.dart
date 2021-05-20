@@ -11,7 +11,7 @@ class AssetIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String logoPath;
+    String? logoPath;
     List<String> splitAsset = asset.split('.');
 
     switch (splitAsset[0]) {
@@ -21,13 +21,13 @@ class AssetIcon extends StatelessWidget {
         break;
 
       case 'BNB':
-        Asset a = assetFromString(asset);
+        Asset? a = assetFromString(asset);
         if (a != null) {
           if (splitAsset[1] != null && splitAsset[1] == 'BNB') {
             logoPath =
                 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/info/logo.png';
           } else {
-            String trustWalletMatch = CoinIconsFromTrustWallet[a.ticker];
+            String? trustWalletMatch = CoinIconsFromTrustWallet[a.ticker];
             if (trustWalletMatch != null) {
               logoPath =
                   "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/binance/assets/$trustWalletMatch/logo.png";
@@ -38,7 +38,7 @@ class AssetIcon extends StatelessWidget {
         break;
 
       case 'ETH':
-        Asset a = assetFromString(asset);
+        Asset? a = assetFromString(asset);
         if (a != null) {
           if (a.ticker == 'ETH') {
             logoPath =
@@ -46,7 +46,7 @@ class AssetIcon extends StatelessWidget {
           } else {
             final address = ethAddressFromAsset(a);
             logoPath =
-                'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address.hexEip55}/logo.png';
+                'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address?.hexEip55}/logo.png';
           }
         }
 
@@ -88,7 +88,7 @@ class AssetIcon extends StatelessWidget {
                   child: Image.network(
                     logoPath,
                     errorBuilder: (BuildContext context, Object exception,
-                        StackTrace stackTrace) {
+                        StackTrace? stackTrace) {
                       return errorIcon;
                     },
                   ),

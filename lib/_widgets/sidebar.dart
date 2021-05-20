@@ -9,7 +9,7 @@ import 'package:thorchain_explorer/_widgets/user_theme_toggle.dart';
 
 class Sidebar extends HookWidget {
   final PageOptions currentArea;
-  Sidebar({this.currentArea});
+  Sidebar({required this.currentArea});
 
   @override
   Widget build(BuildContext context) {

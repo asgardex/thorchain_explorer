@@ -25,7 +25,7 @@ class NodesListPage extends HookWidget {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final nodeList = prefs.getStringList('starredNodes');
       if (nodeList != null && nodeList.length > 0) {
-        starredNodes.value.addAll(prefs.getStringList('starredNodes'));
+        starredNodes.value.addAll(prefs.getStringList('starredNodes') ?? []);
       }
       return;
     }
@@ -41,7 +41,7 @@ class NodesListPage extends HookWidget {
           return Query(
             options: nodesListPageQueryOptions(),
             builder: (QueryResult result,
-                {VoidCallback refetch, FetchMore fetchMore}) {
+                {VoidCallback? refetch, FetchMore? fetchMore}) {
               if (result.hasException) {
                 return Text(result.exception.toString());
               }
@@ -53,9 +53,9 @@ class NodesListPage extends HookWidget {
               }
 
               List<TCNode> tcNodes = List<TCNode>.from(
-                  result.data['nodes'].map((node) => TCNode.fromJson(node)));
+                  result.data?['nodes'].map((node) => TCNode.fromJson(node)));
 
-              TCNetwork network = TCNetwork.fromJson(result.data['network']);
+              TCNetwork network = TCNetwork.fromJson(result.data?['network']);
 
               final activeNodes = tcNodes
                   .where((element) => element.status == TCNodeStatus.ACTIVE)
@@ -76,7 +76,7 @@ class NodesListPage extends HookWidget {
                       groupLabel: "Active Nodes",
                       starredNodes: starredNodes,
                       mode: mode,
-                      bondMetrics: network?.bondMetrics?.active ?? null),
+                      bondMetrics: network.bondMetrics?.active ?? null),
                   SizedBox(
                     height: 32,
                   ),
@@ -85,7 +85,7 @@ class NodesListPage extends HookWidget {
                       groupLabel: "Standby Nodes",
                       starredNodes: starredNodes,
                       mode: mode,
-                      bondMetrics: network?.bondMetrics?.standby ?? null),
+                      bondMetrics: network.bondMetrics?.standby ?? null),
                   SizedBox(
                     height: 32,
                   ),
@@ -107,17 +107,17 @@ class NodesGroup extends HookWidget {
   final String groupLabel;
   final ValueNotifier<List<String>> starredNodes;
   final ThemeMode mode;
-  final BondMetricsStat bondMetrics;
+  final BondMetricsStat? bondMetrics;
   final f = NumberFormat.currency(
     symbol: "",
     decimalDigits: 0,
   );
 
   NodesGroup(
-      {this.nodes,
-      this.groupLabel,
-      this.starredNodes,
-      this.mode,
+      {required this.nodes,
+      required this.groupLabel,
+      required this.starredNodes,
+      required this.mode,
       this.bondMetrics});
 
   @override
@@ -157,7 +157,7 @@ class NodesGroup extends HookWidget {
                                         fontSize: Theme.of(context)
                                             .textTheme
                                             .headline1
-                                            .fontSize)),
+                                            ?.fontSize)),
                               ],
                             ),
                             (bondMetrics != null)
@@ -168,19 +168,19 @@ class NodesGroup extends HookWidget {
                                         Row(
                                           children: [
                                             BondMetric("Total Bond",
-                                                bondMetrics.totalBond),
+                                                bondMetrics?.totalBond ?? 0),
                                             BondMetric("Average Bond",
-                                                bondMetrics.averageBond)
+                                                bondMetrics?.averageBond ?? 0)
                                           ],
                                         ),
                                         Row(
                                           children: [
                                             BondMetric("Max Bond",
-                                                bondMetrics.maximumBond),
+                                                bondMetrics?.maximumBond ?? 0),
                                             BondMetric("Median Bond",
-                                                bondMetrics.medianBond),
+                                                bondMetrics?.medianBond ?? 0),
                                             BondMetric("Minimum Bond",
-                                                bondMetrics.minimumBond),
+                                                bondMetrics?.minimumBond ?? 0),
                                           ],
                                         ),
                                       ],

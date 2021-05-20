@@ -5,10 +5,13 @@ class NavigationItem extends StatelessWidget {
   final bool isActive;
   final String title;
   final String navigationRoute;
-  final IconData iconData;
+  final IconData? iconData;
 
   NavigationItem(
-      {this.isActive, this.title, this.navigationRoute, this.iconData});
+      {this.isActive = false,
+      this.title = '',
+      this.navigationRoute = '',
+      this.iconData});
 
   @override
   Widget build(BuildContext context) {

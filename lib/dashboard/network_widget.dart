@@ -75,7 +75,7 @@ class NetworkWidget extends HookWidget {
                                     color: Theme.of(context).hintColor,
                                     fontSize: 12),
                               ),
-                              SelectableText((network.bondingAPY * 100)
+                              SelectableText(((network.bondingAPY ?? 0) * 100)
                                       .toStringAsFixed(2) +
                                   '%')
                             ],
@@ -94,7 +94,7 @@ class NetworkWidget extends HookWidget {
                                     color: Theme.of(context).hintColor,
                                     fontSize: 12),
                               ),
-                              SelectableText((network.liquidityAPY * 100)
+                              SelectableText(((network.liquidityAPY ?? 0) * 100)
                                       .toStringAsFixed(2) +
                                   '%'),
                             ],
@@ -128,12 +128,13 @@ class NetworkWidget extends HookWidget {
                               ),
                               Row(
                                 children: [
-                                  SelectableText(f.format(
-                                      network.bondMetrics.standby.totalBond /
-                                          pow(10, 8))),
+                                  SelectableText(f.format((network.bondMetrics!
+                                              .standby?.totalBond ??
+                                          0) /
+                                      pow(10, 8))),
                                   SelectableText(
                                     cgProvider.runePrice != null
-                                        ? "(\$${f.format(network.bondMetrics.standby.totalBond / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                        ? "(\$${f.format((network.bondMetrics!.standby?.totalBond ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
                                         : "",
                                     style: TextStyle(
                                       color: Theme.of(context).hintColor,
@@ -161,11 +162,12 @@ class NetworkWidget extends HookWidget {
                               Row(
                                 children: [
                                   SelectableText(f.format(
-                                      network.bondMetrics.active.totalBond /
+                                      (network.bondMetrics!.active?.totalBond ??
+                                              0) /
                                           pow(10, 8))),
                                   SelectableText(
                                     cgProvider.runePrice != null
-                                        ? "(\$${f.format(network.bondMetrics.active.totalBond / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                        ? "(\$${f.format((network.bondMetrics!.active?.totalBond ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
                                         : "",
                                     style: TextStyle(
                                       color: Theme.of(context).hintColor,
@@ -242,7 +244,8 @@ class NetworkWidget extends HookWidget {
                     value: network.poolActivationCountdown.toString()),
                 StatListItem(
                     label: "Pool Share Factor",
-                    value: (network.poolShareFactor * 100).toStringAsFixed(2) +
+                    value: ((network.poolShareFactor ?? 0) * 100)
+                            .toStringAsFixed(2) +
                         '%'),
                 Container(
                   child: Column(
@@ -255,11 +258,11 @@ class NetworkWidget extends HookWidget {
                       ),
                       Row(
                         children: [
-                          SelectableText(
-                              f.format(network.totalReserve / pow(10, 8))),
+                          SelectableText(f.format(
+                              (network.totalReserve ?? 0) / pow(10, 8))),
                           SelectableText(
                             cgProvider.runePrice != null
-                                ? "(\$${f.format(network.totalReserve / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                ? "(\$${f.format((network.totalReserve ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
                                 : "",
                             style: TextStyle(
                               color: Theme.of(context).hintColor,
@@ -288,11 +291,11 @@ class NetworkWidget extends HookWidget {
                       ),
                       Row(
                         children: [
-                          SelectableText(
-                              f.format(network.totalPooledRune / pow(10, 8))),
+                          SelectableText(f.format(
+                              (network.totalPooledRune ?? 0) / pow(10, 8))),
                           SelectableText(
                             cgProvider.runePrice != null
-                                ? "(\$${f.format(network.totalPooledRune / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                ? "(\$${f.format((network.totalPooledRune ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
                                 : "",
                             style: TextStyle(
                               color: Theme.of(context).hintColor,

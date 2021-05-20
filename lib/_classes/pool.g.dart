@@ -7,10 +7,11 @@ part of 'pool.dart';
 // **************************************************************************
 
 PoolStakes _$PoolStakesFromJson(Map<String, dynamic> json) {
-  return PoolStakes()
-    ..assetStaked = json['assetStaked'] as int
-    ..runeStaked = json['runeStaked'] as int
-    ..poolStaked = json['poolStaked'] as int;
+  return PoolStakes(
+    assetStaked: json['assetStaked'] as int,
+    runeStaked: json['runeStaked'] as int,
+    poolStaked: json['poolStaked'] as int,
+  );
 }
 
 Map<String, dynamic> _$PoolStakesToJson(PoolStakes instance) =>
@@ -21,10 +22,11 @@ Map<String, dynamic> _$PoolStakesToJson(PoolStakes instance) =>
     };
 
 PoolDepth _$PoolDepthFromJson(Map<String, dynamic> json) {
-  return PoolDepth()
-    ..assetDepth = json['assetDepth'] as int
-    ..runeDepth = json['runeDepth'] as int
-    ..poolDepth = json['poolDepth'] as int;
+  return PoolDepth(
+    assetDepth: json['assetDepth'] as int,
+    runeDepth: json['runeDepth'] as int,
+    poolDepth: json['poolDepth'] as int,
+  );
 }
 
 Map<String, dynamic> _$PoolDepthToJson(PoolDepth instance) => <String, dynamic>{
@@ -34,19 +36,20 @@ Map<String, dynamic> _$PoolDepthToJson(PoolDepth instance) => <String, dynamic>{
     };
 
 Pool _$PoolFromJson(Map<String, dynamic> json) {
-  return Pool()
-    ..asset = json['asset'] as String
-    ..status = json['status'] as String
-    ..price = (json['price'] as num)?.toDouble()
-    ..units = json['units'] as int
-    ..stakes = json['stakes'] == null
+  return Pool(
+    asset: json['asset'] as String,
+    status: json['status'] as String,
+    price: (json['price'] as num).toDouble(),
+    units: json['units'] as int?,
+    stakes: json['stakes'] == null
         ? null
-        : PoolStakes.fromJson(json['stakes'] as Map<String, dynamic>)
-    ..depth = json['depth'] == null
+        : PoolStakes.fromJson(json['stakes'] as Map<String, dynamic>),
+    depth: json['depth'] == null
         ? null
-        : PoolDepth.fromJson(json['depth'] as Map<String, dynamic>)
-    ..volume24h = json['volume24h'] as int
-    ..poolAPY = (json['poolAPY'] as num)?.toDouble();
+        : PoolDepth.fromJson(json['depth'] as Map<String, dynamic>),
+    volume24h: json['volume24h'] as int,
+    poolAPY: (json['poolAPY'] as num).toDouble(),
+  );
 }
 
 Map<String, dynamic> _$PoolToJson(Pool instance) => <String, dynamic>{

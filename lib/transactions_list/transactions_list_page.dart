@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:thorchain_explorer/_classes/error_display.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_services/midgard_service.dart';
@@ -28,7 +29,18 @@ class TransactionsListPage extends HookWidget {
 
           return response.when(
               loading: () => Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Center(child: Text('Error: $err')),
+              error: (err, stack) {
+                print(err);
+                print(stack.toString());
+                return Center(
+                    child: ErrorDisplay(
+                  subHeader: err.toString(),
+                  instructions: [
+                    '1) Please try again later.',
+                    '2) If error persists, please file an issue at https://github.com/asgardex/thorchain_explorer/issues.'
+                  ],
+                ));
+              },
               data: (actionsResponse) {
                 return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
