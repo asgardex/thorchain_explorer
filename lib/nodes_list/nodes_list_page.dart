@@ -209,10 +209,10 @@ class NodesGroup extends HookWidget {
                             DataColumn(label: Text("Slash Points")),
                             DataColumn(label: Text("Current Award")),
                             DataColumn(label: Text("Bond")),
-                            DataColumn(label: Text("Org")),
-                            DataColumn(label: Text("City")),
-                            DataColumn(label: Text("Region")),
-                            DataColumn(label: Text("Country"))
+                            // DataColumn(label: Text("Org")),
+                            // DataColumn(label: Text("City")),
+                            // DataColumn(label: Text("Region")),
+                            // DataColumn(label: Text("Country"))
                           ],
                           rows: nodes.map((node) {
                             NodeLocation? locationMatch =
@@ -265,10 +265,10 @@ class NodesGroup extends HookWidget {
                                       .format(node.currentAward / pow(10, 8)))),
                                   DataCell(
                                       Text(f.format(node.bond / pow(10, 8)))),
-                                  DataCell(Text(locationMatch.org ?? '')),
-                                  DataCell(Text(locationMatch.city ?? '')),
-                                  DataCell(Text(locationMatch.region ?? '')),
-                                  DataCell(Text(locationMatch.country ?? ''))
+                                  // DataCell(Text(locationMatch.org ?? '')),
+                                  // DataCell(Text(locationMatch.city ?? '')),
+                                  // DataCell(Text(locationMatch.region ?? '')),
+                                  // DataCell(Text(locationMatch.country ?? ''))
                                 ]);
                           }).toList(),
                         ),
