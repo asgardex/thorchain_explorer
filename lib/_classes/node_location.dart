@@ -5,11 +5,11 @@ part 'node_location.g.dart';
 @JsonSerializable()
 class NodeLocation {
   String ip = '';
-  String? city = '';
-  String? region = '';
-  String? country = '';
-  String? loc = '';
-  String? org = '';
+  String? city = '-';
+  String? region = '-';
+  String? country = '-';
+  String? loc = '-';
+  String? org = '-';
   String? postal = '';
   String? timezone = '';
 
