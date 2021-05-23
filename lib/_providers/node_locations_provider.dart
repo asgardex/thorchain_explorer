@@ -23,7 +23,7 @@ class NodeLocationsProvider extends StateNotifier<NodeLocationsProviderState> {
       final selectedNetwork =
           network == Networks.Testnet ? 'testnet' : 'mainnet';
 
-      final url = Uri.http('thorchainbackendutils-m647dnmuea-ue.a.run.app',
+      final url = Uri.https('thorchainbackendutils-m647dnmuea-ue.a.run.app',
           'nodes', {'network': selectedNetwork});
       final response = await http.get(url);
 
