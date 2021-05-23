@@ -62,7 +62,10 @@ final userThemeProvider = StateNotifierProvider<UserThemeNotifier, ThemeMode>(
 
 final nodeLocationsProvider =
     StateNotifierProvider<NodeLocationsProvider, NodeLocationsProviderState>(
-        (ref) => NodeLocationsProvider());
+        (ref) {
+  final netEnv = ref.watch(netEnvProvider);
+  return NodeLocationsProvider(selectNetwork(netEnv));
+});
 
 Networks selectNetwork(String net) {
   switch (net) {

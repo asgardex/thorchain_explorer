@@ -21,7 +21,6 @@ class NodesListPage extends HookWidget {
   Widget build(BuildContext context) {
     final starredNodes = useState<List<String>>([]);
     final ThemeMode mode = useProvider(userThemeProvider);
-    final nodeLocationsNotifier = useProvider(nodeLocationsProvider.notifier);
 
     Future<void> getStarredNodes() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -56,8 +55,6 @@ class NodesListPage extends HookWidget {
 
               List<TCNode> tcNodes = List<TCNode>.from(
                   result.data?['nodes'].map((node) => TCNode.fromJson(node)));
-
-              nodeLocationsNotifier.fetchLocations(tcNodes);
 
               TCNetwork network = TCNetwork.fromJson(result.data?['network']);
 
