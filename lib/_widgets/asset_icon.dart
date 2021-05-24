@@ -6,8 +6,10 @@ class AssetIcon extends StatelessWidget {
   final String asset;
   final double width;
   final double iconSize;
+  final String tooltip;
 
-  AssetIcon(this.asset, {this.width = 50, this.iconSize = 24});
+  AssetIcon(this.asset,
+      {this.width = 50, this.iconSize = 24, this.tooltip = ''});
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +84,9 @@ class AssetIcon extends StatelessWidget {
         height: width,
         child: logoPath != null
             ? Tooltip(
-                message: "${splitAsset[0]}.${splitAsset[1]}",
+                message: (tooltip.length > 0)
+                    ? tooltip
+                    : "${splitAsset[0]}.${splitAsset[1]}",
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(width),
                   child: Image.network(

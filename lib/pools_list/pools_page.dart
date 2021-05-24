@@ -49,6 +49,14 @@ class PoolsPage extends HookWidget {
 
               List<Pool> pools = List<Pool>.from(
                   result.data?['pools'].map((pool) => Pool.fromJson(pool)));
+              final activePools =
+                  pools.where((pool) => pool.status == 'available').toList();
+              final stagedPools =
+                  pools.where((pool) => pool.status == 'staged').toList();
+
+              activePools.sort((a, b) => b.poolAPY.compareTo(a.poolAPY));
+
+              final sortedPools = [...activePools, ...stagedPools];
 
               return LayoutBuilder(builder: (context, constraints) {
                 return Container(
@@ -65,8 +73,8 @@ class PoolsPage extends HookWidget {
                     physics:
                         NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                     shrinkWrap: true, // You won't see infinite size error
-                    children:
-                        createPoolCards(context, pools, cgProvider.runePrice),
+                    children: createPoolCards(
+                        context, sortedPools, cgProvider.runePrice),
                   ),
                 );
               });
@@ -108,9 +116,17 @@ class PoolsPage extends HookWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          splitAsset[0],
-                          style: TextStyle(color: Theme.of(context).hintColor),
+                        Row(
+                          children: [
+                            AssetIcon(
+                              '${splitAsset[0]}.${splitAsset[0]}',
+                              width: 24,
+                              iconSize: 24,
+                              tooltip: splitAsset[0],
+                            ),
+                            SizedBox(width: 4),
+                            PoolStatus(pool.status),
+                          ],
                         ),
                         Text(runePrice != null
                             ? "${simpleCurrency.format(pool.price * runePrice)}"
@@ -188,5 +204,48 @@ class PoolsPage extends HookWidget {
         ),
       );
     }).toList();
+  }
+}
+
+class PoolStatus extends StatelessWidget {
+  final String poolStatus;
+
+  PoolStatus(this.poolStatus);
+
+  @override
+  Widget build(BuildContext context) {
+    IconData icon;
+    Color color;
+    double size;
+
+    switch (poolStatus) {
+      case "available":
+        icon = Icons.check_circle;
+        color = Colors.green.shade400;
+        size = 28;
+        break;
+
+      case "suspended":
+        icon = Icons.warning;
+        color = Colors.red.shade400;
+        size = 24;
+        break;
+
+      // staged
+      default:
+        icon = Icons.hourglass_empty;
+        color = Colors.orange.shade400;
+        size = 24;
+        break;
+    }
+
+    return Tooltip(
+      message: "Pool is $poolStatus",
+      child: Icon(
+        icon,
+        color: color,
+        size: size,
+      ),
+    );
   }
 }
