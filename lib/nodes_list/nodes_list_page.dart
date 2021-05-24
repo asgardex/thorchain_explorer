@@ -361,7 +361,7 @@ class NodeListVersionSummary extends HookWidget {
                           color: Theme.of(context).hintColor, fontSize: 12),
                     ),
                     SelectableText(((nodesOnVersion / nodes.length) * 100)
-                            .toStringAsFixed(2) +
+                            .toStringAsFixed(0) +
                         "%"),
                   ],
                 ),
