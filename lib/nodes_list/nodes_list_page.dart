@@ -171,10 +171,11 @@ class NodesGroup extends HookWidget {
                                       children: [
                                         Row(
                                           children: [
+                                            NodeListVersionSummary(nodes),
                                             BondMetric("Total Bond",
                                                 bondMetrics?.totalBond ?? 0),
                                             BondMetric("Average Bond",
-                                                bondMetrics?.averageBond ?? 0)
+                                                bondMetrics?.averageBond ?? 0),
                                           ],
                                         ),
                                         Row(
@@ -323,5 +324,66 @@ class BondMetric extends HookWidget {
           ),
           padding: EdgeInsets.only(right: 16, top: 8)),
     );
+  }
+}
+
+class NodeListVersionSummary extends HookWidget {
+  final List<TCNode> nodes;
+
+  NodeListVersionSummary(this.nodes);
+
+  @override
+  Widget build(BuildContext context) {
+    final versionProvider = useProvider(nodeVersionProvider);
+
+    return versionProvider.maybeWhen(
+        data: (version) {
+          final v =
+              version.current != version.next ? version.next : version.current;
+
+          final int nodesOnVersion = nodes.fold(0, (int count, node) {
+            if (node.version == v) {
+              count = count + 1;
+            }
+            return count;
+          });
+
+          return Container(
+            width: 200,
+            child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SelectableText(
+                      '% nodes on v$v',
+                      style: TextStyle(
+                          color: Theme.of(context).hintColor, fontSize: 12),
+                    ),
+                    SelectableText(((nodesOnVersion / nodes.length) * 100)
+                            .toStringAsFixed(2) +
+                        "%"),
+                  ],
+                ),
+                padding: EdgeInsets.only(right: 16, top: 8)),
+          );
+        },
+        orElse: () => Container(
+              width: 200,
+              child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SelectableText(
+                        '% nodes on -',
+                        style: TextStyle(
+                            color: Theme.of(context).hintColor, fontSize: 12),
+                      ),
+                      SelectableText("-")
+                    ],
+                  ),
+                  padding: EdgeInsets.only(right: 16, top: 8)),
+            ));
   }
 }
