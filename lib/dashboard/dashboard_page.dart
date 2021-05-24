@@ -5,6 +5,7 @@ import 'package:thorchain_explorer/_classes/stats.dart';
 import 'package:thorchain_explorer/_classes/tc_network.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
+import 'package:thorchain_explorer/_widgets/error_display.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/dashboard/network_widget.dart';
 import 'package:thorchain_explorer/dashboard/stats_widget.dart';
@@ -25,7 +26,16 @@ class DashboardPage extends StatelessWidget {
             builder: (QueryResult result,
                 {VoidCallback? refetch, FetchMore? fetchMore}) {
               if (result.hasException) {
-                return Text(result.exception.toString());
+                print(result.exception.toString());
+                return Center(
+                    child: ErrorDisplay(
+                  subHeader:
+                      'There has been an error fetching Dashboard data from the Midgard API.',
+                  instructions: [
+                    '1) Please try again later.',
+                    '2) If error persists, please file an issue at https://github.com/asgardex/thorchain_explorer/issues.'
+                  ],
+                ));
               }
 
               if (result.isLoading) {
