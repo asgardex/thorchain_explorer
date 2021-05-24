@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:thorchain_explorer/_classes/tc_bank_balances.dart';
 import 'package:http/http.dart' as http;
+import 'package:thorchain_explorer/_classes/tc_node_version.dart';
 import 'package:thorchain_explorer/_enums/networks.dart';
 
 class ThornodeService {
@@ -18,6 +19,16 @@ class ThornodeService {
 
     if (response.statusCode == 200) {
       return BankBalances.fromJson(json.decode(response.body));
+    } else
+      throw Exception('Couldn\'t load actions');
+  }
+
+  Future<TCNodeVersion> fetchNodeVersion() async {
+    final uri = Uri.https(baseUrl, '/thorchain/version');
+    final response = await http.get(uri).timeout(Duration(seconds: 5));
+
+    if (response.statusCode == 200) {
+      return TCNodeVersion.fromJson(json.decode(response.body));
     } else
       throw Exception('Couldn\'t load actions');
   }

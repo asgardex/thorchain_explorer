@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
 import 'package:thorchain_explorer/_classes/tc_bank_balances.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
+import 'package:thorchain_explorer/_classes/tc_node_version.dart';
 import 'package:thorchain_explorer/_const/midgard_endpoints.dart';
 import 'package:thorchain_explorer/_enums/networks.dart';
 import 'package:thorchain_explorer/_providers/coingecko_provider.dart';
@@ -55,6 +56,12 @@ final bankBalancesProvider =
   final netEnv = ref.watch(netEnvProvider);
   final thornodeService = new ThornodeService(selectNetwork(netEnv));
   return thornodeService.fetchBalances(address);
+});
+
+final nodeVersionProvider = providerAutodispose<TCNodeVersion>((ref) {
+  final netEnv = ref.watch(netEnvProvider);
+  final thornodeService = new ThornodeService(selectNetwork(netEnv));
+  return thornodeService.fetchNodeVersion();
 });
 
 final userThemeProvider = StateNotifierProvider<UserThemeNotifier, ThemeMode>(
