@@ -38,11 +38,15 @@ class ThorchainExplorerApp extends HookWidget {
         child: MaterialApp(
           title: 'THORChain Network Explorer',
           theme: ThemeData(
-              // primarySwatch: Colors.blue,
-              cardColor: Colors.white,
-              textTheme: TextTheme(
-                  headline1:
-                      TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
+            // primarySwatch: Colors.blue,
+            cardColor: Colors.white,
+            textTheme: TextTheme(
+                headline1: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                headline2: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           darkTheme: ThemeData(
               brightness: Brightness.dark,
               cardColor: const Color.fromRGBO(25, 28, 30, 1),
@@ -51,7 +55,11 @@ class ThorchainExplorerApp extends HookWidget {
                   headline1: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white))),
+                      color: Colors.white),
+                  headline2: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ))),
           themeMode: mode,
           initialRoute: '/',
           onGenerateRoute: (settings) {

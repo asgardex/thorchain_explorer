@@ -5,14 +5,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:thorchain_explorer/_classes/pool.dart';
 import 'package:thorchain_explorer/_classes/pool_volume_history.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/asset_icon.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
-import 'package:thorchain_explorer/_widgets/stat_list_item.dart';
+import 'package:thorchain_explorer/_widgets/error_display.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/_widgets/volume_chart.dart';
 
@@ -23,226 +22,461 @@ class PoolPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentDate = DateTime.now();
-    final startDate = currentDate.subtract(Duration(days: 14));
-    final cgProvider = useProvider(coinGeckoProvider);
-    final ThemeMode mode = useProvider(userThemeProvider);
-
-    final f = NumberFormat.currency(
-      symbol: "",
-      decimalDigits: 0,
-    );
-
     return TCScaffold(
         currentArea: PageOptions.Pools,
-        child: Query(
-            options: poolQueryOptions(
-                asset: asset, startDate: startDate, currentDate: currentDate),
-            // Just like in apollo refetch() could be used to manually trigger a refetch
-            // while fetchMore() can be used for pagination purpose
-            builder: (QueryResult result,
-                {VoidCallback? refetch, FetchMore? fetchMore}) {
-              if (result.hasException) {
-                return Text(result.exception.toString());
-              }
-
-              if (result.isLoading) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              final pool = Pool.fromJson(result.data?['pool']);
-              final volumeHistory =
-                  PoolVolumeHistory.fromJson(result.data?['volumeHistory']);
-
-              return LayoutBuilder(builder: (context, constraints) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        children: [
-                          AssetIcon(
-                            asset,
-                            width: 24,
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Text(pool.asset,
-                              style: Theme.of(context).textTheme.headline6),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Container(
-                      height: 340,
-                      child: MediaQuery.of(context).size.width < 900
-                          ? ListView(
-                              padding: MediaQuery.of(context).size.width < 900
-                                  ? EdgeInsets.symmetric(horizontal: 16)
-                                  : EdgeInsets.zero,
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                Container(
-                                  child: AspectRatio(
-                                      aspectRatio: 2,
-                                      child: VolumeChart(volumeHistory)),
-                                )
-                              ],
-                            )
-                          : Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(child: VolumeChart(volumeHistory))
-                              ],
-                            ),
-                    ),
-                    SizedBox(
-                      height: 32,
-                    ),
-                    Material(
-                      elevation: 1,
-                      borderRadius: BorderRadius.circular(4.0),
-                      child: Container(
-                        decoration: containerBoxDecoration(context, mode),
-                        padding: EdgeInsets.all(16),
-                        child: Table(
-                          border: TableBorder.all(
-                              width: 1, color: Theme.of(context).dividerColor),
-                          children: [
-                            TableRow(children: [
-                              PaddedTableCell(child: Text("Status")),
-                              PaddedTableCell(child: Text(pool.status)),
-                            ]),
-                            TableRow(children: [
-                              PaddedTableCell(child: Text("Price (in RUNE)")),
-                              PaddedTableCell(
-                                  child: Text("${f.format(pool.price)} RUNE")),
-                            ]),
-                            TableRow(children: [
-                              PaddedTableCell(child: Text("Price (in USD)")),
-                              PaddedTableCell(
-                                  child: Text(cgProvider.runePrice > 0
-                                      ? "\$${f.format(pool.price * cgProvider.runePrice)}"
-                                      : "")),
-                            ]),
-                            TableRow(children: [
-                              PaddedTableCell(child: Text("Units")),
-                              PaddedTableCell(
-                                child: Text(
-                                    f.format((pool.units ?? 0) / pow(10, 8))),
-                              )
-                            ]),
-                            TableRow(children: [
-                              PaddedTableCell(child: Text("Volume 24 Hour")),
-                              PaddedTableCell(
-                                  child: Text(
-                                      f.format(pool.volume24h / pow(10, 8)))),
-                            ]),
-                            TableRow(children: [
-                              PaddedTableCell(child: Text("Pool APY")),
-                              PaddedTableCell(
-                                  child: Text(
-                                "${(pool.poolAPY * 100).toStringAsPrecision(2)}%",
-                              )),
-                            ]),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        return constraints.maxWidth < 900
-                            ? Container(
-                                child: Column(
-                                  children: [
-                                    (pool.stakes != null)
-                                        ? PoolStakesTable(pool.stakes!)
-                                        : Container(),
-                                    SizedBox(
-                                      height: 32,
-                                    ),
-                                    (pool.depth != null)
-                                        ? PoolDepthTable(pool.depth!)
-                                        : Container(),
-                                  ],
-                                ),
-                              )
-                            : Row(
-                                children: [
-                                  Expanded(
-                                    child: (pool.stakes != null)
-                                        ? PoolStakesTable(pool.stakes!)
-                                        : Container(),
-                                  ),
-                                  SizedBox(
-                                    width: 32,
-                                  ),
-                                  Expanded(
-                                    child: (pool.depth != null)
-                                        ? PoolDepthTable(pool.depth!)
-                                        : Container(),
-                                  )
-                                ],
-                              );
-                      },
-                    )
-                  ],
-                );
-              });
-            }));
+        child: LayoutBuilder(builder: (context, constraints) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [PoolStats(asset)],
+          );
+        }));
   }
 }
 
-class PoolStakesTable extends HookWidget {
-  final PoolStakes poolStakes;
-
+class PoolStats extends HookWidget {
+  final String asset;
   final f = NumberFormat.currency(
     symbol: "",
-    decimalDigits: 0,
+    decimalDigits: 2,
   );
+  final formatNoDecimal = NumberFormat.currency(symbol: "", decimalDigits: 0);
+  final colWidth = 160.0;
 
-  PoolStakesTable(this.poolStakes);
+  PoolStats(this.asset);
 
   @override
   Widget build(BuildContext context) {
+    final response = useProvider(poolStatsProvider(asset));
     final ThemeMode mode = useProvider(userThemeProvider);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return HookBuilder(
+      builder: (context) {
+        return response.when(
+          loading: () => Center(child: CircularProgressIndicator()),
+          error: (err, stack) {
+            return ErrorDisplay(
+              header: "Sorry, we're unable to find pool stats",
+              subHeader: 'Please try again later',
+              instructions: [
+                'If error persists, please file an issue at https://github.com/asgardex/thorchain_explorer/issues.',
+              ],
+            );
+          },
+          data: (data) => Material(
+            elevation: 1,
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: containerBoxDecoration(context, mode),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        AssetIcon(
+                          asset,
+                          width: 24,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(asset,
+                            style: Theme.of(context).textTheme.headline1),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: [
+                        PoolStat(
+                            label: "Asset Price",
+                            child: Container(
+                              width: colWidth,
+                              child: SelectableText(
+                                  f.format(double.parse(data.assetPrice))),
+                            )),
+                        PoolStat(
+                            label: "Asset Price USD",
+                            child: Container(
+                              width: colWidth,
+                              child: SelectableText(
+                                  "\$${f.format(double.parse(data.assetPriceUSD))}"),
+                            )),
+                        PoolStat(
+                            label: "Pool APY",
+                            child: Container(
+                              width: colWidth,
+                              child: SelectableText(
+                                  "${formatNoDecimal.format(double.parse(data.poolAPY) * 100)}%"),
+                            )),
+                        PoolStat(
+                            label: "Status",
+                            child: Container(
+                              width: colWidth,
+                              child: SelectableText(data.status),
+                            )),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: [
+                        PoolStat(
+                            label: "Asset Depth",
+                            child: Container(
+                              width: colWidth,
+                              child: SelectableText(f.format(
+                                  double.parse(data.assetDepth) / pow(10, 8))),
+                            )),
+                        PoolStat(
+                            label: "RUNE Depth",
+                            child: Container(
+                              width: colWidth,
+                              child: SelectableText(f.format(
+                                  double.parse(data.runeDepth) / pow(10, 8))),
+                            )),
+                        PoolStat(
+                            label: "Units",
+                            child: Container(
+                              width: colWidth,
+                              child: SelectableText(f.format(
+                                  double.parse(data.units) / pow(10, 8))),
+                            )),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    PoolVolumeHistoryChart(asset),
+                    Divider(),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      children: [
+                        SelectableText(
+                          "Swap",
+                          style: Theme.of(context).textTheme.headline2,
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: [
+                        PoolStat(
+                            label: "To Asset Fees",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(data.toAssetFees)) /
+                                            pow(10, 8))
+                                        .ceil()))),
+                        PoolStat(
+                            label: "To RUNE Fees",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(data.toRuneFees)) /
+                                            pow(10, 8))
+                                        .ceil()))),
+                        PoolStat(
+                            label: "Total Fees",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(data.totalFees)) /
+                                            pow(10, 8))
+                                        .ceil()))),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: [
+                        PoolStat(
+                          label: "To Asset Count",
+                          child: Container(
+                              width: colWidth,
+                              child: SelectableText(data.toAssetCount)),
+                        ),
+                        PoolStat(
+                          label: "To RUNE Count",
+                          child: Container(
+                              width: colWidth,
+                              child: SelectableText(data.toRuneCount)),
+                        ),
+                        PoolStat(
+                          label: "Swap Count",
+                          child: Container(
+                              width: colWidth,
+                              child: SelectableText(data.swapCount)),
+                        ),
+                        PoolStat(
+                          label: "Unique Swapper Count",
+                          child: Container(
+                              width: colWidth,
+                              child: SelectableText(data.uniqueSwapperCount)),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: [
+                        PoolStat(
+                            label: "To Asset Volume",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(data.toAssetVolume)) /
+                                            pow(10, 8))
+                                        .ceil()))),
+                        PoolStat(
+                            label: "To RUNE Volume",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(data.toRuneVolume)) /
+                                            pow(10, 8))
+                                        .ceil()))),
+                        PoolStat(
+                            label: "Swap Volume",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(data.swapVolume)) /
+                                            pow(10, 8))
+                                        .ceil()))),
+                      ],
+                    ),
+
+                    /**
+                     * Commented out for now, not sure how to format these slip numbers
+                     */
+                    // SizedBox(
+                    //   height: 16,
+                    // ),
+                    // Wrap(
+                    //   spacing: 16,
+                    //   runSpacing: 16,
+                    //   children: [
+                    //     PoolStat(
+                    //         label: "To Asset Average Slip",
+                    //         child: Container(
+                    //             width: colWidth,
+                    //             child: ValueWithUsd(
+                    //                 value: ((double.parse(
+                    //                             data.toAssetAverageSlip)) /
+                    //                         pow(10, 8))
+                    //                     .ceil()))),
+                    //     PoolStat(
+                    //         label: "To Rune Average Slip",
+                    //         child: Container(
+                    //             width: colWidth,
+                    //             child: ValueWithUsd(
+                    //                 value: ((double.parse(
+                    //                             data.toRuneAverageSlip)) /
+                    //                         pow(10, 8))
+                    //                     .ceil()))),
+                    //     PoolStat(
+                    //         label: "Average Slip",
+                    //         child: Container(
+                    //             width: colWidth,
+                    //             child: ValueWithUsd(
+                    //                 value: ((double.parse(data.averageSlip)) /
+                    //                         pow(10, 8))
+                    //                     .ceil()))),
+                    //   ],
+                    // ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Divider(),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      children: [
+                        SelectableText(
+                          "Deposit",
+                          style: Theme.of(context).textTheme.headline2,
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: [
+                        PoolStat(
+                          label: "Add Liquidity Count",
+                          child: Container(
+                              width: colWidth,
+                              child: SelectableText(data.addLiquidityCount)),
+                        ),
+                        PoolStat(
+                          label: "Unique Member Count",
+                          child: Container(
+                              width: colWidth,
+                              child: SelectableText(data.uniqueMemberCount)),
+                        ),
+                        PoolStat(
+                            label: "Loss Protection Paid",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(data
+                                                .impermanentLossProtectionPaid) /
+                                            pow(10, 8))
+                                        .ceil())))),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: [
+                        PoolStat(
+                            label: "Add Asset Liquidity Volume",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(
+                                                data.addAssetLiquidityVolume)) /
+                                            pow(10, 8))
+                                        .ceil()))),
+                        PoolStat(
+                            label: "Add RUNE Liquidity Volume",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(
+                                                data.addRuneLiquidityVolume)) /
+                                            pow(10, 8))
+                                        .ceil()))),
+                        PoolStat(
+                            label: "Add Liquidity Volume",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(
+                                                data.addLiquidityVolume) /
+                                            pow(10, 8))
+                                        .ceil())))),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Divider(),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      children: [
+                        SelectableText(
+                          "Withdraw",
+                          style: Theme.of(context).textTheme.headline2,
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      children: [
+                        PoolStat(
+                          label: "Withdraw Count",
+                          child: Container(
+                              width: colWidth,
+                              child: SelectableText(data.withdrawCount)),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: [
+                        PoolStat(
+                            label: "Withdraw Asset Volume",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(
+                                                data.withdrawAssetVolume)) /
+                                            pow(10, 8))
+                                        .ceil()))),
+                        PoolStat(
+                            label: "Withdraw RUNE Volume",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(
+                                                data.withdrawRuneVolume)) /
+                                            pow(10, 8))
+                                        .ceil()))),
+                        PoolStat(
+                            label: "Withdraw Volume",
+                            child: Container(
+                                width: colWidth,
+                                child: ValueWithUsd(
+                                    value: ((double.parse(data.withdrawVolume) /
+                                            pow(10, 8))
+                                        .ceil())))),
+                      ],
+                    ),
+                  ]),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class ValueWithUsd extends HookWidget {
+  final int value;
+  final f = NumberFormat.currency(symbol: "", decimalDigits: 0);
+
+  ValueWithUsd({required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    final cgProvider = useProvider(coinGeckoProvider);
+
+    return Row(
       children: [
-        Container(
-          padding: EdgeInsets.all(16),
-          child: Text("Asset Pool Deposited",
-              style: TextStyle(color: Theme.of(context).hintColor)),
-        ),
-        Material(
-          elevation: 1,
-          child: Container(
-            decoration: containerBoxDecoration(context, mode),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  StatListItem(
-                      label: "Asset Deposited",
-                      value: f.format(poolStakes.assetStaked / pow(10, 8))),
-                  StatListItem(
-                      label: "RUNE Deposited",
-                      value: f.format(poolStakes.runeStaked / pow(10, 8))),
-                  StatListItem(
-                    label: "Pool Deposited",
-                    value: f.format(poolStakes.poolStaked / pow(10, 8)),
-                    hideBorder: true,
-                  )
-                ]),
+        SelectableText(f.format(value)),
+        SelectableText(
+          cgProvider.runePrice != null
+              // ? "(\$${f.format((double.parse(data.totalFees)) / pow(10, 8).ceil() * cgProvider.runePrice)})"
+              ? "(\$${f.format(value * cgProvider.runePrice)})"
+              : "",
+          style: TextStyle(
+            color: Theme.of(context).hintColor,
+            fontSize: 12,
           ),
         ),
       ],
@@ -250,64 +484,88 @@ class PoolStakesTable extends HookWidget {
   }
 }
 
-class PoolDepthTable extends HookWidget {
-  final PoolDepth poolDepth;
+class PoolStat extends StatelessWidget {
+  final String label;
+  final Widget child;
 
-  final f = NumberFormat.currency(
-    symbol: "",
-    decimalDigits: 0,
-  );
-
-  PoolDepthTable(this.poolDepth);
+  PoolStat({required this.label, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    final ThemeMode mode = useProvider(userThemeProvider);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: EdgeInsets.all(16),
-          child: Text("Asset Pool Depth",
-              style: TextStyle(color: Theme.of(context).hintColor)),
-        ),
-        Material(
-            elevation: 1,
-            child: Container(
-              decoration: containerBoxDecoration(context, mode),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    StatListItem(
-                        label: "Asset Depth",
-                        value: f.format(poolDepth.assetDepth / pow(10, 8))),
-                    StatListItem(
-                        label: "RUNE Depth",
-                        value: f.format(poolDepth.runeDepth / pow(10, 8))),
-                    StatListItem(
-                      label: "Pool Depth",
-                      value: f.format(poolDepth.poolDepth / pow(10, 8)),
-                      hideBorder: true,
-                    )
-                  ]),
-            )),
-      ],
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SelectableText(
+            label,
+            style: TextStyle(color: Theme.of(context).hintColor, fontSize: 12),
+          ),
+          child
+        ],
+      ),
     );
   }
 }
 
-class PaddedTableCell extends StatelessWidget {
-  final Widget child;
+class PoolVolumeHistoryChart extends HookWidget {
+  final String asset;
 
-  PaddedTableCell({required this.child});
+  PoolVolumeHistoryChart(this.asset);
 
   @override
   Widget build(BuildContext context) {
-    return TableCell(
-        child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: child,
-    ));
+    final currentDate = DateTime.now();
+    final startDate = currentDate.subtract(Duration(days: 14));
+
+    return Query(
+        options: poolQueryOptions(
+            asset: asset, startDate: startDate, currentDate: currentDate),
+        // Just like in apollo refetch() could be used to manually trigger a refetch
+        // while fetchMore() can be used for pagination purpose
+        builder: (QueryResult result,
+            {VoidCallback? refetch, FetchMore? fetchMore}) {
+          if (result.hasException) {
+            return Text(result.exception.toString());
+          }
+
+          if (result.isLoading) {
+            return Container(
+              height: 340,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          final volumeHistory =
+              PoolVolumeHistory.fromJson(result.data?['volumeHistory']);
+
+          return Container(
+            height: 340,
+            child: MediaQuery.of(context).size.width < 900
+                ? ListView(
+                    padding: MediaQuery.of(context).size.width < 900
+                        ? EdgeInsets.symmetric(horizontal: 16)
+                        : EdgeInsets.zero,
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Container(
+                        child: AspectRatio(
+                            aspectRatio: 2,
+                            child: VolumeChart(
+                              volumeHistory,
+                              hideBorder: true,
+                            )),
+                      )
+                    ],
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                          child: VolumeChart(volumeHistory, hideBorder: true))
+                    ],
+                  ),
+          );
+        });
   }
 }

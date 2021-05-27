@@ -10,8 +10,8 @@ import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
+import 'package:thorchain_explorer/_widgets/padded_table_cell.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
-import 'package:thorchain_explorer/pool/pool_page.dart';
 
 class NodePage extends HookWidget {
   final String address;

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:thorchain_explorer/_classes/pool_stats.dart';
 import 'package:thorchain_explorer/_classes/tc_action.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
 import 'package:thorchain_explorer/_enums/networks.dart';
@@ -71,6 +72,16 @@ class MidgardService {
 
     if (response.statusCode == 200) {
       return compute(_parseNodes, response.body);
+    } else
+      throw Exception('Couldn\'t load actions');
+  }
+
+  Future<PoolStats> fetchPoolStats(String asset) async {
+    final uri = Uri.https(baseUrl, '/v2/pool/$asset/stats');
+    final response = await http.get(uri).timeout(Duration(seconds: 15));
+
+    if (response.statusCode == 200) {
+      return PoolStats.fromJson(jsonDecode(response.body));
     } else
       throw Exception('Couldn\'t load actions');
   }
