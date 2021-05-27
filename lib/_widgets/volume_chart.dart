@@ -15,8 +15,9 @@ class VolumeChart extends HookWidget {
   final Color light = const Color(0xff73e8c9);
 
   final PoolVolumeHistory volumeHistory;
+  final bool hideBorder;
 
-  VolumeChart(this.volumeHistory);
+  VolumeChart(this.volumeHistory, {this.hideBorder = false});
   final dateFormatter = DateFormat('Md');
 
   @override
@@ -33,7 +34,9 @@ class VolumeChart extends HookWidget {
       elevation: 1,
       borderRadius: BorderRadius.circular(4.0),
       child: Container(
-        decoration: containerBoxDecoration(context, mode),
+        decoration: (!hideBorder)
+            ? containerBoxDecoration(context, mode)
+            : BoxDecoration(color: Theme.of(context).cardColor),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,

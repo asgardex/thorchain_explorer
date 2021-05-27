@@ -4,6 +4,7 @@ import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
 import 'package:thorchain_explorer/_classes/tc_bank_balances.dart';
 import 'package:thorchain_explorer/_classes/tc_node.dart';
 import 'package:thorchain_explorer/_classes/tc_node_version.dart';
+import 'package:thorchain_explorer/_classes/pool_stats.dart';
 import 'package:thorchain_explorer/_const/midgard_endpoints.dart';
 import 'package:thorchain_explorer/_enums/networks.dart';
 import 'package:thorchain_explorer/_providers/coingecko_provider.dart';
@@ -85,3 +86,10 @@ Networks selectNetwork(String net) {
       return Networks.Mainnet;
   }
 }
+
+final poolStatsProvider =
+    providerAutodisposeFamily<PoolStats, String>((ref, asset) async {
+  final netEnv = ref.watch(netEnvProvider);
+  final midgardService = new MidgardService(selectNetwork(netEnv));
+  return midgardService.fetchPoolStats(asset);
+});
