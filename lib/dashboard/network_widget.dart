@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/tc_network.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
-import 'package:thorchain_explorer/_widgets/stat_list_item.dart';
+import 'package:thorchain_explorer/_widgets/stat_item.dart';
 
 class NetworkWidget extends HookWidget {
   final TCNetwork network;
@@ -20,6 +20,11 @@ class NetworkWidget extends HookWidget {
     );
     final ThemeMode mode = useProvider(userThemeProvider);
     final cgProvider = useProvider(coinGeckoProvider);
+    final rowDecoration = BoxDecoration(
+        border: Border(
+            bottom:
+                BorderSide(width: 1, color: Theme.of(context).dividerColor)));
+    final rowPadding = const EdgeInsets.symmetric(vertical: 8, horizontal: 16);
 
     return Column(
       children: [
@@ -103,12 +108,8 @@ class NetworkWidget extends HookWidget {
                       ),
                     ],
                   ),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1,
-                              color: Theme.of(context).dividerColor))),
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  decoration: rowDecoration,
+                  padding: rowPadding,
                 ),
                 Container(
                   child: Row(
@@ -182,12 +183,8 @@ class NetworkWidget extends HookWidget {
                       ),
                     ],
                   ),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1,
-                              color: Theme.of(context).dividerColor))),
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  decoration: rowDecoration,
+                  padding: rowPadding,
                 ),
                 Container(
                   child: Row(
@@ -229,57 +226,75 @@ class NetworkWidget extends HookWidget {
                       ),
                     ],
                   ),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1,
-                              color: Theme.of(context).dividerColor))),
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  decoration: rowDecoration,
+                  padding: rowPadding,
                 ),
-                StatListItem(
-                    label: "Next Churn Height",
-                    value: network.nextChurnHeight.toString()),
-                StatListItem(
-                    label: "Pool Activation Countdown",
-                    value: network.poolActivationCountdown.toString()),
-                StatListItem(
-                    label: "Pool Share Factor",
-                    value: ((network.poolShareFactor ?? 0) * 100)
-                            .toStringAsFixed(2) +
-                        '%'),
                 Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  decoration: rowDecoration,
+                  padding: rowPadding,
+                  child: Row(
                     children: [
-                      SelectableText(
-                        "Total Reserve",
-                        style: TextStyle(
-                            color: Theme.of(context).hintColor, fontSize: 12),
-                      ),
-                      Row(
-                        children: [
-                          SelectableText(f.format(
-                              (network.totalReserve ?? 0) / pow(10, 8))),
-                          SelectableText(
-                            cgProvider.runePrice != null
-                                ? "(\$${f.format((network.totalReserve ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
-                                : "",
-                            style: TextStyle(
-                              color: Theme.of(context).hintColor,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      )
+                      StatItem(
+                          label: "Next Churn Height",
+                          child: SelectableText(
+                              network.nextChurnHeight.toString())),
                     ],
                   ),
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              width: 1,
-                              color: Theme.of(context).dividerColor))),
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 ),
+                Container(
+                  decoration: rowDecoration,
+                  padding: rowPadding,
+                  child: Row(
+                    children: [
+                      StatItem(
+                          label: "Pool Activation Countdown",
+                          child: SelectableText(
+                              network.poolActivationCountdown.toString())),
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: rowDecoration,
+                  padding: rowPadding,
+                  child: Row(
+                    children: [
+                      StatItem(
+                          label: "Pool Share Factor",
+                          child: SelectableText(
+                              ((network.poolShareFactor ?? 0) * 100)
+                                      .toStringAsFixed(2) +
+                                  '%')),
+                    ],
+                  ),
+                ),
+                Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SelectableText(
+                          "Total Reserve",
+                          style: TextStyle(
+                              color: Theme.of(context).hintColor, fontSize: 12),
+                        ),
+                        Row(
+                          children: [
+                            SelectableText(f.format(
+                                (network.totalReserve ?? 0) / pow(10, 8))),
+                            SelectableText(
+                              cgProvider.runePrice != null
+                                  ? "(\$${f.format((network.totalReserve ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                                  : "",
+                              style: TextStyle(
+                                color: Theme.of(context).hintColor,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    decoration: rowDecoration,
+                    padding: rowPadding),
                 Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -306,7 +321,7 @@ class NetworkWidget extends HookWidget {
                       )
                     ],
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  padding: rowPadding,
                 ),
               ],
             ),

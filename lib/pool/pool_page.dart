@@ -12,6 +12,7 @@ import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/asset_icon.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/error_display.dart';
+import 'package:thorchain_explorer/_widgets/stat_item.dart';
 import 'package:thorchain_explorer/_widgets/sub_navigation_item_list.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/_widgets/volume_chart.dart';
@@ -101,28 +102,28 @@ class PoolStats extends HookWidget {
                       spacing: 16,
                       runSpacing: 16,
                       children: [
-                        PoolStat(
+                        StatItem(
                             label: "Asset Price",
                             child: Container(
                               width: colWidth,
                               child: SelectableText(
                                   f.format(double.parse(data.assetPrice))),
                             )),
-                        PoolStat(
+                        StatItem(
                             label: "Asset Price USD",
                             child: Container(
                               width: colWidth,
                               child: SelectableText(
                                   "\$${f.format(double.parse(data.assetPriceUSD))}"),
                             )),
-                        PoolStat(
+                        StatItem(
                             label: "Pool APY",
                             child: Container(
                               width: colWidth,
                               child: SelectableText(
                                   "${formatNoDecimal.format(double.parse(data.poolAPY) * 100)}%"),
                             )),
-                        PoolStat(
+                        StatItem(
                             label: "Status",
                             child: Container(
                               width: colWidth,
@@ -137,21 +138,21 @@ class PoolStats extends HookWidget {
                       spacing: 16,
                       runSpacing: 16,
                       children: [
-                        PoolStat(
+                        StatItem(
                             label: "Asset Depth",
                             child: Container(
                               width: colWidth,
                               child: SelectableText(f.format(
                                   double.parse(data.assetDepth) / pow(10, 8))),
                             )),
-                        PoolStat(
+                        StatItem(
                             label: "RUNE Depth",
                             child: Container(
                               width: colWidth,
                               child: SelectableText(f.format(
                                   double.parse(data.runeDepth) / pow(10, 8))),
                             )),
-                        PoolStat(
+                        StatItem(
                             label: "Units",
                             child: Container(
                               width: colWidth,
@@ -183,7 +184,7 @@ class PoolStats extends HookWidget {
                       spacing: 16,
                       runSpacing: 16,
                       children: [
-                        PoolStat(
+                        StatItem(
                             label: "To Asset Fees",
                             child: Container(
                                 width: colWidth,
@@ -191,7 +192,7 @@ class PoolStats extends HookWidget {
                                     value: ((double.parse(data.toAssetFees)) /
                                             pow(10, 8))
                                         .ceil()))),
-                        PoolStat(
+                        StatItem(
                             label: "To RUNE Fees",
                             child: Container(
                                 width: colWidth,
@@ -199,7 +200,7 @@ class PoolStats extends HookWidget {
                                     value: ((double.parse(data.toRuneFees)) /
                                             pow(10, 8))
                                         .ceil()))),
-                        PoolStat(
+                        StatItem(
                             label: "Total Fees",
                             child: Container(
                                 width: colWidth,
@@ -216,25 +217,25 @@ class PoolStats extends HookWidget {
                       spacing: 16,
                       runSpacing: 16,
                       children: [
-                        PoolStat(
+                        StatItem(
                           label: "To Asset Count",
                           child: Container(
                               width: colWidth,
                               child: SelectableText(data.toAssetCount)),
                         ),
-                        PoolStat(
+                        StatItem(
                           label: "To RUNE Count",
                           child: Container(
                               width: colWidth,
                               child: SelectableText(data.toRuneCount)),
                         ),
-                        PoolStat(
+                        StatItem(
                           label: "Swap Count",
                           child: Container(
                               width: colWidth,
                               child: SelectableText(data.swapCount)),
                         ),
-                        PoolStat(
+                        StatItem(
                           label: "Unique Swapper Count",
                           child: Container(
                               width: colWidth,
@@ -249,7 +250,7 @@ class PoolStats extends HookWidget {
                       spacing: 16,
                       runSpacing: 16,
                       children: [
-                        PoolStat(
+                        StatItem(
                             label: "To Asset Volume",
                             child: Container(
                                 width: colWidth,
@@ -257,7 +258,7 @@ class PoolStats extends HookWidget {
                                     value: ((double.parse(data.toAssetVolume)) /
                                             pow(10, 8))
                                         .ceil()))),
-                        PoolStat(
+                        StatItem(
                             label: "To RUNE Volume",
                             child: Container(
                                 width: colWidth,
@@ -265,7 +266,7 @@ class PoolStats extends HookWidget {
                                     value: ((double.parse(data.toRuneVolume)) /
                                             pow(10, 8))
                                         .ceil()))),
-                        PoolStat(
+                        StatItem(
                             label: "Swap Volume",
                             child: Container(
                                 width: colWidth,
@@ -336,19 +337,19 @@ class PoolStats extends HookWidget {
                       spacing: 16,
                       runSpacing: 16,
                       children: [
-                        PoolStat(
+                        StatItem(
                           label: "Add Liquidity Count",
                           child: Container(
                               width: colWidth,
                               child: SelectableText(data.addLiquidityCount)),
                         ),
-                        PoolStat(
+                        StatItem(
                           label: "Unique Member Count",
                           child: Container(
                               width: colWidth,
                               child: SelectableText(data.uniqueMemberCount)),
                         ),
-                        PoolStat(
+                        StatItem(
                             label: "Loss Protection Paid",
                             child: Container(
                                 width: colWidth,
@@ -366,7 +367,7 @@ class PoolStats extends HookWidget {
                       spacing: 16,
                       runSpacing: 16,
                       children: [
-                        PoolStat(
+                        StatItem(
                             label: "Add Asset Liquidity Volume",
                             child: Container(
                                 width: colWidth,
@@ -375,7 +376,7 @@ class PoolStats extends HookWidget {
                                                 data.addAssetLiquidityVolume)) /
                                             pow(10, 8))
                                         .ceil()))),
-                        PoolStat(
+                        StatItem(
                             label: "Add RUNE Liquidity Volume",
                             child: Container(
                                 width: colWidth,
@@ -384,7 +385,7 @@ class PoolStats extends HookWidget {
                                                 data.addRuneLiquidityVolume)) /
                                             pow(10, 8))
                                         .ceil()))),
-                        PoolStat(
+                        StatItem(
                             label: "Add Liquidity Volume",
                             child: Container(
                                 width: colWidth,
@@ -415,7 +416,7 @@ class PoolStats extends HookWidget {
                     ),
                     Row(
                       children: [
-                        PoolStat(
+                        StatItem(
                           label: "Withdraw Count",
                           child: Container(
                               width: colWidth,
@@ -430,7 +431,7 @@ class PoolStats extends HookWidget {
                       spacing: 16,
                       runSpacing: 16,
                       children: [
-                        PoolStat(
+                        StatItem(
                             label: "Withdraw Asset Volume",
                             child: Container(
                                 width: colWidth,
@@ -439,7 +440,7 @@ class PoolStats extends HookWidget {
                                                 data.withdrawAssetVolume)) /
                                             pow(10, 8))
                                         .ceil()))),
-                        PoolStat(
+                        StatItem(
                             label: "Withdraw RUNE Volume",
                             child: Container(
                                 width: colWidth,
@@ -448,7 +449,7 @@ class PoolStats extends HookWidget {
                                                 data.withdrawRuneVolume)) /
                                             pow(10, 8))
                                         .ceil()))),
-                        PoolStat(
+                        StatItem(
                             label: "Withdraw Volume",
                             child: Container(
                                 width: colWidth,
@@ -463,57 +464,6 @@ class PoolStats extends HookWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class ValueWithUsd extends HookWidget {
-  final int value;
-  final f = NumberFormat.currency(symbol: "", decimalDigits: 0);
-
-  ValueWithUsd({required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    final cgProvider = useProvider(coinGeckoProvider);
-
-    return Row(
-      children: [
-        SelectableText(f.format(value)),
-        SelectableText(
-          cgProvider.runePrice != null
-              // ? "(\$${f.format((double.parse(data.totalFees)) / pow(10, 8).ceil() * cgProvider.runePrice)})"
-              ? "(\$${f.format(value * cgProvider.runePrice)})"
-              : "",
-          style: TextStyle(
-            color: Theme.of(context).hintColor,
-            fontSize: 12,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class PoolStat extends StatelessWidget {
-  final String label;
-  final Widget child;
-
-  PoolStat({required this.label, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SelectableText(
-            label,
-            style: TextStyle(color: Theme.of(context).hintColor, fontSize: 12),
-          ),
-          child
-        ],
-      ),
     );
   }
 }

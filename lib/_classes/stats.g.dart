@@ -8,33 +8,42 @@ part of 'stats.dart';
 
 Stats _$StatsFromJson(Map<String, dynamic> json) {
   return Stats()
-    ..dailyActiveUsers = json['dailyActiveUsers'] as int
-    ..dailyTx = json['dailyTx'] as int
-    ..monthlyActiveUsers = json['monthlyActiveUsers'] as int
-    ..monthlyTx = json['monthlyTx'] as int
-    ..totalAssetBuys = json['totalAssetBuys'] as int
-    ..totalAssetSells = json['totalAssetSells'] as int
-    ..totalDepth = json['totalDepth'] as int
-    ..totalStakeTx = json['totalStakeTx'] as int
-    ..totalStaked = json['totalStaked'] as int
-    ..totalTx = json['totalTx'] as int
-    ..totalUsers = json['totalUsers'] as int
-    ..totalVolume = json['totalVolume'] as int
-    ..totalWithdrawTx = json['totalWithdrawTx'] as int;
+    ..addLiquidityCount = json['addLiquidityCount'] as String
+    ..addLiquidityVolume = json['addLiquidityVolume'] as String
+    ..dailyActiveUsers = json['dailyActiveUsers'] as String
+    ..impermanentLossProtectionPaid =
+        json['impermanentLossProtectionPaid'] as String
+    ..monthlyActiveUsers = json['monthlyActiveUsers'] as String
+    ..runeDepth = json['runeDepth'] as String
+    ..runePriceUSD = json['runePriceUSD'] as String
+    ..swapCount = json['swapCount'] as String
+    ..swapCount24h = json['swapCount24h'] as String
+    ..swapCount30d = json['swapCount30d'] as String
+    ..swapVolume = json['swapVolume'] as String
+    ..switchedRune = json['switchedRune'] as String
+    ..toAssetCount = json['toAssetCount'] as String
+    ..toRuneCount = json['toRuneCount'] as String
+    ..uniqueSwapperCount = json['uniqueSwapperCount'] as String
+    ..withdrawCount = json['withdrawCount'] as String
+    ..withdrawVolume = json['withdrawVolume'] as String;
 }
 
 Map<String, dynamic> _$StatsToJson(Stats instance) => <String, dynamic>{
+      'addLiquidityCount': instance.addLiquidityCount,
+      'addLiquidityVolume': instance.addLiquidityVolume,
       'dailyActiveUsers': instance.dailyActiveUsers,
-      'dailyTx': instance.dailyTx,
+      'impermanentLossProtectionPaid': instance.impermanentLossProtectionPaid,
       'monthlyActiveUsers': instance.monthlyActiveUsers,
-      'monthlyTx': instance.monthlyTx,
-      'totalAssetBuys': instance.totalAssetBuys,
-      'totalAssetSells': instance.totalAssetSells,
-      'totalDepth': instance.totalDepth,
-      'totalStakeTx': instance.totalStakeTx,
-      'totalStaked': instance.totalStaked,
-      'totalTx': instance.totalTx,
-      'totalUsers': instance.totalUsers,
-      'totalVolume': instance.totalVolume,
-      'totalWithdrawTx': instance.totalWithdrawTx,
+      'runeDepth': instance.runeDepth,
+      'runePriceUSD': instance.runePriceUSD,
+      'swapCount': instance.swapCount,
+      'swapCount24h': instance.swapCount24h,
+      'swapCount30d': instance.swapCount30d,
+      'swapVolume': instance.swapVolume,
+      'switchedRune': instance.switchedRune,
+      'toAssetCount': instance.toAssetCount,
+      'toRuneCount': instance.toRuneCount,
+      'uniqueSwapperCount': instance.uniqueSwapperCount,
+      'withdrawCount': instance.withdrawCount,
+      'withdrawVolume': instance.withdrawVolume,
     };
