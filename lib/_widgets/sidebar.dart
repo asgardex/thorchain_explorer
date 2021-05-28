@@ -57,7 +57,10 @@ class Sidebar extends HookWidget {
           ),
           Container(
             child: Column(
-              children: [ExternalSidebarLinks(), UserThemeToggle()],
+              children: [
+                ExternalSidebarLinks(),
+                // UserThemeToggle()
+              ],
             ),
           )
         ],

@@ -11,6 +11,7 @@ import 'package:thorchain_explorer/network/network_page.dart';
 import 'package:thorchain_explorer/node/node_page.dart';
 import 'package:thorchain_explorer/nodes_list/nodes_list_page.dart';
 import 'package:thorchain_explorer/pool/pool_page.dart';
+import 'package:thorchain_explorer/pool_txs/pool_txs_page.dart';
 import 'package:thorchain_explorer/pools_list/pools_page.dart';
 import 'package:thorchain_explorer/transaction/transaction_page.dart';
 import 'package:thorchain_explorer/transactions_list/transactions_list_page.dart';
@@ -60,7 +61,7 @@ class ThorchainExplorerApp extends HookWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ))),
-          themeMode: mode,
+          themeMode: ThemeMode.dark,
           initialRoute: '/',
           onGenerateRoute: (settings) {
             var uri = Uri.parse(settings.name ?? '');
@@ -79,20 +80,32 @@ class ThorchainExplorerApp extends HookWidget {
                       NetworkPage(),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
+            } else if (uri.pathSegments.length > 1 &&
+                uri.pathSegments.first == 'pools') {
+              String asset = uri.pathSegments[1];
+
+              // single pool page
+              if (uri.pathSegments.length == 2) {
+                return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        PoolPage(asset),
+                    transitionDuration: Duration(seconds: 0),
+                    settings: settings);
+              }
+
+              // pool txs page
+              if (uri.pathSegments.length == 3 &&
+                  uri.pathSegments.last == 'txs') {
+                return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        PoolTxsPage(asset: asset),
+                    transitionDuration: Duration(seconds: 0),
+                    settings: settings);
+              }
             } else if (settings.name == '/pools') {
               return PageRouteBuilder(
                   pageBuilder: (context, animation, secondaryAnimation) =>
                       PoolsPage(),
-                  transitionDuration: Duration(seconds: 0),
-                  settings: settings);
-            } else if (uri.pathSegments.length == 2 &&
-                uri.pathSegments.first == 'pools') {
-              // Single Pool Page
-              String id = uri.pathSegments[1];
-
-              return PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      PoolPage(id),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
             } else if (settings.name == '/nodes') {
