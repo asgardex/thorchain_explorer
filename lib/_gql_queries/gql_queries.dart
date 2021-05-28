@@ -242,21 +242,6 @@ QueryOptions dashboardQueryOptions(DateTime startDate, DateTime currentDate) {
             feesInRune
           }
         }
-      },
-      stats{
-        dailyActiveUsers,
-        monthlyActiveUsers,
-        totalUsers,
-        dailyTx,
-        monthlyTx,
-        totalAssetBuys,
-        totalAssetSells,
-        totalDepth,
-        totalStakeTx,
-        totalStaked,
-        totalTx,
-        totalVolume,
-        totalWithdrawTx,
       }
     }
     """));

@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/_classes/pool_volume_history.dart';
-import 'package:thorchain_explorer/_classes/stats.dart';
 import 'package:thorchain_explorer/_classes/tc_network.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
+import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/error_display.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/dashboard/network_widget.dart';
 import 'package:thorchain_explorer/dashboard/stats_widget.dart';
 import 'package:thorchain_explorer/_widgets/volume_chart.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     DateTime currentDate = DateTime.now();
     DateTime startDate = currentDate.subtract(Duration(days: 14));
+    final stats = useProvider(statsProvider);
 
     return TCScaffold(
         currentArea: PageOptions.Dashboard,
@@ -46,7 +49,6 @@ class DashboardPage extends StatelessWidget {
               TCNetwork network = TCNetwork.fromJson(result.data?['network']);
               PoolVolumeHistory volumeHistory =
                   PoolVolumeHistory.fromJson(result.data?['volumeHistory']);
-              Stats stats = Stats.fromJson(result.data?['stats']);
 
               return LayoutBuilder(builder: (context, constraints) {
                 return Column(
