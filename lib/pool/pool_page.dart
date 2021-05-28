@@ -12,6 +12,7 @@ import 'package:thorchain_explorer/_providers/_state.dart';
 import 'package:thorchain_explorer/_widgets/asset_icon.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/error_display.dart';
+import 'package:thorchain_explorer/_widgets/sub_navigation_item_list.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/_widgets/volume_chart.dart';
 
@@ -22,12 +23,35 @@ class PoolPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<SubNavigationItem> subNavListItems = [
+      SubNavigationItem(path: '/pools/$asset', label: 'Overview', active: true),
+      SubNavigationItem(path: '/pools/$asset/txs', label: 'Pool Txs'),
+    ];
+
     return TCScaffold(
         currentArea: PageOptions.Pools,
         child: LayoutBuilder(builder: (context, constraints) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [PoolStats(asset)],
+            children: [
+              SubNavigationItemList(subNavListItems),
+              Row(
+                children: [
+                  AssetIcon(
+                    asset,
+                    width: 24,
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Text(asset, style: Theme.of(context).textTheme.headline1),
+                ],
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              PoolStats(asset)
+            ],
           );
         }));
   }
@@ -52,7 +76,10 @@ class PoolStats extends HookWidget {
     return HookBuilder(
       builder: (context) {
         return response.when(
-          loading: () => Center(child: CircularProgressIndicator()),
+          loading: () => Padding(
+            padding: const EdgeInsets.all(48),
+            child: Center(child: CircularProgressIndicator()),
+          ),
           error: (err, stack) {
             return ErrorDisplay(
               header: "Sorry, we're unable to find pool stats",
@@ -70,22 +97,6 @@ class PoolStats extends HookWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(
-                      children: [
-                        AssetIcon(
-                          asset,
-                          width: 24,
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text(asset,
-                            style: Theme.of(context).textTheme.headline1),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
                     Wrap(
                       spacing: 16,
                       runSpacing: 16,

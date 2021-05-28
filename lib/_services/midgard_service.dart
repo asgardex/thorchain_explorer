@@ -11,14 +11,22 @@ class FetchActionParams {
   int limit;
   String? txId;
   String? address;
+  String? asset;
 
   FetchActionParams(
-      {this.offset = 0, this.limit = 10, String? txId, String? address}) {
+      {this.offset = 0,
+      this.limit = 10,
+      String? txId,
+      String? address,
+      String? asset}) {
     if (txId != null) {
       this.txId = txId;
     }
     if (address != null) {
       this.address = address;
+    }
+    if (asset != null) {
+      this.asset = asset;
     }
   }
 }
@@ -49,9 +57,13 @@ class MidgardService {
       queryParameters.putIfAbsent('address', () => '${params.address}');
     }
 
+    if (params.asset != null) {
+      queryParameters.putIfAbsent('asset', () => '${params.asset}');
+    }
+
     var uri = Uri.https(baseUrl, '/v2/actions', queryParameters);
     var response =
-        await http.get(uri, headers: {}).timeout(Duration(seconds: 5));
+        await http.get(uri, headers: {}).timeout(Duration(seconds: 15));
 
     if (response.statusCode == 200)
       return compute(_parseActions, response.body);
