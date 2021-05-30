@@ -51,7 +51,12 @@ class MidgardService {
     };
 
     if (params.txId != null) {
-      queryParameters.putIfAbsent('txid', () => '${params.txId}');
+      String id = params.txId ?? '';
+      if (id.indexOf('0x') == 0 || (id.indexOf('0X') == 0)) {
+        id = id.substring(2);
+      }
+
+      queryParameters.putIfAbsent('txid', () => '$id');
     }
 
     if (params.address != null) {
