@@ -476,7 +476,7 @@ class PoolVolumeHistoryChart extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final currentDate = DateTime.now();
-    final startDate = currentDate.subtract(Duration(days: 14));
+    final startDate = currentDate.subtract(Duration(days: 7));
 
     return Query(
         options: poolQueryOptions(
