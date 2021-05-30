@@ -27,7 +27,7 @@ QueryOptions poolQueryOptions(
         volumeHistory(
           from:${(startDate.millisecondsSinceEpoch / 1000).round()},
           until:${(currentDate.millisecondsSinceEpoch / 1000).round()},
-          interval:DAY,
+          interval:HOUR,
           pool:"$asset"
         ){
           meta{
@@ -205,7 +205,7 @@ QueryOptions dashboardQueryOptions(DateTime startDate, DateTime currentDate) {
       volumeHistory(
         from:${(startDate.millisecondsSinceEpoch / 1000).round()},
         until:${(currentDate.millisecondsSinceEpoch / 1000).round()},
-        interval:DAY,
+        interval:HOUR,
       ){
         meta{
           combined{

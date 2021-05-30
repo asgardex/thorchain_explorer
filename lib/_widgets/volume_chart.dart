@@ -29,6 +29,9 @@ class VolumeChart extends HookWidget {
 
     final cgProvider = useProvider(coinGeckoProvider);
     final ThemeMode mode = useProvider(userThemeProvider);
+    final totalColor = Color.fromRGBO(255, 177, 78, 1);
+    final assetsColor = Color.fromRGBO(234, 95, 148, 1);
+    final runeColor = Color.fromRGBO(54, 176, 121, 1);
 
     return Material(
       elevation: 1,
@@ -50,10 +53,7 @@ class VolumeChart extends HookWidget {
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  Container(
-                      width: 8,
-                      height: 8,
-                      color: Color.fromRGBO(255, 177, 78, 1)),
+                  Container(width: 8, height: 8, color: totalColor),
                   SizedBox(
                     width: 4,
                   ),
@@ -65,10 +65,7 @@ class VolumeChart extends HookWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Container(
-                      width: 8,
-                      height: 8,
-                      color: Color.fromRGBO(234, 95, 148, 1)),
+                  Container(width: 8, height: 8, color: assetsColor),
                   SizedBox(
                     width: 4,
                   ),
@@ -80,10 +77,7 @@ class VolumeChart extends HookWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Container(
-                      width: 8,
-                      height: 8,
-                      color: Color.fromRGBO(54, 176, 121, 1)),
+                  Container(width: 8, height: 8, color: runeColor),
                   SizedBox(
                     width: 4,
                   ),
@@ -100,35 +94,56 @@ class VolumeChart extends HookWidget {
                   padding: EdgeInsets.fromLTRB(16, 16, 32, 16),
                   child: LineChart(LineChartData(
                       lineTouchData: LineTouchData(
-                        touchTooltipData: LineTouchTooltipData(
-                            tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
-                            getTooltipItems:
-                                (List<LineBarSpot> touchedBarSpots) {
-                              return touchedBarSpots.map((barSpot) {
-                                final flSpot = barSpot;
-                                String unit;
-                                switch (flSpot.barIndex) {
-                                  case 2:
-                                    unit = "Total";
-                                    break;
+                          touchTooltipData: LineTouchTooltipData(
+                              tooltipRoundedRadius: 2.0,
+                              tooltipPadding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+                              getTooltipItems:
+                                  (List<LineBarSpot> touchedBarSpots) {
+                                return touchedBarSpots.map((barSpot) {
+                                  final flSpot = barSpot;
+                                  String unit;
+                                  switch (flSpot.barIndex) {
+                                    case 2:
+                                      unit = "Total";
+                                      break;
+                                    case 1:
+                                      unit = "Assets";
+                                      break;
+                                    default:
+                                      unit = "RUNE";
+                                      break;
+                                  }
 
-                                  case 1:
-                                    unit = "Assets";
-                                    break;
-                                  default:
-                                    unit = "RUNE";
-                                    break;
-                                }
-
-                                return LineTooltipItem(
-                                  "\$${f.format(flSpot.y)} $unit",
-                                  TextStyle(color: Colors.white),
-                                );
-                              }).toList();
-                            }),
-                        touchCallback: (LineTouchResponse touchResponse) {},
-                        handleBuiltInTouches: true,
-                      ),
+                                  return LineTooltipItem(
+                                      "\$${f.format(flSpot.y)} $unit",
+                                      TextStyle(color: Colors.white),
+                                      textAlign: TextAlign.left);
+                                }).toList();
+                              }),
+                          touchCallback: (LineTouchResponse touchResponse) {},
+                          handleBuiltInTouches: true,
+                          getTouchedSpotIndicator: (LineChartBarData barData,
+                              List<int> spotIndexes) {
+                            return spotIndexes.map((index) {
+                              return TouchedSpotIndicatorData(
+                                FlLine(
+                                  color: Colors.grey.withOpacity(.5),
+                                ),
+                                FlDotData(
+                                    show: true,
+                                    getDotPainter:
+                                        (spot, percent, barData, index) {
+                                      return FlDotCirclePainter(
+                                        radius: 3,
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                      );
+                                    }),
+                              );
+                            }).toList();
+                          }),
                       titlesData: FlTitlesData(
                         show: true,
                         bottomTitles: SideTitles(
@@ -141,26 +156,28 @@ class VolumeChart extends HookWidget {
                                 volumeHistory.intervals[value.toInt()];
                             DateTime date = DateTime.fromMillisecondsSinceEpoch(
                                 bucket.time * 1000);
-                            return dateFormatter.format(date);
+                            return (date.hour == 0 || date.hour == 1)
+                                ? dateFormatter.format(date)
+                                : '';
                           },
                         ),
                         leftTitles: SideTitles(
-                          showTitles: true,
-                          // reservedSize: 32,
-                          checkToShowTitle: (minValue, maxValue, sideTitles,
-                              appliedInterval, value) {
-                            // display every other line title
-                            return (value % (appliedInterval * 2) == 0);
-                          },
-                          getTextStyles: (value) => const TextStyle(
-                              color: Color(
-                                0xff939393,
-                              ),
-                              fontSize: 10),
+                          showTitles: false,
+                          // // reservedSize: 32,
+                          // checkToShowTitle: (minValue, maxValue, sideTitles,
+                          //     appliedInterval, value) {
+                          //   // display every other line title
+                          //   return (value % (appliedInterval * 2) == 0);
+                          // },
+                          // getTextStyles: (value) => const TextStyle(
+                          //     color: Color(
+                          //       0xff939393,
+                          //     ),
+                          //     fontSize: 10),
                         ),
                       ),
                       gridData: FlGridData(
-                        show: true,
+                        show: false,
                         getDrawingHorizontalLine: (value) {
                           return FlLine(
                             color: Theme.of(context).dividerColor,
@@ -171,6 +188,8 @@ class VolumeChart extends HookWidget {
                       borderData: FlBorderData(
                         show: false,
                       ),
+                      minX: 0,
+                      minY: 0,
                       lineBarsData: buildData(
                           volumeHistory.intervals, cgProvider.runePrice)))),
             ),

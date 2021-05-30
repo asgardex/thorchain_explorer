@@ -17,7 +17,7 @@ class DashboardPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     DateTime currentDate = DateTime.now();
-    DateTime startDate = currentDate.subtract(Duration(days: 14));
+    DateTime startDate = currentDate.subtract(Duration(days: 7));
     final stats = useProvider(statsProvider);
 
     return TCScaffold(
