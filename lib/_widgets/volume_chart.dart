@@ -156,7 +156,13 @@ class VolumeChart extends HookWidget {
                                 volumeHistory.intervals[value.toInt()];
                             DateTime date = DateTime.fromMillisecondsSinceEpoch(
                                 bucket.time * 1000);
-                            return (date.hour == 0 || date.hour == 1)
+
+                            final intervalDivider =
+                                MediaQuery.of(context).size.width < 900
+                                    ? 7
+                                    : 24;
+
+                            return (value % intervalDivider == 0)
                                 ? dateFormatter.format(date)
                                 : '';
                           },
