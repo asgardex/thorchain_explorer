@@ -11,6 +11,7 @@ import 'package:thorchain_explorer/network/network_page.dart';
 import 'package:thorchain_explorer/node/node_page.dart';
 import 'package:thorchain_explorer/nodes_list/nodes_list_page.dart';
 import 'package:thorchain_explorer/pool/pool_page.dart';
+import 'package:thorchain_explorer/pool_liquidity_providers/pool_liquidity_providers_page.dart';
 import 'package:thorchain_explorer/pool_txs/pool_txs_page.dart';
 import 'package:thorchain_explorer/pools_list/pools_page.dart';
 import 'package:thorchain_explorer/transaction/transaction_page.dart';
@@ -25,7 +26,7 @@ class ThorchainExplorerApp extends HookWidget {
   Widget build(BuildContext context) {
     final midgardEndpoints = useProvider(midgardEndpointsProvider);
 
-    ThemeMode mode = useProvider(userThemeProvider);
+    // ThemeMode mode = useProvider(userThemeProvider);
 
     final client = ValueNotifier(
       GraphQLClient(
@@ -99,6 +100,16 @@ class ThorchainExplorerApp extends HookWidget {
                 return PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         PoolTxsPage(asset: asset),
+                    transitionDuration: Duration(seconds: 0),
+                    settings: settings);
+              }
+
+              // pool txs page
+              if (uri.pathSegments.length == 3 &&
+                  uri.pathSegments.last == 'liquidity-providers') {
+                return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        PoolLiqudityProviders(asset: asset),
                     transitionDuration: Duration(seconds: 0),
                     settings: settings);
               }
