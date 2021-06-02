@@ -6,6 +6,7 @@ import 'package:thorchain_explorer/_classes/tc_node.dart';
 import 'package:thorchain_explorer/_classes/tc_node_version.dart';
 import 'package:thorchain_explorer/_classes/pool_stats.dart';
 import 'package:thorchain_explorer/_classes/stats.dart';
+import 'package:thorchain_explorer/_classes/pool_liquidity_provider.dart';
 import 'package:thorchain_explorer/_const/midgard_endpoints.dart';
 import 'package:thorchain_explorer/_enums/networks.dart';
 import 'package:thorchain_explorer/_providers/coingecko_provider.dart';
@@ -93,6 +94,14 @@ final poolStatsProvider =
   final netEnv = ref.watch(netEnvProvider);
   final midgardService = new MidgardService(selectNetwork(netEnv));
   return midgardService.fetchPoolStats(asset);
+});
+
+final poolLpsProvider =
+    providerAutodisposeFamily<List<PoolLiquidityProvider>, String>(
+        (ref, pool) async {
+  final netEnv = ref.watch(netEnvProvider);
+  final thornodeService = new ThornodeService(selectNetwork(netEnv));
+  return thornodeService.fetchPoolLps(pool);
 });
 
 final statsProvider = providerAutodispose<Stats>((ref) {

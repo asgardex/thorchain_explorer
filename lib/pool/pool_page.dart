@@ -6,6 +6,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:thorchain_explorer/_classes/pool_volume_history.dart';
+import 'package:thorchain_explorer/_const/pool_sub_nav_items.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
@@ -24,10 +25,8 @@ class PoolPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<SubNavigationItem> subNavListItems = [
-      SubNavigationItem(path: '/pools/$asset', label: 'Overview', active: true),
-      SubNavigationItem(path: '/pools/$asset/txs', label: 'Pool Txs'),
-    ];
+    final List<SubNavigationItem> subNavListItems =
+        buildPoolSubNavList(asset: asset, activeArea: ActivePoolArea.Overview);
 
     return TCScaffold(
         currentArea: PageOptions.Pools,
