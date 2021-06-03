@@ -4,7 +4,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:thorchain_explorer/_classes/midgard_endpoint.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
-import 'package:thorchain_explorer/address/address_page.dart';
+import 'package:thorchain_explorer/address/address_pools/address_pools_page.dart';
+import 'package:thorchain_explorer/address/address_txs/address_txs_page.dart';
 import 'package:thorchain_explorer/dashboard/dashboard_page.dart';
 import 'package:thorchain_explorer/midgard_explorer/midgard_explorer.dart';
 import 'package:thorchain_explorer/network/network_page.dart';
@@ -153,15 +154,26 @@ class ThorchainExplorerApp extends HookWidget {
                       TransactionPage(id),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
-            } else if (uri.pathSegments.length == 2 &&
+            } else if (uri.pathSegments.length > 1 &&
                 uri.pathSegments.first == 'address') {
-              // Address Page
-              var id = uri.pathSegments[1];
-              return PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      AddressPage(id),
-                  transitionDuration: Duration(seconds: 0),
-                  settings: settings);
+              var address = uri.pathSegments[1];
+
+              if (uri.pathSegments.length == 3 &&
+                  uri.pathSegments.last == 'pools') {
+                // Address Pools Page
+                return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        AddressPoolsPage(address: address),
+                    transitionDuration: Duration(seconds: 0),
+                    settings: settings);
+              } else {
+                // Address Txs Page
+                return PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        AddressTxsPage(address),
+                    transitionDuration: Duration(seconds: 0),
+                    settings: settings);
+              }
             } else if (uri.pathSegments.first == 'midgard') {
               return _handleMidgardRouting(settings, midgardEndpoints);
             } else {

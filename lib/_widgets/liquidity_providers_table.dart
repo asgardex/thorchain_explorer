@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
+import 'package:thorchain_explorer/_utils/address_utils.dart';
 import 'package:thorchain_explorer/_widgets/asset_icon.dart';
 
 class LiquidityProvidersTable extends HookWidget {
@@ -49,17 +50,9 @@ class LiquidityProvidersTable extends HookWidget {
                   width: 24,
                 )),
                 DataCell(
-                  SelectableText(node.assetAddress != null &&
-                          (node.assetAddress?.length ?? 0) > 0
-                      ? '${node.assetAddress?.substring(0, 8)}...${node.assetAddress?.substring((node.assetAddress?.length ?? 0) - 4)}'
-                      : ''),
-                ),
+                    SelectableText(compactAddress(node.assetAddress ?? ''))),
                 DataCell(
-                  SelectableText(node.runeAddress != null &&
-                          (node.runeAddress?.length ?? 0) > 0
-                      ? '${node.runeAddress?.substring(0, 8)}...${node.runeAddress?.substring((node.runeAddress?.length ?? 0) - 4)}'
-                      : ''),
-                ),
+                    SelectableText(compactAddress(node.runeAddress ?? ''))),
                 DataCell(
                   SelectableText(f.format(
                       ((int.tryParse(node.units) ?? 0) / pow(10, 8)).ceil())),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:thorchain_explorer/_classes/member_details.dart';
 import 'package:thorchain_explorer/_classes/pool_stats.dart';
 import 'package:thorchain_explorer/_classes/stats.dart';
 import 'package:thorchain_explorer/_classes/tc_action.dart';
@@ -69,7 +70,7 @@ class MidgardService {
 
     var uri = Uri.https(baseUrl, '/v2/actions', queryParameters);
     var response =
-        await http.get(uri, headers: {}).timeout(Duration(seconds: 15));
+        await http.get(uri, headers: {}).timeout(Duration(seconds: 30));
 
     if (response.statusCode == 200)
       return compute(_parseActions, response.body);
@@ -86,12 +87,12 @@ class MidgardService {
 
   Future<List<TCNode>> fetchNodes() async {
     var uri = Uri.https(baseUrl, '/thorchain/nodes');
-    var response = await http.get(uri).timeout(Duration(seconds: 10));
+    var response = await http.get(uri).timeout(Duration(seconds: 15));
 
     if (response.statusCode == 200) {
       return compute(_parseNodes, response.body);
     } else
-      throw Exception('Couldn\'t load actions');
+      throw Exception('Couldn\'t load nodes');
   }
 
   Future<PoolStats> fetchPoolStats(String asset) async {
@@ -101,7 +102,7 @@ class MidgardService {
     if (response.statusCode == 200) {
       return PoolStats.fromJson(jsonDecode(response.body));
     } else
-      throw Exception('Couldn\'t load actions');
+      throw Exception('Couldn\'t load pool stats');
   }
 
   Future<Stats> fetchStats() async {
@@ -111,6 +112,17 @@ class MidgardService {
     if (response.statusCode == 200) {
       return Stats.fromJson(jsonDecode(response.body));
     } else
-      throw Exception('Couldn\'t load actions');
+      throw Exception('Couldn\'t load stats');
+  }
+
+  Future<MemberDetails> fetchMemberDetails(String address) async {
+    final uri = Uri.https(baseUrl, '/v2/member/$address');
+    final response = await http.get(uri).timeout(Duration(seconds: 15));
+
+    if (response.statusCode == 200) {
+      return MemberDetails.fromJson(jsonDecode(response.body));
+    } else
+      // If no me
+      return new MemberDetails();
   }
 }
