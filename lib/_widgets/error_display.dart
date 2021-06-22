@@ -7,7 +7,7 @@ import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 class ErrorDisplay extends HookWidget {
   final String header;
   final String subHeader;
-  final List<String> instructions;
+  final List<Widget> instructions;
 
   ErrorDisplay(
       {this.header = 'Sorry, something went wrong',
@@ -83,7 +83,7 @@ class ErrorDisplay extends HookWidget {
                                       Row(
                                         children: [
                                           Flexible(
-                                            child: SelectableText(e),
+                                            child: e,
                                           )
                                         ],
                                       ),

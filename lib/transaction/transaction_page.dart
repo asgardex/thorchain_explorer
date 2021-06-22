@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -14,6 +15,7 @@ import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
 import 'package:thorchain_explorer/_widgets/meta_tag.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 import 'package:thorchain_explorer/_widgets/tx_link.dart';
+import 'dart:html' as html;
 
 class TransactionPage extends HookWidget {
   final String query;
@@ -31,7 +33,7 @@ class TransactionPage extends HookWidget {
       currentArea: PageOptions.Transactions,
       child: HookBuilder(builder: (context) {
         final response = useProvider(actions(params));
-        //
+
         return response.when(
           loading: () => Center(child: CircularProgressIndicator()),
           error: (err, stack) => Center(child: Text('Error: $err')),
@@ -183,14 +185,31 @@ class TransactionPage extends HookWidget {
                 ],
               );
             } else {
+              final path = (net == 'TESTNET')
+                  ? 'https://viewblock.io/thorchain/tx/$query?network=testnet'
+                  : 'https://viewblock.io/thorchain/tx/$query';
+
               return ErrorDisplay(
                 header: "Sorry, we're unable to find this transaction",
                 subHeader:
                     'THORChain.net only provides an overview of the current state of the blockchain such as your transaction status, but we have no control over these transactions.',
                 instructions: [
-                  '1) If you have just submitted a transaction please wait for at least 30 seconds before refreshing this page.',
-                  '2) It could still be processing on a different network, waiting to be picked up by the THORChain network.',
-                  '3) When the network is busy it can take a while for your transaction to propagate through the network and for Midgard to index it.'
+                  SelectableText(
+                      '1) If you have just submitted a transaction please wait for at least 30 seconds before refreshing this page.'),
+                  SelectableText(
+                      '2) It could still be processing on a different network, waiting to be picked up by the THORChain network.'),
+                  SelectableText(
+                      '3) When the network is busy it can take a while for your transaction to propagate through the network and for Midgard to index it.'),
+                  SelectableText.rich(TextSpan(children: [
+                    TextSpan(text: '4) Search raw transaction on '),
+                    TextSpan(
+                        text: 'ViewBlock ',
+                        style: TextStyle(color: Theme.of(context).accentColor),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            html.window.open(path, 'ViewBlock');
+                          }),
+                  ]))
                 ],
               );
             }

@@ -85,7 +85,8 @@ class PoolStats extends HookWidget {
               header: "Sorry, we're unable to find pool stats",
               subHeader: 'Please try again later',
               instructions: [
-                'If error persists, please file an issue at https://github.com/asgardex/thorchain_explorer/issues.',
+                SelectableText(
+                    'If error persists, please file an issue at https://github.com/asgardex/thorchain_explorer/issues.')
               ],
             );
           },
