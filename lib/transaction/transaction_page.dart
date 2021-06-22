@@ -28,6 +28,9 @@ class TransactionPage extends HookWidget {
   Widget build(BuildContext context) {
     final params = FetchActionParams(offset: 0, limit: 10, txId: query);
     final ThemeMode mode = useProvider(userThemeProvider);
+    final viewBlockPath = (net == 'TESTNET')
+        ? 'https://viewblock.io/thorchain/tx/$query?network=testnet'
+        : 'https://viewblock.io/thorchain/tx/$query';
 
     return TCScaffold(
       currentArea: PageOptions.Transactions,
@@ -64,6 +67,28 @@ class TransactionPage extends HookWidget {
                           query,
                           style: TextStyle(fontSize: 16),
                         ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                                onTap: () => html.window
+                                    .open(viewBlockPath, 'External Explorer'),
+                                child: Row(
+                                  children: [
+                                    Text("ViewBlock",
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).accentColor)),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Icon(Icons.open_in_new,
+                                        size: 16,
+                                        color: Theme.of(context).accentColor),
+                                  ],
+                                ))),
                         SizedBox(
                           height: 8,
                         ),
@@ -185,10 +210,6 @@ class TransactionPage extends HookWidget {
                 ],
               );
             } else {
-              final path = (net == 'TESTNET')
-                  ? 'https://viewblock.io/thorchain/tx/$query?network=testnet'
-                  : 'https://viewblock.io/thorchain/tx/$query';
-
               return ErrorDisplay(
                 header: "Sorry, we're unable to find this transaction",
                 subHeader:
@@ -207,7 +228,7 @@ class TransactionPage extends HookWidget {
                         style: TextStyle(color: Theme.of(context).accentColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            html.window.open(path, 'ViewBlock');
+                            html.window.open(viewBlockPath, 'ViewBlock');
                           }),
                   ]))
                 ],
