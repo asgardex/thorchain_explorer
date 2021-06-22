@@ -35,8 +35,9 @@ class DashboardPage extends HookWidget {
                   subHeader:
                       'There has been an error fetching Dashboard data from the Midgard API.',
                   instructions: [
-                    '1) Please try again later.',
-                    '2) If error persists, please file an issue at https://github.com/asgardex/thorchain_explorer/issues.'
+                    SelectableText('1) Please try again later.'),
+                    SelectableText(
+                        '2) If error persists, please file an issue at https://github.com/asgardex/thorchain_explorer/issues.')
                   ],
                 ));
               }
