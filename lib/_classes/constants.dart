@@ -158,7 +158,7 @@ class Constants {
   ConstantBools boolValues;
 
   @JsonKey(name: 'string_values')
-  ConstantBools stringValues;
+  ConstantStrings stringValues;
 
   Constants(
       {required this.int64Values,

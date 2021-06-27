@@ -117,8 +117,8 @@ Constants _$ConstantsFromJson(Map<String, dynamic> json) {
         Map<String, int>.from(json['int_64_values'] as Map)),
     boolValues: ConstantBools.fromJson(
         Map<String, bool>.from(json['bool_values'] as Map)),
-    stringValues: ConstantBools.fromJson(
-        Map<String, bool>.from(json['string_values'] as Map)),
+    stringValues: ConstantStrings.fromJson(
+        Map<String, String>.from(json['string_values'] as Map)),
   );
 }
 

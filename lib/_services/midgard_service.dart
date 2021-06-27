@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:thorchain_explorer/_classes/constants.dart';
 import 'package:thorchain_explorer/_classes/member_details.dart';
 import 'package:thorchain_explorer/_classes/pool_stats.dart';
 import 'package:thorchain_explorer/_classes/stats.dart';
@@ -122,7 +123,16 @@ class MidgardService {
     if (response.statusCode == 200) {
       return MemberDetails.fromJson(jsonDecode(response.body));
     } else
-      // If no me
       return new MemberDetails();
+  }
+
+  Future<Constants> fetchConstants() async {
+    final uri = Uri.https(baseUrl, '/v2/thorchain/constants');
+    final response = await http.get(uri).timeout(Duration(seconds: 15));
+
+    if (response.statusCode == 200) {
+      return Constants.fromJson(jsonDecode(response.body));
+    } else
+      throw Exception('Couldn\'t load constants');
   }
 }
