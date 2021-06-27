@@ -242,98 +242,9 @@ class NetworkPage extends HookWidget {
                               SizedBox(
                                 height: 16,
                               ),
-                              Row(
-                                children: [
-                                  Container(
-                                    width: topColWidth,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SelectableText(
-                                          "Block Reward",
-                                          style: TextStyle(
-                                              color:
-                                                  Theme.of(context).hintColor,
-                                              fontSize: 12),
-                                        ),
-                                        SelectableText(f.format((network
-                                                    .blockRewards
-                                                    ?.blockReward ??
-                                                0) /
-                                            pow(10, 8).ceil())),
-                                        SelectableText(
-                                          cgProvider.runePrice != null
-                                              ? "(\$${f.format((network.blockRewards?.blockReward ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
-                                              : "",
-                                          style: TextStyle(
-                                            color: Theme.of(context).hintColor,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: topColWidth,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SelectableText(
-                                          "Block Bond Reward",
-                                          style: TextStyle(
-                                              color:
-                                                  Theme.of(context).hintColor,
-                                              fontSize: 12),
-                                        ),
-                                        SelectableText(f.format(
-                                            (network.blockRewards?.bondReward ??
-                                                    0) /
-                                                pow(10, 8).ceil())),
-                                        SelectableText(
-                                          cgProvider.runePrice != null
-                                              ? "(\$${f.format((network.blockRewards?.bondReward ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
-                                              : "",
-                                          style: TextStyle(
-                                            color: Theme.of(context).hintColor,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: topColWidth,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SelectableText(
-                                          "Block Pool Reward",
-                                          style: TextStyle(
-                                              color:
-                                                  Theme.of(context).hintColor,
-                                              fontSize: 12),
-                                        ),
-                                        SelectableText(f.format(
-                                            (network.blockRewards?.poolReward ??
-                                                    0) /
-                                                pow(10, 8).ceil())),
-                                        SelectableText(
-                                          cgProvider.runePrice != null
-                                              ? "(\$${f.format((network.blockRewards?.poolReward ?? 0) / pow(10, 8).ceil() * cgProvider.runePrice)})"
-                                              : "",
-                                          style: TextStyle(
-                                            color: Theme.of(context).hintColor,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )
+                              BlockRewards(
+                                network: network,
+                              ),
                             ],
                           )),
                     ),
@@ -394,6 +305,121 @@ class NetworkPage extends HookWidget {
                 );
               });
             }));
+  }
+}
+
+class BlockReward extends HookWidget {
+  final double width;
+  final String label;
+  final double amount;
+  final f = NumberFormat.currency(
+    symbol: "",
+    decimalDigits: 0,
+  );
+
+  BlockReward({required this.amount, this.width = 200, this.label = ''});
+
+  @override
+  Widget build(BuildContext context) {
+    final cgProvider = useProvider(coinGeckoProvider);
+
+    return Container(
+      width: width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SelectableText(
+            label,
+            style: TextStyle(color: Theme.of(context).hintColor, fontSize: 12),
+          ),
+          SelectableText(f.format(amount / pow(10, 8).ceil())),
+          SelectableText(
+            cgProvider.runePrice > 0
+                ? "(\$${f.format(amount / pow(10, 8).ceil() * cgProvider.runePrice)})"
+                : "",
+            style: TextStyle(
+              color: Theme.of(context).hintColor,
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BlockRewards extends HookWidget {
+  final TCNetwork network;
+
+  BlockRewards({required this.network});
+
+  @override
+  Widget build(BuildContext context) {
+    final constants = useProvider(constantsProvider);
+    final topColWidth = 200.0;
+
+    return constants.when(
+        loading: () => Align(
+              alignment: Alignment.topLeft,
+              child: Wrap(
+                runSpacing: 16,
+                children: [
+                  BlockReward(
+                      amount: 0,
+                      label: "Block Reward / Day",
+                      width: topColWidth),
+                  BlockReward(
+                      amount: 0,
+                      label: "Block Bond Reward / Day",
+                      width: topColWidth),
+                  BlockReward(
+                      amount: 0,
+                      label: "Block Pool Reward / Day",
+                      width: topColWidth),
+                  BlockReward(
+                      amount: 0,
+                      label: "Bond Reward / Node / Month",
+                      width: topColWidth),
+                ],
+              ),
+            ),
+        error: (error, stack) {
+          print(error);
+          print(stack);
+          return Container();
+        },
+        data: (data) {
+          final dailyBondReward = (network.blockRewards?.bondReward ?? 0) *
+              (data.int64Values.blocksPerYear / 365);
+
+          return Align(
+            alignment: Alignment.topLeft,
+            child: Wrap(
+              runSpacing: 16,
+              children: [
+                BlockReward(
+                    amount: (network.blockRewards?.blockReward ?? 0) *
+                        (data.int64Values.blocksPerYear / 365),
+                    label: "Block Reward / Day",
+                    width: topColWidth),
+                BlockReward(
+                    amount: dailyBondReward,
+                    label: "Block Bond Reward / Day",
+                    width: topColWidth),
+                BlockReward(
+                    amount: (network.blockRewards?.poolReward ?? 0) *
+                        (data.int64Values.blocksPerYear / 365),
+                    label: "Block Pool Reward / Day",
+                    width: topColWidth),
+                BlockReward(
+                    amount:
+                        (dailyBondReward * 30) / (network.activeNodeCount ?? 0),
+                    label: "Bond Reward / Node / Month",
+                    width: topColWidth),
+              ],
+            ),
+          );
+        });
   }
 }
 
