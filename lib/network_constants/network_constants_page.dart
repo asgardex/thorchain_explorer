@@ -348,17 +348,21 @@ class ConstantsTable extends HookWidget {
                   SizedBox(
                     height: 16,
                   ),
-                  Wrap(
-                    runSpacing: 16,
-                    children: data.mimir.entries
-                        .map((e) => ConstantItem(
-                            label: keyLabel[e.key
-                                    .toString()
-                                    .replaceFirst("mimir//", "")] ??
-                                e.key.toString().replaceFirst("mimir//", ""),
-                            value: e.value.toString()))
-                        .toList(),
-                  ),
+                  Align(
+                      alignment: Alignment.topLeft,
+                      child: Wrap(
+                        runSpacing: 16,
+                        children: data.mimir.entries
+                            .map((e) => ConstantItem(
+                                label: keyLabel[e.key
+                                        .toString()
+                                        .replaceFirst("mimir//", "")] ??
+                                    e.key
+                                        .toString()
+                                        .replaceFirst("mimir//", ""),
+                                value: e.value.toString()))
+                            .toList(),
+                      )),
                 ]),
               ));
         });
