@@ -9,6 +9,7 @@ import 'package:thorchain_explorer/address/address_txs/address_txs_page.dart';
 import 'package:thorchain_explorer/dashboard/dashboard_page.dart';
 import 'package:thorchain_explorer/midgard_explorer/midgard_explorer.dart';
 import 'package:thorchain_explorer/network/network_page.dart';
+import 'package:thorchain_explorer/network_constants/network_constants_page.dart';
 import 'package:thorchain_explorer/node/node_page.dart';
 import 'package:thorchain_explorer/nodes_list/nodes_list_page.dart';
 import 'package:thorchain_explorer/pool/pool_page.dart';
@@ -80,6 +81,13 @@ class ThorchainExplorerApp extends HookWidget {
               return PageRouteBuilder(
                   pageBuilder: (context, animation, secondaryAnimation) =>
                       NetworkPage(),
+                  transitionDuration: Duration(seconds: 0),
+                  settings: settings);
+            } else if (settings.name == '/network/constants') {
+              // Network Constants Page
+              return PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      NetworkConstantsPage(),
                   transitionDuration: Duration(seconds: 0),
                   settings: settings);
             } else if (uri.pathSegments.length > 1 &&

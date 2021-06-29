@@ -23,3 +23,22 @@ List<SubNavigationItem> buildPoolSubNavList(
         active: activeArea == ActivePoolArea.LPs),
   ];
 }
+
+enum ActiveNetworkArea {
+  Overview,
+  Constants,
+}
+
+List<SubNavigationItem> buildNetworkSubNavList(
+    {required ActiveNetworkArea activeArea}) {
+  return [
+    SubNavigationItem(
+        path: '/network',
+        label: 'Network',
+        active: activeArea == ActiveNetworkArea.Overview),
+    SubNavigationItem(
+        path: '/network/constants',
+        label: 'Constants',
+        active: activeArea == ActiveNetworkArea.Constants),
+  ];
+}

@@ -122,6 +122,8 @@ class ConstantInts {
 
   factory ConstantInts.fromJson(Map<String, int> json) =>
       _$ConstantIntsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ConstantIntsToJson(this);
 }
 
 @JsonSerializable()
@@ -133,6 +135,8 @@ class ConstantBools {
 
   factory ConstantBools.fromJson(Map<String, bool> json) =>
       _$ConstantBoolsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ConstantBoolsToJson(this);
 }
 
 @JsonSerializable()
@@ -144,6 +148,8 @@ class ConstantStrings {
 
   factory ConstantStrings.fromJson(Map<String, String> json) =>
       _$ConstantStringsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ConstantStringsToJson(this);
 }
 
 /// This is very similar to PoolLiquidityProvider

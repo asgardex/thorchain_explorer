@@ -9,7 +9,9 @@ import 'package:thorchain_explorer/_classes/tc_network.dart';
 import 'package:thorchain_explorer/_enums/page_options.dart';
 import 'package:thorchain_explorer/_gql_queries/gql_queries.dart';
 import 'package:thorchain_explorer/_providers/_state.dart';
+import 'package:thorchain_explorer/_utils/sub_nav_utils.dart';
 import 'package:thorchain_explorer/_widgets/container_box_decoration.dart';
+import 'package:thorchain_explorer/_widgets/sub_navigation_item_list.dart';
 import 'package:thorchain_explorer/_widgets/tc_scaffold.dart';
 
 class NetworkPage extends HookWidget {
@@ -23,6 +25,8 @@ class NetworkPage extends HookWidget {
     final cgProvider = useProvider(coinGeckoProvider);
     final topColWidth = 200.0;
     final ThemeMode mode = useProvider(userThemeProvider);
+    final List<SubNavigationItem> subNavListItems =
+        buildNetworkSubNavList(activeArea: ActiveNetworkArea.Overview);
 
     return TCScaffold(
         currentArea: PageOptions.Network,
@@ -47,11 +51,12 @@ class NetworkPage extends HookWidget {
               return LayoutBuilder(builder: (context, constraints) {
                 return Column(
                   children: [
+                    SubNavigationItemList(subNavListItems),
                     Row(
                       children: [
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: Text("Network",
+                          child: Text("Network Overview",
                               style: Theme.of(context).textTheme.headline6),
                         ),
                       ],

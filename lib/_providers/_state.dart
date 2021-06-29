@@ -124,3 +124,26 @@ final constantsProvider = providerAutodispose<Constants>((ref) {
   final midgardService = new MidgardService(selectNetwork(netEnv));
   return midgardService.fetchConstants();
 });
+
+final mimirProvider = providerAutodispose<Map>((ref) {
+  final netEnv = ref.watch(netEnvProvider);
+  final midgardService = new ThornodeService(selectNetwork(netEnv));
+  return midgardService.fetchMimir();
+});
+
+class ConstantsMimir {
+  Constants constants;
+  Map mimir;
+
+  ConstantsMimir({required this.constants, required this.mimir});
+}
+
+final constantsMimirProvider = providerAutodispose<ConstantsMimir>((ref) async {
+  final constants = await ref.watch(constantsProvider.future);
+  final mimir = await ref.watch(mimirProvider.future);
+
+  return ConstantsMimir(
+    constants: constants,
+    mimir: mimir,
+  );
+});

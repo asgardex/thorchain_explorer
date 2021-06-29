@@ -51,4 +51,14 @@ class ThornodeService {
     } else
       throw Exception('Couldn\'t load actions');
   }
+
+  Future<Map> fetchMimir() async {
+    final uri = Uri.https(baseUrl, '/thorchain/mimir');
+    final response = await http.get(uri).timeout(Duration(seconds: 10));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body) as Map;
+    } else
+      throw Exception('Couldn\'t load actions');
+  }
 }
