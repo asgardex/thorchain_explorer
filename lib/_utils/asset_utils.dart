@@ -3,7 +3,16 @@ import 'package:thorchain_explorer/_const/chains.dart';
 import 'package:web3dart/web3dart.dart';
 
 Asset? assetFromString(String s) {
-  List<String> data = s.split('.');
+  List<String> data;
+
+  if (s.contains('.')) {
+    data = s.split('.');
+  } else if (s.contains('/')) {
+    data = s.split('/');
+  } else {
+    return null;
+  }
+
   if (data.length < 1 || data[1].length < 1) {
     return null;
   }
