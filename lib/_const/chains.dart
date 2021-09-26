@@ -3,6 +3,7 @@ const List<String> chains = [
   'BTC',
   'BCH',
   'LTC',
+  'DASH',
   'ETH',
   'BNB',
   'GAIA',
