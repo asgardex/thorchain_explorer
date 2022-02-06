@@ -71,6 +71,11 @@ class AssetIcon extends StatelessWidget {
             'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/dash/info/logo.png';
         break;
 
+      case 'DCR':
+        logoPath =
+            'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/decred/info/logo.png';
+        break;
+
       case 'THOR':
         if (splitAsset[1] != null && splitAsset[1] == 'RUNE') {
           logoPath =

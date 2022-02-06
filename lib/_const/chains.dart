@@ -7,7 +7,8 @@ const List<String> chains = [
   'ETH',
   'BNB',
   'GAIA',
-  'POLKA'
+  'POLKA',
+  'DCR',
 ];
 
 bool isChain(String c) => chains.contains(c);
