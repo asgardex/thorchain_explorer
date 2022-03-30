@@ -126,4 +126,5 @@ const _$TCNodeStatusEnumMap = {
   TCNodeStatus.STANDBY: 'Standby',
   TCNodeStatus.DISABLED: 'Disabled',
   TCNodeStatus.WHITELISTED: 'Whitelisted',
+  TCNodeStatus.UNKNOWN: 'Unknown',
 };

@@ -57,6 +57,8 @@ enum TCNodeStatus {
   DISABLED,
   @JsonValue("Whitelisted")
   WHITELISTED,
+  @JsonValue("Unknown")
+  UNKNOWN
 }
 
 @JsonSerializable()
